@@ -1,0 +1,102 @@
+version: '3'
+services:
+  gateway:
+    container_name: taakr.mor.local
+    build: ./nginx
+    volumes:
+      - ./nginx/nginx-default.development.conf:/etc/nginx/conf.d/default.conf
+      - ./media:/media
+    depends_on:
+      taakr_app:
+        condition: service_started
+    ports:
+      - 8009:8009
+    networks:
+      - mor_bridge_network
+    env_file:
+      - .env.local
+  taakr_app:
+    build: ./app
+    env_file:
+      - .env.local
+    volumes:
+      - ./app:/app
+      - ./media:/media
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - taakr_network
+      - mor_bridge_network
+    command: ["bash", "/app/deploy/docker-entrypoint.development.sh"]
+    restart: always
+
+  database:
+    image: postgres:16
+    shm_size: '1024m'
+    ports:
+      - "5432"
+    env_file:
+      - .env.local
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./bin/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+    networks:
+      - taakr_network
+
+  redis:
+    image: redis
+    networks:
+      - taakr_network
+    ports:
+      - "6379"
+
+  taakr_celery_worker:
+    build: ./app
+    command: "celery -A config worker -l info"
+    depends_on:
+      database:
+        condition: service_started
+      redis:
+        condition: service_started
+    volumes:
+      - ./media:/media
+    env_file:
+      - .env.local
+    networks:
+      - taakr_network
+      - mor_bridge_network
+    # restart: on-failure
+
+  taakr_app_celery_beat:
+    build: ./app
+    command: "celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    depends_on:
+      database:
+        condition: service_started
+      redis:
+        condition: service_started
+    volumes:
+      - ./media:/media
+    env_file:
+      - .env.local
+    networks:
+      - taakr_network
+      - mor_bridge_network
+    # restart: on-failure
+
+volumes:
+  postgres-data:
+
+networks:
+  taakr_network:
+    external: true
+  mor_bridge_network:
+    external: true
