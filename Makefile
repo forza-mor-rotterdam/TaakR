@@ -1,8 +1,8 @@
 # Build scripts to run commands within the Docker container or create local environments
 
 # Docker variables
-RUN_IN_NEW_WEBCONTEXT = docker compose run -it taakr_app
-EXEC_IN_WEB = docker compose run taakr_app
+RUN_IN_NEW_WEBCONTEXT = docker compose run -it taaktyper_app
+EXEC_IN_WEB = docker compose run taaktyper_app
 EXEC_IN_WEB_CMD = $(EXEC_IN_WEB) python manage.py
 
 #  General
@@ -40,16 +40,16 @@ create_superuser: ## create superuser for public tenant
 	@echo Create superuser. You will be prompted for email and password
 	$(EXEC_IN_WEB_CMD) createsuperuser
 
-createusers: ## create user for taakr
-	@echo Create user for taakr
+createusers: ## create user for taaktyper
+	@echo Create user for taaktyper
 	$(EXEC_IN_WEB_CMD) createusers
 
-create_applicaties: ## Create applicaties for taakr
+create_applicaties: ## Create applicaties for taaktyper
 	@echo Creating applicaties
 	$(EXEC_IN_WEB_CMD) create_applicaties
 
-create_meldingen: ## Create meldingen for taakr
-	@echo Creating meldingen for taakr
+create_meldingen: ## Create meldingen for taaktyper
+	@echo Creating meldingen for taaktyper
 	$(EXEC_IN_WEB_CMD) create_meldingen
 
 check_clean_db: ## clear docker vols
@@ -59,7 +59,7 @@ format: ## Use pre-commit config to format files
 	pre-commit run --all-files
 
 create_docker_networks:
-	docker network create taakr_network && \
+	docker network create taaktyper_network && \
     docker network create mor_bridge_network
 
 # Static files

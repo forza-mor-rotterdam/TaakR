@@ -5,7 +5,7 @@ from rest_framework import viewsets
 
 class TaakapplicatieViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Taakapplicaties voor TaakR
+    Taakapplicaties voor TaaktypeR
     """
 
     queryset = Applicatie.objects.all()

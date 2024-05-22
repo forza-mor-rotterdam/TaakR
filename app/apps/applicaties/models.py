@@ -194,7 +194,7 @@ class Applicatie(BasisModel):
                 except Exception as e:
                     logger.error(f"error: {e}")
                     raise Applicatie.AntwoordFout(
-                        f"Er is iets mis gegaan met de verbinding tussen TaakR en {self.naam}"
+                        f"Er is iets mis gegaan met de verbinding tussen TaaktypeR en {self.naam}"
                     )
                 if int(response.status_code) == 200:
                     cache.set(cache_key, response, cache_timeout)
@@ -204,7 +204,7 @@ class Applicatie(BasisModel):
             except Exception as e:
                 logger.error(f"error: {e}")
                 raise Applicatie.AntwoordFout(
-                    f"Er is iets mis gegaan met de verbinding tussen TaakR en {self.naam}"
+                    f"Er is iets mis gegaan met de verbinding tussen TaaktypeR en {self.naam}"
                 )
         if raw_response:
             return response

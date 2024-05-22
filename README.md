@@ -1,4 +1,4 @@
-# TaakR
+# TaaktypeR
 
 Voor het organiseren en beheren Taaktypes voor Meldingen Openbare Ruimte
 
@@ -12,13 +12,13 @@ To get started, install [Docker](https://www.docker.com/)
 
 #### We use the Makefile for commonly used commands
 
-### Start TaakR application
+### Start TaaktypeR application
 
-https://github.com/forza-mor-rotterdam/taakr
+https://github.com/forza-mor-rotterdam/taaktyper
 
 ### Create local dns entry
 
-Add '127.0.0.1 taakr.mor.local' to your hosts file
+Add '127.0.0.1 taaktyper.mor.local' to your hosts file
 ```
 sudo nano /etc/hosts
 ```
@@ -34,7 +34,7 @@ Use the Makefile command:
 or:
 
 ```bash
-    docker network create taakr_network
+    docker network create taaktyper_network
     docker network create mor_bridge_network
 ```
 
@@ -60,11 +60,11 @@ To only run the docker container use:
 ```
 
 This will start a webserver.
-Authorize via the Django admin: http://taakr.mor.local:8009/admin/
+Authorize via the Django admin: http://taaktyper.mor.local:8009/admin/
 You can login with the following credentials:
   - Email: admin@admin.com
   - Password: insecure
-You can view the website on http://taakr.mor.local:8009
+You can view the website on http://taaktyper.mor.local:8009
 
 ### Frontend
 
@@ -99,26 +99,26 @@ To manually run the pre-commit formatting run
 ```
 Pre-commit currently runs black, flake8, autoflake, isort and some pre-commit hooks. Also runs prettier for the frontend.
 
-### Linking other applications to TaakR
+### Linking other applications to TaaktypeR
 
-To link the other applications to TaakR you need to create the users for those applications and the application-links in TaakR.
+To link the other applications to TaaktypeR you need to create the users for those applications and the application-links in TaaktypeR.
 Applications should be created automatically with the "create_applicaties" command. You can also run this command using:
 ```
 make create_applicaties
 ```
 
 #### Manual steps
- - Go to the Django Admin in TaakR
+ - Go to the Django Admin in TaaktypeR
  - Users - Add new users for the applications, for example: fixer_username@forzamor.nl for fixer, the password is the default we use.
  - Applicaties -  Create a new application with the following data (fixer in this example):
    * name: FixeR
    * basis url: http://fixer.mor.local:8004
    * gebruiker: fixer_username@forzamor.nl
-   * applicatie gebruiker naam: taakr_username@forzamor.nl
+   * applicatie gebruiker naam: taaktyper_username@forzamor.nl
    * applicatie gebruiker wachtwoord: default password
 
-In the corresponsing application you need to create a user for TaakR
+In the corresponsing application you need to create a user for TaaktypeR
 So in this example go to the FixeR Django Admin
- - Users - Add a new user with email: taakr_username@forzamor.nl , password: default password
+ - Users - Add a new user with email: taaktyper_username@forzamor.nl , password: default password
 
-After adding these 3 things you should be able to "click save and continue editing" on the TaakR application-link and see the "Connectie met de applicatie is gelukt" message.
+After adding these 3 things you should be able to "click save and continue editing" on the TaaktypeR application-link and see the "Connectie met de applicatie is gelukt" message.
