@@ -65,20 +65,6 @@ def adres_order_nummer(taak, taken_sorted):
     return taken_sorted.get(taak.id, taak.id)
 
 
-@register.filter
-def mor_core_url(initial_url, signed_data=None):
-    return (
-        f"{settings.MOR_CORE_URL_PREFIX}{initial_url}?signed-data={signed_data}"
-        if signed_data
-        else f"{settings.MOR_CORE_URL_PREFIX}{initial_url}"
-    )
-
-
-@register.filter
-def mor_core_protected_url(initial_url):
-    return f"{settings.MOR_CORE_PROTECTED_URL_PREFIX}{initial_url}"
-
-
 @register.filter(name="python_any")
 def python_any(values):
     if values:

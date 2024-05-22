@@ -43,6 +43,4 @@ def general_settings(context):
         "GIT_SHA": settings.GIT_SHA,
         "APP_ENV": settings.APP_ENV,
         "DEPLOY_DATE": deploy_date_formatted,
-        "MOR_CORE_URL_PREFIX": settings.MOR_CORE_URL_PREFIX,
-        "MOR_CORE_PROTECTED_URL_PREFIX": settings.MOR_CORE_PROTECTED_URL_PREFIX,
     }
