@@ -2,7 +2,6 @@ import json
 import logging
 
 from django import template
-from django.conf import settings
 from django.contrib.gis.geos import Point
 from utils.datetime import stringdatetime_naar_datetime
 
