@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Creates applications according to the TaaktypeR env vars."
+    help = "Creates applications according to the TaakR env vars."
     requires_migrations_checks = True
     stealth_options = ("stdin",)
 

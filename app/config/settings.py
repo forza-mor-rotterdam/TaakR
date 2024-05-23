@@ -133,7 +133,7 @@ PERMISSIONS_POLICY = {
 }
 
 SITE_ID = 1
-SITE_NAME = os.getenv("SITE_NAME", "TaaktypeR")
+SITE_NAME = os.getenv("SITE_NAME", "TaakR")
 SITE_DOMAIN = os.getenv("SITE_DOMAIN", "localhost")
 
 STATICFILES_DIRS = (
@@ -255,7 +255,7 @@ handler500 = "rest_framework.exceptions.server_error"
 handler400 = "rest_framework.exceptions.bad_request"
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "TaaktypeR",
+    "TITLE": "TaakR",
     "DESCRIPTION": "Voor het organiseren en beheren van taaktypes voor Meldingen Openbare Ruimte",
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
