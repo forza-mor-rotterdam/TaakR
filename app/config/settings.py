@@ -86,6 +86,7 @@ INSTALLED_APPS = (
     "debug_toolbar",
     "django_celery_beat",
     "django_celery_results",
+    "django_select2",
     # Apps
     "apps.authenticatie",
     "apps.bijlagen",
@@ -93,6 +94,7 @@ INSTALLED_APPS = (
     "apps.applicaties",
     "apps.main",
     "apps.taaktypes",
+    "apps.beheer",
 )
 
 

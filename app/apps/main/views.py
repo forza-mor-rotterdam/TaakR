@@ -33,17 +33,10 @@ def http_500(request):
 
 
 # Verander hier de instellingen voor de nieuwe homepagina.
+@login_required
 def root(request):
-    if request.user.is_authenticated:
-        if request.user.has_perms(["authorisatie.taken_lijst_bekijken"]):
-            return redirect(reverse("taken"), False)
-        if request.user.has_perms(["authorisatie.beheer_bekijken"]):
-            return redirect(reverse("beheer"), False)
-        return render(
-            request,
-            "home_ingelogd.html",
-            {},
-        )
+    if request.user.has_perms(["authorisatie.beheer_bekijken"]):
+        return redirect(reverse("beheer"), False)
     return render(
         request,
         "home.html",

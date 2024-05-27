@@ -1,72 +1,76 @@
+from apps.bijlagen.models import Bijlage
+from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from utils.models import BasisModel
 
 ### Future code below ###
 
-# class Afdeling(BasisModel):
-#     """
-#     Afdeling model voor Taaktypes
-#     """
 
-#     class OnderdeelOpties(models.TextChoices):
-#         SHOON = "schoon", "Schoon"
-#         HEEL = "heel", "Heel"
-#         VELIG = "veilig", "Veilig"
+class Afdeling(BasisModel):
+    """
+    Afdeling model voor Taaktypes
+    """
 
-#     naam = models.CharField(max_length=100)
-#     onderdeel = models.CharField(
-#         max_length=50,
-#         choices=OnderdeelOpties.choices,
-#     )
+    class OnderdeelOpties(models.TextChoices):
+        SHOON = "schoon", "Schoon"
+        HEEL = "heel", "Heel"
+        VELIG = "veilig", "Veilig"
 
-#     def __str__(self):
-#         return self.naam
+    naam = models.CharField(max_length=100)
+    onderdeel = models.CharField(
+        max_length=50,
+        choices=OnderdeelOpties.choices,
+    )
 
-
-# class TaaktypeMiddel(BasisModel):
-#     """
-#     TaaktypeMiddel model voor Taaktypes
-#     """
-
-#     naam = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.naam
+    def __str__(self):
+        return self.naam
 
 
-# class TaaktypeVoorbeeldsituatie(BasisModel):
-#     """
-#     TaaktypeVoorbeeldsituatie model voor Taaktypes
-#     """
+class TaaktypeMiddel(BasisModel):
+    """
+    TaaktypeMiddel model voor Taaktypes
+    """
 
-#     class TypeOpties(models.TextChoices):
-#         WAAROM_WEL = "waarom_wel", "Waarom wel"
-#         WAAROM_NIET = "waarom_niet", "Waarom niet"
+    naam = models.CharField(max_length=100)
 
-#     toelichting = models.CharField(
-#         max_length=500,
-#         blank=True,
-#         null=True,
-#     )
-#     type = models.CharField(
-#         max_length=50,
-#         choices=TypeOpties.choices,
-#     )
-#     bijlagen = GenericRelation(Bijlage)
-
-#     taaktype = models.ForeignKey(
-#         to="taken.Taaktype",
-#         related_name="voorbeeldsituatie_voor_taaktype",
-#         on_delete=models.CASCADE,
-#         blank=True,
-#         null=True,
-#     )
-
-#     def __str__(self):
-#         return f"{self.id}_{self.toelichting if self.toelichting else ''}"
+    def __str__(self):
+        return self.naam
 
 
-###
+class TaaktypeVoorbeeldsituatie(BasisModel):
+    """
+    TaaktypeVoorbeeldsituatie model voor Taaktypes
+    """
+
+    class TypeOpties(models.TextChoices):
+        WAAROM_WEL = "waarom_wel", "Waarom wel"
+        WAAROM_NIET = "waarom_niet", "Waarom niet"
+
+    toelichting = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+    )
+    type = models.CharField(
+        max_length=50,
+        choices=TypeOpties.choices,
+    )
+    bijlagen = GenericRelation(Bijlage)
+
+    taaktype = models.ForeignKey(
+        to="taaktypes.Taaktype",
+        related_name="voorbeeldsituatie_voor_taaktype",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        return f"{self.id}_{self.toelichting if self.toelichting else ''}"
+
+
 class Taaktype(BasisModel):
     taakapplicatie_taaktype_url = models.URLField()
 
@@ -78,55 +82,51 @@ class Taaktype(BasisModel):
 
     omschrijving = models.CharField(max_length=200)
 
-    ## Future code below ##
+    toelichting = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+    )
+    verantwoordelijke = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+    icoon = models.ImageField(
+        upload_to="taaktype/icons", null=True, blank=True, max_length=255
+    )
+    additionele_informatie = models.JSONField(default=dict)
 
-    # toelichting = models.CharField(
-    #     max_length=500,
-    #     blank=True,
-    #     null=True,
-    # )
-    # verantwoordelijke = models.CharField(
-    #     max_length=200,
-    #     blank=True,
-    #     null=True,
-    # )
-    # icoon = models.ImageField(
-    #     upload_to="taaktype/icons", null=True, blank=True, max_length=255
-    # )
-    # additionele_informatie = models.JSONField(default=dict)
+    volgende_taaktypes = models.ManyToManyField(
+        to="taaktypes.Taaktype",
+        related_name="vorige_taaktypes_voor_taaktype",
+        blank=True,
+    )
+    gerelateerde_taaktypes = models.ManyToManyField(
+        to="taaktypes.Taaktype",
+        related_name="gerelateerde_taaktypes_voor_taaktype",
+        blank=True,
+    )
+    gerelateerde_onderwerpen = ArrayField(models.URLField(), default=list)
+    afdelingen = models.ManyToManyField(
+        to="taaktypes.Afdeling",
+        related_name="taaktypes_voor_afdelingen",
+        blank=True,
+    )
+    taaktypemiddelen = models.ManyToManyField(
+        to="taaktypes.TaaktypeMiddel",
+        related_name="taaktypes_voor_taaktypemiddelen",
+        blank=True,
+    )
+    actief = models.BooleanField(default=True)
 
-    # volgende_taaktypes = models.ManyToManyField(
-    #     to="taken.Taaktype",
-    #     related_name="vorige_taaktypes_voor_taaktype",
-    #     blank=True,
-    # )
-    # gerelateerde_taaktypes = models.ManyToManyField(
-    #     to="taken.Taaktype",
-    #     related_name="gerelateerde_taaktypes_voor_taaktype",
-    #     blank=True,
-    # )
-    # gerelateerde_onderwerpen = ArrayField(models.URLField(), default=list)
-    # afdelingen = models.ManyToManyField(
-    #     to="taaktype.Afdeling",
-    #     related_name="taaktypes_voor_afdelingen",
-    #     blank=True,
-    # )
-    # taaktypemiddelen = models.ManyToManyField(
-    #     to="taaktype.TaaktypeMiddel",
-    #     related_name="taaktypes_voor_taaktypemiddelen",
-    #     blank=True,
-    # )
-    # actief = models.BooleanField(default=True)
-
-    # def bijlagen(self):
-    #     return Bijlage.objects.filter(
-    #         content_type=ContentType.objects.get_for_model(TaaktypeVoorbeeldsituatie),
-    #         object_id__in=self.voorbeeldsituatie_voor_taaktype.values_list(
-    #             "id", flat=True
-    #         ),
-    #     )
-
-    ##
+    def bijlagen(self):
+        return Bijlage.objects.filter(
+            content_type=ContentType.objects.get_for_model(TaaktypeVoorbeeldsituatie),
+            object_id__in=self.voorbeeldsituatie_voor_taaktype.values_list(
+                "id", flat=True
+            ),
+        )
 
     class Meta:
         ordering = ("omschrijving",)

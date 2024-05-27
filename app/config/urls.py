@@ -1,6 +1,7 @@
 from apps.aliassen.viewsets import OnderwerpAliasViewSet
 from apps.applicaties.viewsets import TaakapplicatieViewSet
 from apps.authenticatie.views import GetGebruikerAPIView, SetGebruikerAPIView
+from apps.beheer.views import beheer
 from apps.bijlagen.viewsets import BijlageViewSet
 from apps.health.views import healthz
 from apps.main.views import (
@@ -12,6 +13,20 @@ from apps.main.views import (
     login_required_view,
     root,
     serve_protected_media,
+    ui_settings_handler,
+)
+from apps.taaktypes.views import (
+    AfdelingAanmakenView,
+    AfdelingAanpassenView,
+    AfdelingLijstView,
+    TaaktypeAanmakenView,
+    TaaktypeAanpassenView,
+    TaaktypeDetailView,
+    TaaktypeLijstView,
+    TaaktypeMiddelAanmakenView,
+    TaaktypeMiddelAanpassenView,
+    TaaktypeMiddelLijstView,
+    taaktype_beheer,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -19,6 +34,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 from django_db_schema_renderer.urls import schema_urls
+from django_select2 import urls as select2_urls
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -34,6 +50,7 @@ router.register(r"taakapplicatie", TaakapplicatieViewSet, basename="taakapplicat
 router.register(r"bijlage", BijlageViewSet, basename="bijlage")
 
 urlpatterns = [
+    path("", root, name="root"),
     path("api/v1/", include((router.urls, "app"), namespace="v1")),
     path(
         "api/v1/gebruiker/<str:email>/",
@@ -47,6 +64,53 @@ urlpatterns = [
     path("healthz/", healthz, name="healthz"),
     path("db-schema/", include((schema_urls, "db-schema"))),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # START beheer
+    path("beheer/", beheer, name="beheer"),
+    path("beheer-taaktype/", taaktype_beheer, name="taaktype_beheer"),
+    path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
+    path(
+        "beheer/taaktype/aanmaken/",
+        TaaktypeAanmakenView.as_view(),
+        name="taaktype_aanmaken",
+    ),
+    path(
+        "beheer/taaktype/<int:pk>/",
+        TaaktypeDetailView.as_view(),
+        name="taaktype_detail",
+    ),
+    path(
+        "beheer/taaktype/<int:pk>/aanpassen/",
+        TaaktypeAanpassenView.as_view(),
+        name="taaktype_aanpassen",
+    ),
+    path("beheer/afdeling/", AfdelingLijstView.as_view(), name="afdeling_lijst"),
+    path(
+        "beheer/afdeling/aanmaken/",
+        AfdelingAanmakenView.as_view(),
+        name="afdeling_aanmaken",
+    ),
+    path(
+        "beheer/afdeling/<int:pk>/aanpassen/",
+        AfdelingAanpassenView.as_view(),
+        name="afdeling_aanpassen",
+    ),
+    path(
+        "beheer/taaktypemiddel/",
+        TaaktypeMiddelLijstView.as_view(),
+        name="taaktypemiddel_lijst",
+    ),
+    path(
+        "beheer/taaktypemiddel/aanmaken/",
+        TaaktypeMiddelAanmakenView.as_view(),
+        name="taaktypemiddel_aanmaken",
+    ),
+    path(
+        "beheer/taaktypemiddel/<int:pk>/aanpassen/",
+        TaaktypeMiddelAanpassenView.as_view(),
+        name="taaktypemiddel_aanpassen",
+    ),
+    # START partials
+    path("part/pageheader-form/", ui_settings_handler, name="pageheader_form_part"),
     # Optional UI:
     path(
         "api/schema/swagger-ui/",
@@ -58,6 +122,7 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path("select2/", include(select2_urls)),
     re_path(r"^media", serve_protected_media, name="protected_media"),
 ]
 

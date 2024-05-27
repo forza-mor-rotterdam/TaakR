@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load webpack_static from webpack_loader %}
 {% block title %}
-    Fout 404 - De pagina wordt niet gevonden | ExternR
+    Fout 404 - De pagina wordt niet gevonden | TaakR
 {% endblock title %}
 {% block javascripts %}
 {% endblock javascripts %}
@@ -21,10 +21,10 @@
                 <div class="container__answers" id="errorpageContainerAnswers"></div>
             </div>
             <div>
-                <a href="/taken">Naar overzicht</a>
+                <a href="/beheer">Naar beheer</a>
                 <a class="link--whatsapp"
                    id="errorPageWaLink"
-                   data-errorValue="ExternR - 404 - gebruiker: {{ request.user }}"
+                   data-errorValue="TaakR - 404 - gebruiker: {{ request.user }}"
                    href=""
                    target="_blank">Whatsapp de melding door</a>
             </div>
