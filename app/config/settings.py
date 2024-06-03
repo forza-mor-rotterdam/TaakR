@@ -57,6 +57,7 @@ UI_SETTINGS = {"fontsizes": ["fz-medium", "fz-large", "fz-xlarge"]}
 
 INSTALLED_APPS = (
     # templates override
+    "apps.main",
     "apps.health",
     "django_db_schema_renderer",
     "django.contrib.contenttypes",
@@ -68,6 +69,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.gis",
     "django.contrib.postgres",
+    "django.forms",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_gis",
@@ -92,7 +94,6 @@ INSTALLED_APPS = (
     "apps.bijlagen",
     "apps.aliassen",
     "apps.applicaties",
-    "apps.main",
     "apps.taaktypes",
     "apps.beheer",
 )
@@ -335,6 +336,7 @@ SPAGHETTI_SAUCE = {
     "show_fields": False,
 }
 
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
