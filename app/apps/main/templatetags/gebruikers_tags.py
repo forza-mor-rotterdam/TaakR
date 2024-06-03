@@ -44,7 +44,6 @@ def get_gebruiker_object_middels_email(value):
     user_from_model = user_model.objects.filter(email=value).first()
     if user_from_model:
         gebruiker["rechtengroep"] = user_from_model.rechtengroep or ""
-        gebruiker["rol"] = user_from_model.rol or ""
         if not gebruiker.get("first_name"):
             gebruiker["first_name"] = user_from_model.first_name or ""
         if not gebruiker.get("last_name"):

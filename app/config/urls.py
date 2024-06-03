@@ -1,6 +1,17 @@
 from apps.aliassen.viewsets import OnderwerpAliasViewSet
 from apps.applicaties.viewsets import TaakapplicatieViewSet
-from apps.authenticatie.views import GetGebruikerAPIView, SetGebruikerAPIView
+from apps.authenticatie.views import (
+    GebruikerAanmakenView,
+    GebruikerAanpassenView,
+    GebruikerLijstView,
+)
+from apps.authenticatie.viewsets import GetGebruikerAPIView, SetGebruikerAPIView
+from apps.authorisatie.views import (
+    RechtengroepAanmakenView,
+    RechtengroepAanpassenView,
+    RechtengroepLijstView,
+    RechtengroepVerwijderenView,
+)
 from apps.beheer.views import beheer
 from apps.bijlagen.viewsets import BijlageViewSet
 from apps.health.views import healthz
@@ -59,13 +70,44 @@ urlpatterns = [
     ),
     path("api/v1/gebruiker/", SetGebruikerAPIView.as_view(), name="set_gebruiker"),
     path("api-token-auth/", views.obtain_auth_token),
-    path("login/", login_required_view, name="login_required"),
+    path("config/", config, name="config"),
     path("health/", include("health_check.urls")),
     path("healthz/", healthz, name="healthz"),
     path("db-schema/", include((schema_urls, "db-schema"))),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # START beheer
     path("beheer/", beheer, name="beheer"),
+    path("beheer/gebruiker/", GebruikerLijstView.as_view(), name="gebruiker_lijst"),
+    path(
+        "beheer/gebruiker/aanmaken/",
+        GebruikerAanmakenView.as_view(),
+        name="gebruiker_aanmaken",
+    ),
+    path(
+        "beheer/gebruiker/<int:pk>/aanpassen/",
+        GebruikerAanpassenView.as_view(),
+        name="gebruiker_aanpassen",
+    ),
+    path(
+        "beheer/rechtengroep/",
+        RechtengroepLijstView.as_view(),
+        name="rechtengroep_lijst",
+    ),
+    path(
+        "beheer/rechtengroep/aanmaken/",
+        RechtengroepAanmakenView.as_view(),
+        name="rechtengroep_aanmaken",
+    ),
+    path(
+        "beheer/rechtengroep/<int:pk>/aanpassen/",
+        RechtengroepAanpassenView.as_view(),
+        name="rechtengroep_aanpassen",
+    ),
+    path(
+        "beheer/rechtengroep/<int:pk>/verwijderen/",
+        RechtengroepVerwijderenView.as_view(),
+        name="rechtengroep_verwijderen",
+    ),
     path("beheer-taaktype/", taaktype_beheer, name="taaktype_beheer"),
     path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
     path(
@@ -128,7 +170,6 @@ urlpatterns = [
 
 if settings.OIDC_ENABLED:
     urlpatterns += [
-        path("oidc/", include("mozilla_django_oidc.urls")),
         path(
             "admin/login/",
             RedirectView.as_view(

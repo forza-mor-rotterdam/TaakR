@@ -1,7 +1,9 @@
 import json
 import logging
+import os
 
 from django import template
+from django.conf import settings
 from django.contrib.gis.geos import Point
 from utils.datetime import stringdatetime_naar_datetime
 
@@ -69,3 +71,10 @@ def python_any(values):
     if values:
         return any(values)
     return values
+
+
+@register.filter
+def file_exists(file_path):
+    return os.path.isfile(
+        os.path.join(settings.BASE_DIR, "apps/main/templates/", file_path)
+    )

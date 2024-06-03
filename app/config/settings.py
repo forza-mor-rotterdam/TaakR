@@ -90,7 +90,9 @@ INSTALLED_APPS = (
     "django_celery_results",
     "django_select2",
     # Apps
+    "apps.rotterdam_formulier_html",
     "apps.authenticatie",
+    "apps.authorisatie",
     "apps.bijlagen",
     "apps.aliassen",
     "apps.applicaties",
@@ -284,8 +286,7 @@ CSRF_COOKIE_NAME = "__Secure-csrftoken" if not DEBUG else "csrftoken"
 SESSION_COOKIE_SAMESITE = "Lax"  # Strict does not work well together with OIDC
 CSRF_COOKIE_SAMESITE = "Lax"  # Strict does not work well together with OIDC
 
-# Settings for Content-Security-Policy header
-CSP_DEFAULT_SRC = ("'self'",)
+# Settings for Content-Security-Policy headerCSP_DEFAULT_SRC = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'self'",)
 CSP_FRAME_SRC = (
     "'self'",
@@ -294,41 +295,46 @@ CSP_FRAME_SRC = (
 CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
-    "blob:",
-    "cdnjs.cloudflare.com",
+    "'unsafe-eval'",
+    "unpkg.com",
     "cdn.jsdelivr.net",
+    "blob:",
 )
 CSP_IMG_SRC = (
     "'self'",
+    "blob:",
     "data:",
-    "cdn.redoc.ly",
+    "unpkg.com",
+    "service.pdok.nl",
+    "mor-core-acc.forzamor.nl",
     "cdn.jsdelivr.net",
-    "map1c.vis.earthdata.nasa.gov",
-    "map1b.vis.earthdata.nasa.gov",
-    "map1a.vis.earthdata.nasa.gov",
+    "ows.gis.rotterdam.nl",
+    "www.gis.rotterdam.nl",
 )
 CSP_STYLE_SRC = (
     "'self'",
     "data:",
     "'unsafe-inline'",
-    "cdnjs.cloudflare.com",
+    "unpkg.com",
     "cdn.jsdelivr.net",
-    "fonts.googleapis.com",
 )
 CSP_CONNECT_SRC = (
-    ("'self'",)
+    (
+        "'self'",
+        "mercure.fixer-test.forzamor.nl",
+        "mercure.fixer-acc.forzamor.nl",
+        "mercure.fixer.forzamor.nl",
+        "cke4.ckeditor.com",
+    )
     if not DEBUG
     else (
         "'self'",
         "ws:",
         "localhost:7001",
+        "cke4.ckeditor.com",
     )
 )
-CSP_FONT_SRC = (
-    "'self'",
-    "fonts.gstatic.com",
-)
-
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
 SPAGHETTI_SAUCE = {
     "apps": [
         "meldingen",

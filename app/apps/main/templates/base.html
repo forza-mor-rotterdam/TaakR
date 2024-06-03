@@ -78,7 +78,7 @@
                 crossorigin=""></script>
         <script src="//unpkg.com/leaflet-gesture-handling"></script>
     </head>
-    <body class="{% block body_class %}app {% endblock body_class %} {% if user.profiel.ui_instellingen.fontsize %}{{ user.profiel.ui_instellingen.fontsize }}{% endif %}">
+    <body class="{% block body_class %}app {% endblock body_class %}">
         {% block pageheader %}
             {% with page_title="TaakR" %}
                 {% include "snippets/pageheader.html" %}
