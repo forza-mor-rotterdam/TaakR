@@ -1,7 +1,13 @@
-from apps.taaktypes.models import Afdeling, TaaktypeMiddel, TaaktypeVoorbeeldsituatie
+from apps.taaktypes.models import (
+    Afdeling,
+    Taaktype,
+    TaaktypeMiddel,
+    TaaktypeVoorbeeldsituatie,
+)
 from apps.taaktypes.serializers import (
     AfdelingSerializer,
     TaaktypeMiddelSerializer,
+    TaaktypeSerializer,
     TaaktypeVoorbeeldsituatieSerializer,
 )
 from rest_framework import viewsets
@@ -26,3 +32,15 @@ class TaaktypeVoorbeeldsituatieViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TaaktypeVoorbeeldsituatie.objects.all()
     permission_classes = ()
     serializer_class = TaaktypeVoorbeeldsituatieSerializer
+
+
+class TaaktypeViewSet(viewsets.ReadOnlyModelViewSet):
+    lookup_field = "uuid"
+    queryset = Taaktype.objects.all()
+
+    serializer_class = TaaktypeSerializer
+
+    def get_permissions(self):
+        if self.action == "list":
+            return []
+        return super().get_permissions()
