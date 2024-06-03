@@ -36,10 +36,16 @@
                     <h2 class="color--primary">{{ onderdeel.0 }}</h2>
                     <ul class="list-blocks--title-images">
                         {% for taaktype in onderdeel.1 %}
-                            {% include "taken/taaktype_tile.html" with taaktype=taaktype editable=True only %}
+                            {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=True only %}
                         {% endfor %}
                     </ul>
                 </li>
+            {% endfor %}
+        </ul>
+        <h2 class="color--primary">Nog niet ingedeeld</h2>
+        <ul class="list-blocks--title-images">
+            {% for taaktype in zonder_afdeling %}
+                {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=True only %}
             {% endfor %}
         </ul>
     </div>

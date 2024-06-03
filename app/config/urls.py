@@ -42,7 +42,7 @@ from apps.taaktypes.views import (
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views.generic import RedirectView
 from django_db_schema_renderer.urls import schema_urls
 from django_select2 import urls as select2_urls
@@ -165,7 +165,6 @@ urlpatterns = [
         name="redoc",
     ),
     path("select2/", include(select2_urls)),
-    re_path(r"^media", serve_protected_media, name="protected_media"),
 ]
 
 if settings.OIDC_ENABLED:

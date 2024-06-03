@@ -42,7 +42,6 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         "volgende_taaktypes",
         "afdelingen",
         "taaktypemiddelen",
-        "contexten_voor_taaktypes",
         "voorbeeldsituatie_voor_taaktype__bijlagen",
     ).order_by("omschrijving")
 
@@ -55,6 +54,30 @@ class TaaktypeLijstView(TaaktypeView, ListView):
             ]
             for onderdeel in Afdeling.OnderdeelOpties.choices
         ]
+        context["zonder_afdeling"] = self.queryset.filter(
+            afdelingen__isnull=True
+        ).distinct()
+
+        for taaktype in context["afdeling_onderdelen"]:
+            taaktype_list = taaktype[1]
+            for t in taaktype_list:
+                t.voorbeeld_wel = None
+                for voorbeeld in t.voorbeeldsituatie_voor_taaktype.filter(
+                    type="waarom_wel"
+                ):
+                    if voorbeeld.bijlagen.exists():
+                        t.voorbeeld_wel = voorbeeld.bijlagen.first()
+                        break
+
+        for t in context["zonder_afdeling"]:
+            t.voorbeeld_wel = None
+            for voorbeeld in t.voorbeeldsituatie_voor_taaktype.filter(
+                type="waarom_wel"
+            ):
+                if voorbeeld.bijlagen.exists():
+                    t.voorbeeld_wel = voorbeeld.bijlagen.first()
+                    break
+
         return context
 
 
