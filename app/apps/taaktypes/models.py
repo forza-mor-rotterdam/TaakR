@@ -72,7 +72,9 @@ class TaaktypeVoorbeeldsituatie(BasisModel):
 
 
 class Taaktype(BasisModel):
-    taakapplicatie_taaktype_url = models.URLField()
+    taakapplicatie_taaktype_url = models.URLField(
+        unique=True
+    )  # @TODO In endpoint moet dit in _links self zijn.
 
     taakapplicatie = models.ForeignKey(
         to="applicaties.Applicatie",

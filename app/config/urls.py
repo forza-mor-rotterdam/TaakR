@@ -39,7 +39,12 @@ from apps.taaktypes.views import (
     TaaktypeMiddelLijstView,
     taaktype_beheer,
 )
-from apps.taaktypes.viewsets import TaaktypeViewSet
+from apps.taaktypes.viewsets import (
+    AfdelingViewSet,
+    TaaktypeMiddelViewSet,
+    TaaktypeViewSet,
+    TaaktypeVoorbeeldsituatieViewSet,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -60,7 +65,15 @@ router.register(r"onderwerp-alias", OnderwerpAliasViewSet, basename="onderwerp-a
 router.register(r"applicatie", TaakapplicatieViewSet, basename="applicatie")
 router.register(r"taakapplicatie", TaakapplicatieViewSet, basename="taakapplicatie")
 router.register(r"taaktype", TaaktypeViewSet, basename="taaktype")
+router.register(r"afdeling", AfdelingViewSet, basename="afdeling")
+router.register(r"taaktype-middel", TaaktypeMiddelViewSet, basename="taaktype_middel")
+router.register(
+    r"taaktype-voorbeeldsituatie",
+    TaaktypeVoorbeeldsituatieViewSet,
+    basename="taaktype_voorbeeldsituatie",
+)
 router.register(r"bijlage", BijlageViewSet, basename="bijlage")
+
 
 urlpatterns = [
     path("", root, name="root"),

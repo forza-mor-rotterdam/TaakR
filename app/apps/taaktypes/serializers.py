@@ -11,6 +11,7 @@ from rest_framework.reverse import reverse
 
 class TaaktypeLinksSerializer(serializers.Serializer):
     self = serializers.SerializerMethodField()
+    taakapplicatie_taaktype_url = serializers.SerializerMethodField()
 
     def get_self(self, obj):
         return reverse(
@@ -19,39 +20,42 @@ class TaaktypeLinksSerializer(serializers.Serializer):
             request=self.context.get("request"),
         )
 
+    def get_taakapplicatie_taaktype_url(self, obj):
+        return obj.taakapplicatie_taaktype_url
+
 
 class TaaktypeSerializer(serializers.ModelSerializer):
     _links = TaaktypeLinksSerializer(source="*")
-    # afdelingen = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name="v1:afdeling-detail",
-    #     lookup_field="uuid",
-    # )
-    # taaktypemiddelen = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name="v1:taaktype_middel-detail",
-    #     lookup_field="uuid",
-    # )
+    afdelingen = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name="v1:afdeling-detail",
+        lookup_field="uuid",
+    )
+    taaktypemiddelen = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name="v1:taaktype_middel-detail",
+        lookup_field="uuid",
+    )
     volgende_taaktypes = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
         view_name="v1:taaktype-detail",
         lookup_field="uuid",
     )
-    # gerelateerde_taaktypes = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name="v1:taaktype-detail",
-    #     lookup_field="uuid",
-    # )
-    # voorbeeldsituatie_voor_taaktype = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name="v1:taaktype_voorbeeldsituatie-detail",
-    #     lookup_field="uuid",
-    # )
+    gerelateerde_taaktypes = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name="v1:taaktype-detail",
+        lookup_field="uuid",
+    )
+    voorbeeldsituatie_voor_taaktype = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name="v1:taaktype_voorbeeldsituatie-detail",
+        lookup_field="uuid",
+    )
 
     class Meta:
         model = Taaktype
@@ -64,12 +68,12 @@ class TaaktypeSerializer(serializers.ModelSerializer):
             "icoon",
             "additionele_informatie",
             "actief",
-            # "afdelingen",
-            # "taaktypemiddelen",
+            "afdelingen",
+            "taaktypemiddelen",
             "volgende_taaktypes",
-            # "gerelateerde_taaktypes",
+            "gerelateerde_taaktypes",
             "gerelateerde_onderwerpen",
-            # "voorbeeldsituatie_voor_taaktype",
+            "voorbeeldsituatie_voor_taaktype",
         )
         read_only_fields = ("_links",)
 

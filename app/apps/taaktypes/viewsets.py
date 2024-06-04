@@ -41,6 +41,6 @@ class TaaktypeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TaaktypeSerializer
 
     def get_permissions(self):
-        if self.action == "list":
+        if self.action in ["retrieve", "list"]:
             return []
         return super().get_permissions()
