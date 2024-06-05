@@ -11,6 +11,17 @@
     | FixeR
 {% endblock title %}
 {% block body %}
+    {% block messages %}
+        {% if messages %}
+            <div class="messages-container" data-controller="messages">
+                <div class="wrapper">
+                    <ul class="messages">
+                        {% for message in messages %}<li class="message message-{{ message.tags }}">{{ message }}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock messages %}
     <div class="page__beheer">
         <div>
             <a href="{% url 'taaktype_lijst' %}"
@@ -75,10 +86,7 @@
                         <label class="label--positive">Wanneer is de taak relevant?</label>
                         {{ voorbeeldsituatie_wel.management_form }}
                         {% for voorbeeldsituatie in voorbeeldsituatie_wel %}
-                            {% if forloop.counter0 < 5 %}
-                                {% comment %} check id om class te zetten voor wel of niet zichtbaar {% endcomment %}
-                                {% include "taaktypes/taaktype_voorbeeldsituatie_form.html" with count=forloop.counter0|add:1 do=True %}
-                            {% endif %}
+                            {% include "taaktypes/taaktype_voorbeeldsituatie_form.html" with count=forloop.counter0|add:1 do=True %}
                         {% endfor %}
                         <button type="button"
                                 class="btn btn-textlink"
@@ -91,9 +99,7 @@
                         <label class="label--negative">Wanneer hoeft de taak NIET te worden gestart?</label>
                         {{ voorbeeldsituatie_niet.management_form }}
                         {% for voorbeeldsituatie in voorbeeldsituatie_niet %}
-                            {% if forloop.counter0 < 5 %}
-                                {% include "taaktypes/taaktype_voorbeeldsituatie_form.html" with count=forloop.counter0|add:1 do=False %}
-                            {% endif %}
+                            {% include "taaktypes/taaktype_voorbeeldsituatie_form.html" with count=forloop.counter0|add:1 do=False %}
                         {% endfor %}
                         <button type="button"
                                 class="btn btn-textlink"

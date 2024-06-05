@@ -56,6 +56,46 @@ class TaaktypeAanpassenPermissie(BasisPermissie):
     codenaam = "taaktype_aanpassen"
 
 
+class TaaktypeMiddelLijstBekijkenPermissie(BasisPermissie):
+    naam = "Taaktypemiddel lijst bekijken"
+    codenaam = "taaktypemiddel_lijst_bekijken"
+
+
+class TaaktypeMiddelAanmakenPermissie(BasisPermissie):
+    naam = "Taaktypemiddel aanmaken"
+    codenaam = "taaktypemiddel_aanmaken"
+
+
+class TaaktypeMiddelBekijkenPermissie(BasisPermissie):
+    naam = "Taaktypemiddel bekijken"
+    codenaam = "taaktypemiddel_bekijken"
+
+
+class TaaktypeMiddelAanpassenPermissie(BasisPermissie):
+    naam = "Taaktypemiddel aanpassen"
+    codenaam = "taaktypemiddel_aanpassen"
+
+
+class AfdelingLijstBekijkenPermissie(BasisPermissie):
+    naam = "Afdeling lijst bekijken"
+    codenaam = "afdeling_lijst_bekijken"
+
+
+class AfdelingAanmakenPermissie(BasisPermissie):
+    naam = "Afdeling aanmaken"
+    codenaam = "afdeling_aanmaken"
+
+
+class AfdelingBekijkenPermissie(BasisPermissie):
+    naam = "Afdeling bekijken"
+    codenaam = "afdeling_bekijken"
+
+
+class AfdelingAanpassenPermissie(BasisPermissie):
+    naam = "Afdeling aanpassen"
+    codenaam = "afdeling_aanpassen"
+
+
 class RechtengroepLijstBekijkenPermissie(BasisPermissie):
     naam = "Rechtengroep lijst bekijken"
     codenaam = "rechtengroep_lijst_bekijken"
@@ -92,6 +132,14 @@ gebruikersgroep_permissies = (
     TaaktypeAanmakenPermissie,
     TaaktypeBekijkenPermissie,
     TaaktypeAanpassenPermissie,
+    TaaktypeMiddelLijstBekijkenPermissie,
+    TaaktypeMiddelAanmakenPermissie,
+    TaaktypeMiddelBekijkenPermissie,
+    TaaktypeMiddelAanpassenPermissie,
+    AfdelingLijstBekijkenPermissie,
+    AfdelingAanmakenPermissie,
+    AfdelingBekijkenPermissie,
+    AfdelingAanpassenPermissie,
     RechtengroepLijstBekijkenPermissie,
     RechtengroepAanmakenPermissie,
     RechtengroepBekijkenPermissie,

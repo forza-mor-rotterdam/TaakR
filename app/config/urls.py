@@ -121,11 +121,11 @@ urlpatterns = [
         name="rechtengroep_verwijderen",
     ),
     path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
-    # path(
-    #     "beheer/taaktype/aanmaken/",
-    #     TaaktypeAanmakenView.as_view(),
-    #     name="taaktype_aanmaken",
-    # ),
+    path(
+        "beheer/taaktype/aanmaken/",
+        TaaktypeAanmakenView.as_view(),
+        name="taaktype_aanmaken",
+    ),
     path(
         "beheer/taaktype/<int:pk>/",
         TaaktypeDetailView.as_view(),
