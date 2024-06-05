@@ -49,8 +49,14 @@ export default class extends Controller {
         }
       })
     }
-  }
 
+    if (this.voorbeeldWelTarget.querySelectorAll('.task--hideable.hide').length === 0) {
+      this.voorbeeldWelTarget.querySelector('button.btn-textlink').classList.add('hide')
+    }
+    if (this.voorbeeldNietTarget.querySelectorAll('.task--hideable.hide').length === 0) {
+      this.voorbeeldNietTarget.querySelector('button.btn-textlink').classList.add('hide')
+    }
+  }
   doSelect2(element, placeholder = 'Zoek op') {
     $(element).select2({ placeholder: placeholder })
     this.setNotRequiredSelect2(element)
@@ -66,12 +72,12 @@ export default class extends Controller {
   }
 
   addExample(e) {
-    const examples = e.target.parentNode.querySelectorAll('.hide')
-    if (examples.length > 0) {
-      examples[0].classList.remove('hide')
-      if (e.target.parentNode.querySelectorAll('.hide').length === 0) {
-        e.target.classList.add('hide')
-      }
+    const hiddenExamples = e.target.parentNode.querySelectorAll('.hide')
+    if (hiddenExamples.length > 0) {
+      hiddenExamples[0].classList.remove('hide')
+    }
+    if (e.target.parentNode.querySelectorAll('.hide').length === 0) {
+      e.target.classList.add('hide')
     }
   }
 }
