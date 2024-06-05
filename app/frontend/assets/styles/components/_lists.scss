@@ -107,6 +107,7 @@ dl {
         .container__title {
             position: relative;
             padding: 0 8px 0 0;
+            display: flex;
 
             h3 {
                 font-size: $h4-font-size;
@@ -116,8 +117,6 @@ dl {
 
             img {
                 max-width: 32px;
-                vertical-align: middle;
-                margin-top: -5px;
 
                 path {
                     fill: $gray-tint11;
