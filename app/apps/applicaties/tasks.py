@@ -38,6 +38,7 @@ def save_taaktypes(applicatie, taaktypes):
         Taaktype.objects.update_or_create(
             taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
             taakapplicatie=applicatie,
+            actief=taaktype_data.get("actief", True),
             defaults={
                 "omschrijving": taaktype_data.get("omschrijving", ""),
             },

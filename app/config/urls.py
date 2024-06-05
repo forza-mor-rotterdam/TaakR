@@ -1,4 +1,3 @@
-from apps.aliassen.viewsets import OnderwerpAliasViewSet
 from apps.applicaties.viewsets import TaakapplicatieViewSet
 from apps.authenticatie.views import (
     GebruikerAanmakenView,
@@ -61,7 +60,6 @@ from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r"onderwerp-alias", OnderwerpAliasViewSet, basename="onderwerp-alias")
 router.register(r"applicatie", TaakapplicatieViewSet, basename="applicatie")
 router.register(r"taakapplicatie", TaakapplicatieViewSet, basename="taakapplicatie")
 router.register(r"taaktype", TaaktypeViewSet, basename="taaktype")
