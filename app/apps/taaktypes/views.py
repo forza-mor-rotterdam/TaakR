@@ -19,7 +19,7 @@ from apps.taaktypes.models import (
     TaaktypeVoorbeeldsituatie,
 )
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -180,15 +180,6 @@ class TaaktypeAanpassenView(TaaktypeAanmakenAanpassenView, UpdateView):
 @method_decorator(login_required, name="dispatch")
 class TaaktypeAanmakenView(TaaktypeAanmakenAanpassenView, CreateView):
     form_class = TaaktypeAanmakenForm
-
-
-@login_required
-def taaktype_beheer(request):
-    return render(
-        request,
-        "taaktype_beheer.html",
-        {},
-    )  # Create your views here.
 
 
 @method_decorator(login_required, name="dispatch")

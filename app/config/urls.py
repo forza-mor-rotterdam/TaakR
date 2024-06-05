@@ -37,7 +37,6 @@ from apps.taaktypes.views import (
     TaaktypeMiddelAanmakenView,
     TaaktypeMiddelAanpassenView,
     TaaktypeMiddelLijstView,
-    taaktype_beheer,
 )
 from apps.taaktypes.viewsets import (
     AfdelingViewSet,
@@ -123,7 +122,6 @@ urlpatterns = [
         RechtengroepVerwijderenView.as_view(),
         name="rechtengroep_verwijderen",
     ),
-    path("beheer-taaktype/", taaktype_beheer, name="taaktype_beheer"),
     path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
     path(
         "beheer/taaktype/aanmaken/",
