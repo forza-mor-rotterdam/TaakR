@@ -44,11 +44,11 @@ class GebruikerLijstView(GebruikerView, ListView):
 
 class GebruikerAanmakenAanpassenView(GebruikerView):
     def form_valid(self, form):
-        form.instance.groups.clear()
+        response = super().form_valid(form)
+        self.object.groups.clear()
         if form.cleaned_data.get("group"):
-            form.instance.groups.add(form.cleaned_data.get("group"))
-
-        return super().form_valid(form)
+            self.object.groups.add(form.cleaned_data.get("group"))
+        return response
 
 
 @method_decorator(login_required, name="dispatch")
