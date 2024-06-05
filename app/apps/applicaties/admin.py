@@ -12,7 +12,6 @@ class TaakapplicatieAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "naam",
-        "gebruiker",
     )
     actions = ["fetch_taaktypes"]
 
@@ -24,30 +23,8 @@ class TaakapplicatieAdmin(admin.ModelAdmin):
     fetch_taaktypes.short_description = "Fetch and save taaktypes"
 
     def save_model(self, request, obj, form, change):
-        if obj.pk:
-            cache.delete(obj.get_token_cache_key())
-            orig_obj = Applicatie.objects.get(pk=obj.pk)
-            if (
-                obj.applicatie_gebruiker_wachtwoord
-                != orig_obj.applicatie_gebruiker_wachtwoord
-            ):
-                try:
-                    obj.encrypt_applicatie_gebruiker_wachtwoord(
-                        obj.applicatie_gebruiker_wachtwoord
-                    )
-                except Exception as e:
-                    logger.error(f"Encryption error: {e}, obj pk: {obj.pk}")
-
-        elif obj.applicatie_gebruiker_wachtwoord:
-            try:
-                obj.encrypt_applicatie_gebruiker_wachtwoord(
-                    obj.applicatie_gebruiker_wachtwoord
-                )
-            except Exception as e:
-                logger.error(f"Encryption error: {e}")
-
         try:
-            if obj._get_token():
+            if obj.taaktypes_halen(cache_timeout=0):
                 messages.success(request, "Connectie met de applicatie is gelukt")
             else:
                 messages.error(request, "Connectie met de applicatie is mislukt!")
