@@ -61,6 +61,7 @@ ONDERWERPEN_URL = os.getenv(
     "ONDERWERPEN_URL", onderwerpen_urls.get(APP_ENV, onderwerpen_urls[ACCEPTATIE])
 )
 
+
 DEV_SOCKET_PORT = os.getenv("DEV_SOCKET_PORT", "9000")
 
 UI_SETTINGS = {"fontsizes": ["fz-medium", "fz-large", "fz-xlarge"]}
