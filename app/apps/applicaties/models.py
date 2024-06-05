@@ -36,6 +36,11 @@ class Applicatie(BasisModel):
         base_field=models.URLField(),
         default=list,
     )
+    taaktype_aanmaken_formulier_url = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.naam

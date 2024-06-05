@@ -1,5 +1,6 @@
 import logging
 
+from apps.applicaties.models import Applicatie
 from apps.bijlagen.models import Bijlage
 from apps.bijlagen.tasks import task_aanmaken_afbeelding_versies
 from apps.taaktypes.forms import (
@@ -77,6 +78,8 @@ class TaaktypeLijstView(TaaktypeView, ListView):
                 if voorbeeld.bijlagen.exists():
                     t.voorbeeld_wel = voorbeeld.bijlagen.first()
                     break
+
+        context["applicaties"] = Applicatie.objects.all()
 
         return context
 
