@@ -4,35 +4,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('applicaties', '0002_applicatie_valide_basis_urls'),
+        ("applicaties", "0002_applicatie_valide_basis_urls"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='applicatie',
-            name='applicatie_gebruiker_naam',
+            model_name="applicatie",
+            name="applicatie_gebruiker_naam",
         ),
         migrations.RemoveField(
-            model_name='applicatie',
-            name='applicatie_gebruiker_wachtwoord',
+            model_name="applicatie",
+            name="applicatie_gebruiker_wachtwoord",
         ),
         migrations.RemoveField(
-            model_name='applicatie',
-            name='gebruiker',
+            model_name="applicatie",
+            name="gebruiker",
         ),
         migrations.RemoveField(
-            model_name='applicatie',
-            name='onderwerpen',
+            model_name="applicatie",
+            name="onderwerpen",
         ),
         migrations.RemoveField(
-            model_name='applicatie',
-            name='taaktypes',
+            model_name="applicatie",
+            name="taaktypes",
         ),
         migrations.AlterField(
-            model_name='applicatie',
-            name='basis_url',
-            field=models.URLField(default='https://example.com'),
+            model_name="applicatie",
+            name="basis_url",
+            field=models.URLField(default="https://example.com"),
         ),
     ]

@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('applicaties', '0003_remove_applicatie_applicatie_gebruiker_naam_and_more'),
-        ('aliassen', '0001_initial'),
+        ("applicaties", "0003_remove_applicatie_applicatie_gebruiker_naam_and_more"),
+        ("aliassen", "0001_initial"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='OnderwerpAlias',
+            name="OnderwerpAlias",
         ),
     ]

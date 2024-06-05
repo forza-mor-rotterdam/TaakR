@@ -4,7 +4,6 @@ from urllib.parse import urlencode, urlparse
 import requests
 from cryptography.fernet import Fernet
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
