@@ -91,6 +91,7 @@ class AfdelingLinksSerializer(serializers.Serializer):
 
 class AfdelingSerializer(serializers.ModelSerializer):
     _links = AfdelingLinksSerializer(source="*")
+    taaktypes_voor_afdelingen = TaaktypeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Afdeling
@@ -98,6 +99,7 @@ class AfdelingSerializer(serializers.ModelSerializer):
             "_links",
             "naam",
             "onderdeel",
+            "taaktypes_voor_afdelingen",
         )
 
 
