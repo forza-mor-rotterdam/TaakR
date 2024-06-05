@@ -797,6 +797,10 @@ form.onboarding {
         .select2-selection__rendered {
             line-height: 42px;
             padding: 0;
+
+            .select2-selection__choice {
+                white-space: inherit;
+            }
         }
 
         .select2-selection__arrow {
