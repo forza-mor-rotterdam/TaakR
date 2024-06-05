@@ -44,39 +44,13 @@
         {% block stylesheets %}
             <link href=" https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css "
                   rel="stylesheet">
-            <link rel="stylesheet"
-                  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-                  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-                  crossorigin="" />
             {% render_bundle 'app' 'css' %}
         {% endblock stylesheets %}
-        {% if DEBUG %}
-            <script>
-            const chatSocket = new WebSocket(
-                "ws://localhost:"
-                + {{DEV_SOCKET_PORT}}
-            );
-
-            chatSocket.onmessage = function(e) {
-                if (e.data === "reload"){
-                    location.reload()
-                }
-            };
-
-            chatSocket.onclose = function(e) {
-                console.error("socket closed unexpectedly");
-            };
-            </script>
-        {% endif %}
         {% block javascripts %}
             <script src=" https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js "></script>
             <script src=" https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js "></script>
             {% render_bundle 'app' 'js' %}
         {% endblock javascripts %}
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-                integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-                crossorigin=""></script>
-        <script src="//unpkg.com/leaflet-gesture-handling"></script>
     </head>
     <body class="{% block body_class %}app {% endblock body_class %}">
         {% block pageheader %}
@@ -85,7 +59,7 @@
             {% endwith %}
         {% endblock pageheader %}
         {% block main %}
-            <main data-controller="main" data-main-taken-outlet="#taken">
+            <main>
                 <div class="{% block container_class %}container container--unlimited{% endblock container_class %}">
                     {% block body %}
                     {% endblock body %}

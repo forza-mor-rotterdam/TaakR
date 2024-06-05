@@ -1,5 +1,6 @@
 import logging
 
+from apps.applicaties.models import Applicatie
 from apps.bijlagen.models import Bijlage
 from apps.bijlagen.tasks import task_aanmaken_afbeelding_versies
 from apps.taaktypes.forms import (
@@ -18,7 +19,8 @@ from apps.taaktypes.models import (
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
 )
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -31,12 +33,20 @@ logger = logging.getLogger(__name__)
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeView(View):
     model = Taaktype
     success_url = reverse_lazy("taaktype_lijst")
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktype_lijst_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeLijstView(TaaktypeView, ListView):
     queryset = Taaktype.objects.prefetch_related(
         "volgende_taaktypes",
@@ -78,14 +88,25 @@ class TaaktypeLijstView(TaaktypeView, ListView):
                     t.voorbeeld_wel = voorbeeld.bijlagen.first()
                     break
 
+        context["applicaties"] = Applicatie.objects.all()
+
         return context
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeDetailView(TaaktypeView, DetailView):
     ...
 
 
+@method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeAanmakenAanpassenView(TaaktypeView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -167,6 +188,10 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktype_aanpassen", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeAanpassenView(TaaktypeAanmakenAanpassenView, UpdateView):
     form_class = TaaktypeAanpassenForm
 
@@ -178,55 +203,123 @@ class TaaktypeAanpassenView(TaaktypeAanmakenAanpassenView, UpdateView):
 
 
 @method_decorator(login_required, name="dispatch")
-class TaaktypeAanmakenView(TaaktypeAanmakenAanpassenView, CreateView):
-    form_class = TaaktypeAanmakenForm
+@method_decorator(
+    permission_required("authorisatie.taaktype_aanmaken", raise_exception=True),
+    name="dispatch",
+)
+class TaaktypeAanmakenView(View):
+    def get(self, request, *args, **kwargs):
+        applicatie = Applicatie.vind_applicatie_obv_uri(request.GET.get("taaktype_url"))
+        if not applicatie:
+            messages.error(request, "Dit is geen geldige taaktype url")
+            return redirect(reverse("taaktype_lijst"))
+
+        taaktype_data = applicatie.fetch_taaktype_data(request.GET.get("taaktype_url"))
+
+        taaktype, aangemaakt = Taaktype.objects.get_or_create(
+            taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
+            taakapplicatie=applicatie,
+            actief=taaktype_data.get("actief", True),
+            defaults={
+                "omschrijving": taaktype_data.get("omschrijving", ""),
+            },
+        )
+        if aangemaakt:
+            messages.success(
+                request, f"Het taaktype '{taaktype.omschrijving}' is aangemaakt"
+            )
+        return redirect(reverse("taaktype_aanpassen", args=[taaktype.id]))
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.afdeling_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class AfdelingView(View):
     model = Afdeling
     success_url = reverse_lazy("afdeling_lijst")
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.afdeling_lijst_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class AfdelingLijstView(AfdelingView, ListView):
     ...
 
 
+@method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.afdeling_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class AfdelingAanmakenAanpassenView(AfdelingView):
     ...
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.afdeling_aanpassen", raise_exception=True),
+    name="dispatch",
+)
 class AfdelingAanpassenView(AfdelingAanmakenAanpassenView, UpdateView):
     form_class = AfdelingAanpassenForm
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.afdeling_aanmaken", raise_exception=True),
+    name="dispatch",
+)
 class AfdelingAanmakenView(AfdelingAanmakenAanpassenView, CreateView):
     form_class = AfdelingAanmakenForm
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktypemiddel_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeMiddelView(View):
     model = TaaktypeMiddel
     success_url = reverse_lazy("taaktypemiddel_lijst")
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required(
+        "authorisatie.taaktypemiddel_lijst_bekijken", raise_exception=True
+    ),
+    name="dispatch",
+)
 class TaaktypeMiddelLijstView(TaaktypeMiddelView, ListView):
     ...
 
 
+@method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktypemiddel_bekijken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeMiddelAanmakenAanpassenView(TaaktypeMiddelView):
     ...
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktypemiddel_aanpassen", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeMiddelAanpassenView(TaaktypeMiddelAanmakenAanpassenView, UpdateView):
     form_class = TaaktypeMiddelAanpassenForm
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(
+    permission_required("authorisatie.taaktypemiddel_aanmaken", raise_exception=True),
+    name="dispatch",
+)
 class TaaktypeMiddelAanmakenView(TaaktypeMiddelAanmakenAanpassenView, CreateView):
     form_class = TaaktypeMiddelAanmakenForm
