@@ -3,7 +3,6 @@ import logging
 from apps.applicaties.models import Applicatie
 from apps.applicaties.tasks import fetch_and_save_taaktypes
 from django.contrib import admin, messages
-from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
 
