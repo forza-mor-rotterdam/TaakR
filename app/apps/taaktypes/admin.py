@@ -44,6 +44,7 @@ class TaaktypeVoorbeeldsituatieAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "type",
+        "taaktype",
         "toelichting",
     )
 

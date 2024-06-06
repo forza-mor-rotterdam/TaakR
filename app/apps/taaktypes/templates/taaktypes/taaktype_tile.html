@@ -6,9 +6,9 @@
             <h3 class="title">{{ taaktype.omschrijving }}</h3>
         </div>
         <div class="container__image">
-            {% if taaktype.voorbeeld_wel and taaktype.voorbeeld_wel.afbeelding %}
+            {% if taaktype.voorbeeld_wel %}
                 <img alt="{{ taaktype.omschrijving }}"
-                     src="{{ taaktype.voorbeeld_wel.afbeelding.url }}" />
+                     src="{% if taaktype.voorbeeld_wel.afbeelding %}{{ taaktype.voorbeeld_wel.afbeelding.url }}{% else %}{{ taaktype.voorbeeld_wel.bestand.url }}{% endif %}" />
             {% else %}
                 <img alt="{{ taaktype.omschrijving }}"
                      class="no-image"
