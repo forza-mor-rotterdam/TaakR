@@ -216,7 +216,7 @@ class TaaktypeAanmakenView(View):
 
         taaktype_data = applicatie.fetch_taaktype_data(request.GET.get("taaktype_url"))
 
-        taaktype, aangemaakt = Taaktype.objects.get_or_create(
+        taaktype, aangemaakt = Taaktype.objects.update_or_create(
             taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
             taakapplicatie=applicatie,
             actief=taaktype_data.get("actief", True),
