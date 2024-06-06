@@ -50,15 +50,42 @@
               data-taaktypeformulier-target="formTaaktype">
             {% csrf_token %}
             <fieldset class="section">
+                <legend>{{ object.taakapplicatie.naam }} basisinformatie</legend>
+                <div class="container__flex">
+                    <dl class="dl--horizontal">
+                        <div>
+                            <dt>Titel</dt>
+                            <dd>
+                                {{ object.omschrijving }}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Omschrijving</dt>
+                            <dd>
+                                {{ object.toelichting }}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Is actief</dt>
+                            <dd>
+                                {{ object.actief }}
+                            </dd>
+                        </div>
+                    </dl>
+                    <a href="{{ object.taakapplicatie.basis_url }}/beheer/taaktype/aanmaken/?taaktype_url={{ object.taakapplicatie_taaktype_url }}"
+                       class="btn btn-action">
+                        <span>Aanpassen in {{ object.taakapplicatie.naam }}</span>
+                    </a>
+                </div>
                 <legend>Basisinformatie</legend>
                 <div class="container__flex">
                     <div>
-                        {{ form.omschrijving|render_rotterdam_formulier }}
-                        {{ form.toelichting|render_rotterdam_formulier }}
+                        {% comment %} {{ form.omschrijving|render_rotterdam_formulier }}
+                        {{ form.toelichting|render_rotterdam_formulier }} {% endcomment %}
                         {{ form.taaktypemiddelen|render_rotterdam_formulier }}
+                        {{ form.afdelingen|render_rotterdam_formulier }}
                     </div>
                     <div>
-                        {{ form.afdelingen|render_rotterdam_formulier }}
                         {{ form.verantwoordelijke|render_rotterdam_formulier }}
                         <div data-controller="bijlagen" class="has-button-fullwidth">
                             <h3 class="h5">Icoon</h3>
@@ -70,12 +97,12 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="container__checkbox--single form-row">
+                        {% comment %} <div class="container__checkbox--single form-row">
                             <h3 class="label">
                                 Is dit taaktype actief? <small>(Niet verplicht)</small>
                             </h3>
                             {{ form.actief|render_rotterdam_formulier }}
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                 </div>
             </fieldset>
