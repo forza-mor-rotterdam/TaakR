@@ -228,7 +228,8 @@ class TaaktypeAanmakenView(View):
         )
         if aangemaakt:
             messages.success(
-                request, f"Het taaktype '{taaktype.omschrijving}' is aangemaakt"
+                request,
+                f"Het taaktype '{taaktype.omschrijving}' is aangemaakt in {applicatie.naam}",
             )
         return redirect(reverse("taaktype_aanpassen", args=[taaktype.id]))
 

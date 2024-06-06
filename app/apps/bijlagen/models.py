@@ -72,7 +72,9 @@ class Bijlage(BasisModel):
             if self.mimetype == "image/heic":
                 bestand = self._heic_to_jpeg(self.bestand)
                 self.is_afbeelding = True
-
+            if self.mimetype == "image/gif":
+                self.is_afbeelding = True
+                return
             if self.is_afbeelding:
                 try:
                     self.afbeelding_verkleind.name = get_thumbnail(

@@ -23,6 +23,8 @@
             <div class="container__example--task">
                 {% if form.instance.afbeelding %}
                     <img class="example--task" src="{{ form.instance.afbeelding.url }}" />
+                {% elif form.instance.bestand %}
+                    <img class="example--task" src="{{ form.instance.bestand.url }}" />
                 {% else %}
                     form.instance.bestand
                 {% endif %}
