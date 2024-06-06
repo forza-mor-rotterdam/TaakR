@@ -112,10 +112,12 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
         context = super().get_context_data(**kwargs)
 
         queryset_wel = TaaktypeVoorbeeldsituatie.objects.filter(
-            type=TaaktypeVoorbeeldsituatie.TypeOpties.WAAROM_WEL
+            type=TaaktypeVoorbeeldsituatie.TypeOpties.WAAROM_WEL,
+            taaktype=self.object,
         )
         queryset_niet = TaaktypeVoorbeeldsituatie.objects.filter(
-            type=TaaktypeVoorbeeldsituatie.TypeOpties.WAAROM_NIET
+            type=TaaktypeVoorbeeldsituatie.TypeOpties.WAAROM_NIET,
+            taaktype=self.object,
         )
         TaaktypeVoorbeeldsituatieWelFormSet.extra = 5 - queryset_wel.count()
         TaaktypeVoorbeeldsituatieNietFormSet.extra = 5 - queryset_niet.count()
