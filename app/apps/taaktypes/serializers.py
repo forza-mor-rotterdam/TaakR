@@ -62,6 +62,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
         fields = (
             "_links",
             "uuid",
+            "taakapplicatie_taaktype_uuid",
             "omschrijving",
             "toelichting",
             "verantwoordelijke",
@@ -97,6 +98,7 @@ class AfdelingSerializer(serializers.ModelSerializer):
         model = Afdeling
         fields = (
             "_links",
+            "uuid",
             "naam",
             "onderdeel",
             "taaktypes_voor_afdelingen",
@@ -121,6 +123,7 @@ class TaaktypeMiddelSerializer(serializers.ModelSerializer):
         model = TaaktypeMiddel
         fields = (
             "_links",
+            "uuid",
             "naam",
         )
 
@@ -161,6 +164,7 @@ class TaaktypeVoorbeeldsituatieSerializer(serializers.ModelSerializer):
         model = TaaktypeVoorbeeldsituatie
         fields = (
             "_links",
+            "uuid",
             "toelichting",
             "type",
             "bijlagen",

@@ -76,6 +76,10 @@ class Taaktype(BasisModel):
         unique=True
     )  # @TODO In endpoint moet dit in _links self zijn.
 
+    taakapplicatie_taaktype_uuid = models.UUIDField(
+        editable=True, unique=True, null=True
+    )
+
     taakapplicatie = models.ForeignKey(
         to="applicaties.Applicatie",
         related_name="taaktypes_voor_applicatie",
