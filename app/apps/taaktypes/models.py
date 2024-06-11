@@ -23,6 +23,9 @@ class Afdeling(BasisModel):
         max_length=50,
         choices=OnderdeelOpties.choices,
     )
+    icoon = models.ImageField(
+        upload_to="afdeling/icons", null=True, blank=True, max_length=255
+    )
 
     def __str__(self):
         return self.naam

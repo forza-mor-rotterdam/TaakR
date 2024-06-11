@@ -21,13 +21,26 @@
         <h1>Afdeling aanmaken</h1>
         <div class="grid-container">
             <div class="grid-item">
-                <form action="." method="post">
+                <form action="."
+                      method="post"
+                      class="form--beheer full-width"
+                      enctype="multipart/form-data">
                     {{ form.non_field_errors }}
                     {% csrf_token %}
                     <fieldset>
                         {{ form.naam|render_rotterdam_formulier }}
                         {{ form.onderdeel|render_rotterdam_formulier }}
                     </fieldset>
+                    <div data-controller="bijlagen" class="has-button-fullwidth">
+                        <h3 class="h5">Icoon</h3>
+                        {{ form.icoon|render_rotterdam_formulier }}
+                        <div class="container__example--task">
+                            {% if form.instance.icoon %}
+                                Huidig icoon:
+                                <img class="icon-preview" src="{{ form.instance.icoon.url }}" />
+                            {% endif %}
+                        </div>
+                    </div>
                     <div class="form-row btn-row">
                         <button type="reset"
                                 class="btn btn-tertiary"

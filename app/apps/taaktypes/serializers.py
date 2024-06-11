@@ -101,6 +101,7 @@ class AfdelingSerializer(serializers.ModelSerializer):
             "uuid",
             "naam",
             "onderdeel",
+            "icoon",
             "taaktypes_voor_afdelingen",
         )
 

@@ -292,15 +292,34 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
 
 
 class AfdelingAanpassenForm(forms.ModelForm):
+    icoon = forms.FileField(
+        label="Icoon",
+        required=False,
+        widget=forms.widgets.FileInput(
+            attrs={
+                "accept": ".svg",
+                "data-action": "change->bijlagen#updateImageDisplay",
+                "hideLabel": True,
+                "button_text": "Icoon toevoegen of vervangen",
+            }
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields[
+            "icoon"
+        ].help_text = "Kies een icoon voor het taaktype. Gebruik het bestandstype svg."
+
     class Meta:
         model = Afdeling
-        fields = ("naam", "onderdeel")
+        fields = ("naam", "onderdeel", "icoon")
 
 
 class AfdelingAanmakenForm(AfdelingAanpassenForm):
     class Meta:
         model = Afdeling
-        fields = ("naam", "onderdeel")
+        fields = ("naam", "onderdeel", "icoon")
 
 
 class TaaktypeMiddelAanpassenForm(forms.ModelForm):
