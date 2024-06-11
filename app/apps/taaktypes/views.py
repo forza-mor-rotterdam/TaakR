@@ -32,21 +32,11 @@ from django.views.generic.list import ListView
 logger = logging.getLogger(__name__)
 
 
-@method_decorator(login_required, name="dispatch")
-@method_decorator(
-    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
-    name="dispatch",
-)
 class TaaktypeView(View):
     model = Taaktype
     success_url = reverse_lazy("taaktype_lijst")
 
 
-@method_decorator(login_required, name="dispatch")
-@method_decorator(
-    permission_required("authorisatie.taaktype_lijst_bekijken", raise_exception=True),
-    name="dispatch",
-)
 class TaaktypeLijstView(TaaktypeView, ListView):
     queryset = Taaktype.objects.prefetch_related(
         "volgende_taaktypes",
@@ -93,20 +83,11 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         return context
 
 
-@method_decorator(login_required, name="dispatch")
-@method_decorator(
-    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
-    name="dispatch",
-)
 class TaaktypeDetailView(TaaktypeView, DetailView):
     ...
 
 
 @method_decorator(login_required, name="dispatch")
-@method_decorator(
-    permission_required("authorisatie.taaktype_bekijken", raise_exception=True),
-    name="dispatch",
-)
 class TaaktypeAanmakenAanpassenView(TaaktypeView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -224,12 +205,13 @@ class TaaktypeAanmakenView(View):
             actief=taaktype_data.get("actief", True),
             defaults={
                 "omschrijving": taaktype_data.get("omschrijving", ""),
+                "toelichting": taaktype_data.get("toelichting", ""),
             },
         )
         if aangemaakt:
             messages.success(
                 request,
-                f"Het taaktype '{taaktype.omschrijving}' is aangemaakt in {applicatie.naam}",
+                f"Het taaktype '{taaktype.omschrijving}' is aangemaakt of aangepast in {applicatie.naam} en in TaakR",
             )
         return redirect(reverse("taaktype_aanpassen", args=[taaktype.id]))
 
