@@ -1,3 +1,4 @@
+from apps.taaktypes.filtersets import AfdelingFilter, TaaktypeFilter
 from apps.taaktypes.models import (
     Afdeling,
     Taaktype,
@@ -10,12 +11,15 @@ from apps.taaktypes.serializers import (
     TaaktypeSerializer,
     TaaktypeVoorbeeldsituatieSerializer,
 )
+from django_filters import rest_framework as filters
 from rest_framework import viewsets
 
 
 class AfdelingViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "uuid"
     queryset = Afdeling.objects.all().order_by("naam")
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = AfdelingFilter
     permission_classes = ()
     serializer_class = AfdelingSerializer
 
@@ -37,10 +41,7 @@ class TaaktypeVoorbeeldsituatieViewSet(viewsets.ReadOnlyModelViewSet):
 class TaaktypeViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "uuid"
     queryset = Taaktype.objects.all()
-
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = TaaktypeFilter
+    permission_classes = ()
     serializer_class = TaaktypeSerializer
-
-    def get_permissions(self):
-        if self.action in ["retrieve", "list"]:
-            return []
-        return super().get_permissions()

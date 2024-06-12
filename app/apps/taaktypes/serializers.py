@@ -75,6 +75,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
             "gerelateerde_taaktypes",
             "gerelateerde_onderwerpen",
             "voorbeeldsituatie_voor_taaktype",
+            "taakapplicatie_taaktype_url",
         )
         read_only_fields = ("_links",)
 
