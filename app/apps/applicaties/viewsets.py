@@ -8,7 +8,7 @@ class TaakapplicatieViewSet(viewsets.ReadOnlyModelViewSet):
     Taakapplicaties voor TaakR
     """
 
-    queryset = Applicatie.objects.all()
-
-    serializer_class = TaakapplicatieSerializer
     lookup_field = "uuid"
+    queryset = Applicatie.objects.all()
+    permission_classes = ()
+    serializer_class = TaakapplicatieSerializer

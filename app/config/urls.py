@@ -4,7 +4,6 @@ from apps.authenticatie.views import (
     GebruikerAanpassenView,
     GebruikerLijstView,
 )
-from apps.authenticatie.viewsets import GetGebruikerAPIView, SetGebruikerAPIView
 from apps.authorisatie.views import (
     RechtengroepAanmakenView,
     RechtengroepAanpassenView,
@@ -55,7 +54,6 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -75,13 +73,6 @@ router.register(r"bijlage", BijlageViewSet, basename="bijlage")
 urlpatterns = [
     path("", root, name="root"),
     path("api/v1/", include((router.urls, "app"), namespace="v1")),
-    path(
-        "api/v1/gebruiker/<str:email>/",
-        GetGebruikerAPIView.as_view(),
-        name="get_gebruiker",
-    ),
-    path("api/v1/gebruiker/", SetGebruikerAPIView.as_view(), name="set_gebruiker"),
-    path("api-token-auth/", views.obtain_auth_token),
     path("config/", config, name="config"),
     path("health/", include("health_check.urls")),
     path("healthz/", healthz, name="healthz"),
