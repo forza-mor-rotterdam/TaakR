@@ -1,0 +1,32 @@
+{% extends "base_beheer.html" %}
+{% block title %}
+    Beheer | TaakR
+{% endblock title %}
+{% block body %}
+    <h1>Beheer</h1>
+    <ul class="list--blocks-horizontal">
+        <li>
+            <a href="{% url 'gebruiker_lijst' %}">Gebruikers</a>
+        </li>
+        <li>
+            <a href="{% url 'rechtengroep_lijst' %}">Rechtengroepen</a>
+        </li>
+        <li>
+            <a href="{% url 'taaktype_lijst' %}">Taaktypes</a>
+        </li>
+        <li>
+            <a href="{% url 'afdeling_lijst' %}">Afdelingen</a>
+        </li>
+        <li>
+            <a href="{% url 'taaktypemiddel_lijst' %}">Taaktype materieel</a>
+        </li>
+    </ul>
+    <h2>Andere Forzamor beheer {{ APP_ENV }} omgevingen</h2>
+    <ul class="list--blocks-horizontal">
+        {% for url in env_urls %}
+            <li>
+                <a href="{{ url.0 }}">{{ url.1 }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock body %}

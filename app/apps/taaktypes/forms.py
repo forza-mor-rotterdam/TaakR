@@ -38,7 +38,7 @@ class BijlageForm(forms.ModelForm):
             attrs={
                 "accept": ".jpg, .jpeg, .png, .heic, .gif",
                 "data-action": "change->bijlagen#updateImageDisplay",
-                "multiple": "multiple",
+                # "multiple": "multiple",
                 "hideLabel": True,
             }
         ),
@@ -113,26 +113,26 @@ class TaaktypeVoorbeeldsituatieFormWel(TaaktypeVoorbeeldsituatieFormNiet):
 
 
 class TaaktypeAanpassenForm(forms.ModelForm):
-    toelichting = forms.CharField(
-        label="Omschrijving",
-        widget=forms.Textarea(
-            attrs={
-                "data-testid": "toelichting",
-                "rows": "4",
-            }
-        ),
-        required=True,
-    )
-    omschrijving = forms.CharField(
-        label="Titel",
-        widget=forms.TextInput(
-            attrs={
-                "data-testid": "titel",
-                "rows": "4",
-            }
-        ),
-        required=True,
-    )
+    # toelichting = forms.CharField(
+    #     label="Omschrijving",
+    #     widget=forms.Textarea(
+    #         attrs={
+    #             "data-testid": "toelichting",
+    #             "rows": "4",
+    #         }
+    #     ),
+    #     required=True,
+    # )
+    # omschrijving = forms.CharField(
+    #     label="Titel",
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             "data-testid": "titel",
+    #             "rows": "4",
+    #         }
+    #     ),
+    #     required=True,
+    # )
     icoon = forms.FileField(
         label="Icoon",
         required=False,
@@ -188,11 +188,11 @@ class TaaktypeAanpassenForm(forms.ModelForm):
         required=False,
     )
 
-    actief = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
-        label="Actief",
-        required=False,
-    )
+    # actief = forms.BooleanField(
+    #     widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+    #     label="Actief",
+    #     required=False,
+    # )
 
     def __init__(self, *args, current_taaktype=None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -227,9 +227,9 @@ class TaaktypeAanpassenForm(forms.ModelForm):
         ]
         self.fields["gerelateerde_onderwerpen"].choices = onderwerpen_gegroepeerd
         # END gerelateerde_onderwerpen
-        self.fields[
-            "omschrijving"
-        ].help_text = "Omschrijf het taaktype zo concreet mogelijk. Formuleer de gewenste actie, bijvoorbeeld 'Grofvuil ophalen'."
+        # self.fields[
+        #     "omschrijving"
+        # ].help_text = "Omschrijf het taaktype zo concreet mogelijk. Formuleer de gewenste actie, bijvoorbeeld 'Grofvuil ophalen'."
         self.fields[
             "volgende_taaktypes"
         ].help_text = "Dit zijn taken die mogelijk uitgevoerd moeten worden nadat de taak is afgerond. Zo kan ‘Koelkast ophalen’ bijvoorbeeld een vervolgtaak zijn van ‘Grofvuil ophalen’."
@@ -246,8 +246,8 @@ class TaaktypeAanpassenForm(forms.ModelForm):
     class Meta:
         model = Taaktype
         fields = (
-            "omschrijving",
-            "toelichting",
+            # "omschrijving",
+            # "toelichting",
             "verantwoordelijke",
             "icoon",
             "volgende_taaktypes",
@@ -255,7 +255,7 @@ class TaaktypeAanpassenForm(forms.ModelForm):
             "afdelingen",
             "taaktypemiddelen",
             "gerelateerde_onderwerpen",
-            "actief",
+            # "actief",
         )
 
 
@@ -263,8 +263,8 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
     class Meta:
         model = Taaktype
         fields = (
-            "omschrijving",
-            "toelichting",
+            # "omschrijving",
+            # "toelichting",
             "verantwoordelijke",
             "icoon",
             "volgende_taaktypes",
@@ -272,14 +272,14 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
             "afdelingen",
             "taaktypemiddelen",
             "gerelateerde_onderwerpen",
-            "actief",
+            # "actief",
         )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields[
-            "omschrijving"
-        ].help_text = "Omschrijf het taaktype zo concreet mogelijk. Formuleer de gewenste actie, bijvoorbeeld 'Grofvuil ophalen'."
+        # self.fields[
+        #     "omschrijving"
+        # ].help_text = "Omschrijf het taaktype zo concreet mogelijk. Formuleer de gewenste actie, bijvoorbeeld 'Grofvuil ophalen'."
         self.fields[
             "volgende_taaktypes"
         ].help_text = "Dit zijn taken die mogelijk uitgevoerd moeten worden nadat de taak is afgerond. Zo kan ‘Koelkast ophalen’ bijvoorbeeld een vervolgtaak zijn van ‘Grofvuil ophalen’."
@@ -292,15 +292,34 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
 
 
 class AfdelingAanpassenForm(forms.ModelForm):
+    icoon = forms.FileField(
+        label="Icoon",
+        required=False,
+        widget=forms.widgets.FileInput(
+            attrs={
+                "accept": ".svg",
+                "data-action": "change->bijlagen#updateImageDisplay",
+                "hideLabel": True,
+                "button_text": "Icoon toevoegen of vervangen",
+            }
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields[
+            "icoon"
+        ].help_text = "Kies een icoon voor het taaktype. Gebruik het bestandstype svg."
+
     class Meta:
         model = Afdeling
-        fields = ("naam", "onderdeel")
+        fields = ("naam", "onderdeel", "icoon")
 
 
 class AfdelingAanmakenForm(AfdelingAanpassenForm):
     class Meta:
         model = Afdeling
-        fields = ("naam", "onderdeel")
+        fields = ("naam", "onderdeel", "icoon")
 
 
 class TaaktypeMiddelAanpassenForm(forms.ModelForm):

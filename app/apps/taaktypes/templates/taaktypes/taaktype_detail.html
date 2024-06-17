@@ -1,8 +1,8 @@
 {% extends "base_beheer.html" %}
 {% load webpack_static from webpack_loader %}
+{% load render_onderwerp from melding_tags %}
 {% load rotterdam_formulier_html %}
 {% load json_encode from main_tags %}
-{% load render_onderwerp from melding_tags %}
 {% block title %}
     {% if object %}
         Taaktype '{{ object.omschrijving }}'
@@ -83,7 +83,7 @@
                 <h2 class="label--positive">Wanneer is de taak relevant?</h2>
                 <ul class="list-clean margin-bottom">
                     {% for voorbeeldsituatie in object.voorbeeldsituatie_voor_taaktype.all %}
-                        {% include "taken/voorbeeldsituatie_tile.html" with voorbeeldsituatie=voorbeeldsituatie type="waarom_wel" only %}
+                        {% include "taaktypes/voorbeeldsituatie_tile.html" with voorbeeldsituatie=voorbeeldsituatie type="waarom_wel" only %}
                     {% endfor %}
                 </ul>
             </div>
@@ -91,7 +91,7 @@
                 <h2 class="label--negative">Wanneer hoeft de taak NIET te worden gestart?</h2>
                 <ul class="list-clean margin-bottom">
                     {% for voorbeeldsituatie in object.voorbeeldsituatie_voor_taaktype.all %}
-                        {% include "taken/voorbeeldsituatie_tile.html" with voorbeeldsituatie=voorbeeldsituatie type="waarom_niet" only %}
+                        {% include "taaktypes/voorbeeldsituatie_tile.html" with voorbeeldsituatie=voorbeeldsituatie type="waarom_niet" only %}
                     {% endfor %}
                 </ul>
             </div>
@@ -100,7 +100,7 @@
             <h2 class="color--primary">Vervolgtaken</h2>
             <ul class="list-blocks--title-images">
                 {% for taaktype in object.volgende_taaktypes.all %}
-                    {% include "taken/taaktype_tile.html" with taaktype=taaktype only %}
+                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype only %}
                 {% endfor %}
             </ul>
         </section>
@@ -108,7 +108,7 @@
             <h2 class="color--primary">Gerelateerde taken</h2>
             <ul class="list-blocks--title-images">
                 {% for taaktype in object.gerelateerde_taaktypes.all %}
-                    {% include "taken/taaktype_tile.html" with taaktype=taaktype only %}
+                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype only %}
                 {% endfor %}
             </ul>
         </section>

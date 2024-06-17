@@ -35,10 +35,28 @@ def fetch_and_save_taaktypes(self, applicatie_id):
 def save_taaktypes(applicatie, taaktypes):
     for taaktype_data in taaktypes:
         print(f"Taaktype data: {taaktype_data}")
-        Taaktype.objects.update_or_create(
-            taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
-            taakapplicatie=applicatie,
-            defaults={
-                "omschrijving": taaktype_data.get("omschrijving", ""),
-            },
-        )
+        uuid = taaktype_data.get("uuid")
+        url = taaktype_data.get("_links", {}).get("self")
+        actief = taaktype_data.get("actief", True)
+        omschrijving = taaktype_data.get("omschrijving", "")
+
+        try:
+            taaktype, created = Taaktype.objects.update_or_create(
+                taakapplicatie_taaktype_url=url,
+                defaults={
+                    "taakapplicatie_taaktype_uuid": uuid,
+                    "taakapplicatie": applicatie,
+                    "actief": actief,
+                    "omschrijving": omschrijving,
+                },
+            )
+            if created:
+                logger.info(
+                    f"Created new Taaktype {taaktype.uuid} with for taakapplicatie taaktype with uuid: {uuid}"
+                )
+            else:
+                logger.info(
+                    f"Updated Taaktype {taaktype.uuid} with for taakapplicatie taaktype with uuid: {uuid}"
+                )
+        except Exception as e:
+            logger.error(f"Error saving Taaktype with URL {url}: {e}")

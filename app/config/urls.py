@@ -1,6 +1,15 @@
-from apps.aliassen.viewsets import OnderwerpAliasViewSet
 from apps.applicaties.viewsets import TaakapplicatieViewSet
-from apps.authenticatie.views import GetGebruikerAPIView, SetGebruikerAPIView
+from apps.authenticatie.views import (
+    GebruikerAanmakenView,
+    GebruikerAanpassenView,
+    GebruikerLijstView,
+)
+from apps.authorisatie.views import (
+    RechtengroepAanmakenView,
+    RechtengroepAanpassenView,
+    RechtengroepLijstView,
+    RechtengroepVerwijderenView,
+)
 from apps.beheer.views import beheer
 from apps.bijlagen.viewsets import BijlageViewSet
 from apps.health.views import healthz
@@ -26,12 +35,17 @@ from apps.taaktypes.views import (
     TaaktypeMiddelAanmakenView,
     TaaktypeMiddelAanpassenView,
     TaaktypeMiddelLijstView,
-    taaktype_beheer,
+)
+from apps.taaktypes.viewsets import (
+    AfdelingViewSet,
+    TaaktypeMiddelViewSet,
+    TaaktypeViewSet,
+    TaaktypeVoorbeeldsituatieViewSet,
 )
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import include, path
 from django.views.generic import RedirectView
 from django_db_schema_renderer.urls import schema_urls
 from django_select2 import urls as select2_urls
@@ -40,33 +54,63 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
-from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r"onderwerp-alias", OnderwerpAliasViewSet, basename="onderwerp-alias")
 router.register(r"applicatie", TaakapplicatieViewSet, basename="applicatie")
 router.register(r"taakapplicatie", TaakapplicatieViewSet, basename="taakapplicatie")
+router.register(r"taaktype", TaaktypeViewSet, basename="taaktype")
+router.register(r"afdeling", AfdelingViewSet, basename="afdeling")
+router.register(r"taaktype-middel", TaaktypeMiddelViewSet, basename="taaktype_middel")
+router.register(
+    r"taaktype-voorbeeldsituatie",
+    TaaktypeVoorbeeldsituatieViewSet,
+    basename="taaktype_voorbeeldsituatie",
+)
 router.register(r"bijlage", BijlageViewSet, basename="bijlage")
+
 
 urlpatterns = [
     path("", root, name="root"),
     path("api/v1/", include((router.urls, "app"), namespace="v1")),
-    path(
-        "api/v1/gebruiker/<str:email>/",
-        GetGebruikerAPIView.as_view(),
-        name="get_gebruiker",
-    ),
-    path("api/v1/gebruiker/", SetGebruikerAPIView.as_view(), name="set_gebruiker"),
-    path("api-token-auth/", views.obtain_auth_token),
-    path("login/", login_required_view, name="login_required"),
+    path("config/", config, name="config"),
     path("health/", include("health_check.urls")),
     path("healthz/", healthz, name="healthz"),
     path("db-schema/", include((schema_urls, "db-schema"))),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # START beheer
     path("beheer/", beheer, name="beheer"),
-    path("beheer-taaktype/", taaktype_beheer, name="taaktype_beheer"),
+    path("beheer/gebruiker/", GebruikerLijstView.as_view(), name="gebruiker_lijst"),
+    path(
+        "beheer/gebruiker/aanmaken/",
+        GebruikerAanmakenView.as_view(),
+        name="gebruiker_aanmaken",
+    ),
+    path(
+        "beheer/gebruiker/<int:pk>/aanpassen/",
+        GebruikerAanpassenView.as_view(),
+        name="gebruiker_aanpassen",
+    ),
+    path(
+        "beheer/rechtengroep/",
+        RechtengroepLijstView.as_view(),
+        name="rechtengroep_lijst",
+    ),
+    path(
+        "beheer/rechtengroep/aanmaken/",
+        RechtengroepAanmakenView.as_view(),
+        name="rechtengroep_aanmaken",
+    ),
+    path(
+        "beheer/rechtengroep/<int:pk>/aanpassen/",
+        RechtengroepAanpassenView.as_view(),
+        name="rechtengroep_aanpassen",
+    ),
+    path(
+        "beheer/rechtengroep/<int:pk>/verwijderen/",
+        RechtengroepVerwijderenView.as_view(),
+        name="rechtengroep_verwijderen",
+    ),
     path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
     path(
         "beheer/taaktype/aanmaken/",
@@ -123,12 +167,10 @@ urlpatterns = [
         name="redoc",
     ),
     path("select2/", include(select2_urls)),
-    re_path(r"^media", serve_protected_media, name="protected_media"),
 ]
 
 if settings.OIDC_ENABLED:
     urlpatterns += [
-        path("oidc/", include("mozilla_django_oidc.urls")),
         path(
             "admin/login/",
             RedirectView.as_view(

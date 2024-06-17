@@ -18,6 +18,10 @@ FERNET_KEY = os.getenv(
     "FERNET_KEY", "Fp9p5Ml9hK2BravAUDd4O4pn9_KcBTfFbh-QEuuBN0E="
 ).encode()
 
+# APP_ENV's
+PRODUCTIE = "productie"
+ACCEPTATIE = "acceptatie"
+TEST = "test"
 
 GIT_SHA = os.getenv("GIT_SHA")
 DEPLOY_DATE = os.getenv("DEPLOY_DATE", "")
@@ -45,11 +49,17 @@ TAAKTYPE_VERANDERD_NOTIFICATIE_URL = os.getenv(
     "TAAKTYPE_VERANDERD_NOTIFICATIE_URL", "/api/v1/taaktype/"
 )
 
-ALLOW_UNAUTHORIZED_MEDIA_ACCESS = (
-    os.getenv("ALLOW_UNAUTHORIZED_MEDIA_ACCESS", False) in TRUE_VALUES
-)
 TOKEN_API_RELATIVE_URL = os.getenv("TOKEN_API_RELATIVE_URL", "/api-token-auth/")
 MELDINGEN_TOKEN_TIMEOUT = 60 * 60
+
+onderwerpen_urls = {
+    PRODUCTIE: "https://onderwerpen.forzamor.nl",
+    ACCEPTATIE: "https://onderwerpen-acc.forzamor.nl",
+    TEST: "https://onderwerpen-test.forzamor.nl",
+}
+ONDERWERPEN_URL = os.getenv(
+    "ONDERWERPEN_URL", onderwerpen_urls.get(APP_ENV, onderwerpen_urls[ACCEPTATIE])
+)
 
 DEV_SOCKET_PORT = os.getenv("DEV_SOCKET_PORT", "9000")
 
@@ -57,6 +67,7 @@ UI_SETTINGS = {"fontsizes": ["fz-medium", "fz-large", "fz-xlarge"]}
 
 INSTALLED_APPS = (
     # templates override
+    "apps.main",
     "apps.health",
     "django_db_schema_renderer",
     "django.contrib.contenttypes",
@@ -68,6 +79,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "django.contrib.gis",
     "django.contrib.postgres",
+    "django.forms",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_gis",
@@ -88,11 +100,12 @@ INSTALLED_APPS = (
     "django_celery_results",
     "django_select2",
     # Apps
+    "apps.rotterdam_formulier_html",
     "apps.authenticatie",
+    "apps.authorisatie",
     "apps.bijlagen",
     "apps.aliassen",
     "apps.applicaties",
-    "apps.main",
     "apps.taaktypes",
     "apps.beheer",
 )
@@ -152,6 +165,10 @@ STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "static"))
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), "media"))
+
+ALLOW_UNAUTHORIZED_MEDIA_ACCESS = (
+    os.getenv("ALLOW_UNAUTHORIZED_MEDIA_ACCESS", False) in TRUE_VALUES
+)
 
 if DEBUG:
     import socket  # only if you haven't already imported this
@@ -283,8 +300,7 @@ CSRF_COOKIE_NAME = "__Secure-csrftoken" if not DEBUG else "csrftoken"
 SESSION_COOKIE_SAMESITE = "Lax"  # Strict does not work well together with OIDC
 CSRF_COOKIE_SAMESITE = "Lax"  # Strict does not work well together with OIDC
 
-# Settings for Content-Security-Policy header
-CSP_DEFAULT_SRC = ("'self'",)
+# Settings for Content-Security-Policy headerCSP_DEFAULT_SRC = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'self'",)
 CSP_FRAME_SRC = (
     "'self'",
@@ -293,41 +309,46 @@ CSP_FRAME_SRC = (
 CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
-    "blob:",
-    "cdnjs.cloudflare.com",
+    "'unsafe-eval'",
+    "unpkg.com",
     "cdn.jsdelivr.net",
+    "blob:",
 )
 CSP_IMG_SRC = (
     "'self'",
+    "blob:",
     "data:",
-    "cdn.redoc.ly",
+    "unpkg.com",
+    "service.pdok.nl",
+    "mor-core-acc.forzamor.nl",
     "cdn.jsdelivr.net",
-    "map1c.vis.earthdata.nasa.gov",
-    "map1b.vis.earthdata.nasa.gov",
-    "map1a.vis.earthdata.nasa.gov",
+    "ows.gis.rotterdam.nl",
+    "www.gis.rotterdam.nl",
 )
 CSP_STYLE_SRC = (
     "'self'",
     "data:",
     "'unsafe-inline'",
-    "cdnjs.cloudflare.com",
+    "unpkg.com",
     "cdn.jsdelivr.net",
-    "fonts.googleapis.com",
 )
 CSP_CONNECT_SRC = (
-    ("'self'",)
+    (
+        "'self'",
+        "mercure.fixer-test.forzamor.nl",
+        "mercure.fixer-acc.forzamor.nl",
+        "mercure.fixer.forzamor.nl",
+        "cke4.ckeditor.com",
+    )
     if not DEBUG
     else (
         "'self'",
         "ws:",
         "localhost:7001",
+        "cke4.ckeditor.com",
     )
 )
-CSP_FONT_SRC = (
-    "'self'",
-    "fonts.gstatic.com",
-)
-
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com")
 SPAGHETTI_SAUCE = {
     "apps": [
         "meldingen",
@@ -335,6 +356,7 @@ SPAGHETTI_SAUCE = {
     "show_fields": False,
 }
 
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -496,7 +518,6 @@ if OPENID_CONFIG and OIDC_RP_CLIENT_ID:
         "apps.authenticatie.auth.OIDCAuthenticationBackend",
     ]
 
-    # OIDC_OP_LOGOUT_URL_METHOD = "apps.authenticatie.views.provider_logout"
     ALLOW_LOGOUT_GET_METHOD = True
     OIDC_STORE_ID_TOKEN = True
     OIDC_RENEW_ID_TOKEN_EXPIRY_SECONDS = int(

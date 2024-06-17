@@ -7,7 +7,8 @@
             {% if voorbeeldsituatie.bijlagen.all|length > 0 %}
                 {% for bijlage in voorbeeldsituatie.bijlagen.all %}
                     <li class="container__image">
-                        <img alt="" src="{{ bijlage.afbeelding.url }}" />
+                        <img alt=""
+                             src="{% if bijlage.afbeelding %}{{ bijlage.afbeelding.url }}{% elif bijlage.bestand %}{{ bijlage.bestand.url }}{% endif %}" />
                         {% if type == "waarom_wel" %}
                             <div class="icon--positive"></div>
                         {% else %}
