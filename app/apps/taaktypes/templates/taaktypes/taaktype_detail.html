@@ -32,8 +32,8 @@
         <p>{{ taaktype.toelichting }}</p>
         <h2 class="h4">Wie is er verantwoordelijk voor de uitvoering van het proces?</h2>
         <p>
-            {% if taaktype.verantwoordelijke %}
-                {{ taaktype.verantwoordelijke }}
+            {% if taaktype.verantwoordelijke_afdeling %}
+                {{ taaktype.verantwoordelijke_afdeling }}
             {% else %}
                 Nog niet ingevuld
             {% endif %}

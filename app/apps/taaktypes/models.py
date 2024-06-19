@@ -22,6 +22,8 @@ class Afdeling(BasisModel):
     onderdeel = models.CharField(
         max_length=50,
         choices=OnderdeelOpties.choices,
+        null=True,
+        blank=True,
     )
     icoon = models.ImageField(
         upload_to="afdeling/icons", null=True, blank=True, max_length=255
@@ -96,10 +98,12 @@ class Taaktype(BasisModel):
         blank=True,
         null=True,
     )
-    verantwoordelijke = models.CharField(
-        max_length=200,
-        blank=True,
+    verantwoordelijke_afdeling = models.ForeignKey(
+        to="taaktypes.Afdeling",
+        related_name="verantwoordelijke_afdeling_taaktypes",
+        on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
     icoon = models.ImageField(
         upload_to="taaktype/icons", null=True, blank=True, max_length=255

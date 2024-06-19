@@ -65,7 +65,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
             "taakapplicatie_taaktype_uuid",
             "omschrijving",
             "toelichting",
-            "verantwoordelijke",
+            "verantwoordelijke_afdeling",
             "icoon",
             "additionele_informatie",
             "actief",

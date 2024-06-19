@@ -248,7 +248,7 @@ class TaaktypeAanpassenForm(forms.ModelForm):
         fields = (
             # "omschrijving",
             # "toelichting",
-            "verantwoordelijke",
+            "verantwoordelijke_afdeling",
             "icoon",
             "volgende_taaktypes",
             "gerelateerde_taaktypes",
@@ -265,7 +265,7 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
         fields = (
             # "omschrijving",
             # "toelichting",
-            "verantwoordelijke",
+            "verantwoordelijke_afdeling",
             "icoon",
             "volgende_taaktypes",
             "gerelateerde_taaktypes",
