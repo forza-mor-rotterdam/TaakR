@@ -82,12 +82,24 @@ class TaaktypeLijstView(TaaktypeView, ListView):
                     break
 
         context["applicaties"] = Applicatie.objects.all()
+        context[
+            "editable"
+        ] = self.request.user.is_authenticated and self.request.user.has_perms(
+            ["authorisatie.taaktype_aanpassen"]
+        )
 
         return context
 
 
 class TaaktypeDetailView(TaaktypeView, DetailView):
-    ...
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[
+            "editable"
+        ] = self.request.user.is_authenticated and self.request.user.has_perms(
+            ["authorisatie.taaktype_aanpassen"]
+        )
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
