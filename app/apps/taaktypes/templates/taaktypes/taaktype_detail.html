@@ -100,7 +100,7 @@
             <h2 class="color--primary">Vervolgtaken</h2>
             <ul class="list-blocks--title-images">
                 {% for taaktype in object.volgende_taaktypes.all %}
-                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype only %}
+                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
                 {% endfor %}
             </ul>
         </section>
@@ -108,7 +108,7 @@
             <h2 class="color--primary">Gerelateerde taken</h2>
             <ul class="list-blocks--title-images">
                 {% for taaktype in object.gerelateerde_taaktypes.all %}
-                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype only %}
+                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
                 {% endfor %}
             </ul>
         </section>
