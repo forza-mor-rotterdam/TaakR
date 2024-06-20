@@ -37,8 +37,6 @@ def save_taaktypes(applicatie, taaktypes):
         print(f"Taaktype data: {taaktype_data}")
         uuid = taaktype_data.get("uuid")
         url = taaktype_data.get("_links", {}).get("self")
-        actief = taaktype_data.get("actief", True)
-        omschrijving = taaktype_data.get("omschrijving", "")
 
         try:
             taaktype, created = Taaktype.objects.update_or_create(
@@ -46,8 +44,9 @@ def save_taaktypes(applicatie, taaktypes):
                 defaults={
                     "taakapplicatie_taaktype_uuid": uuid,
                     "taakapplicatie": applicatie,
-                    "actief": actief,
-                    "omschrijving": omschrijving,
+                    "actief": taaktype_data.get("actief", True),
+                    "omschrijving": taaktype_data.get("omschrijving", ""),
+                    "toelichting": taaktype_data.get("toelichting", ""),
                 },
             )
             if created:

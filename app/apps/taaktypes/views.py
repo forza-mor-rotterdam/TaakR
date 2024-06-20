@@ -198,12 +198,13 @@ class TaaktypeAanmakenView(View):
             return redirect(reverse("taaktype_lijst"))
 
         taaktype_data = applicatie.fetch_taaktype_data(request.GET.get("taaktype_url"))
-
+        logger.info(f"TaaktypeAanmakenView: {taaktype_data}")
         taaktype, aangemaakt = Taaktype.objects.update_or_create(
             taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
-            taakapplicatie=applicatie,
-            actief=taaktype_data.get("actief", True),
             defaults={
+                "taakapplicatie_taaktype_uuid": taaktype_data.get("uuid"),
+                "taakapplicatie": applicatie,
+                "actief": taaktype_data.get("actief", True),
                 "omschrijving": taaktype_data.get("omschrijving", ""),
                 "toelichting": taaktype_data.get("toelichting", ""),
             },
