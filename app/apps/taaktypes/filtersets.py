@@ -1,7 +1,7 @@
 import logging
 
 from apps.taaktypes.models import Afdeling, Taaktype
-from django.forms.fields import CharField, MultipleChoiceField
+from django.forms.fields import CharField, MultipleChoiceField, URLField
 from django_filters import rest_framework as filters
 
 logger = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ class TaaktypeFilter(filters.FilterSet):
 
 class AfdelingFilter(filters.FilterSet):
     taakapplicatie_basis_url = MultipleValueFilter(
-        field_class=CharField, method="get_taakapplicatie_basis_url"
+        field_class=URLField, method="get_taakapplicatie_basis_url"
     )
     taaktype_actief = filters.BooleanFilter(method="get_taaktype_actief")
 

@@ -50,12 +50,15 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         context["afdeling_onderdelen"] = [
             [
                 onderdeel[1],
-                self.queryset.filter(afdelingen__onderdeel=onderdeel[0]).distinct(),
+                self.queryset.filter(
+                    afdelingen__onderdeel=onderdeel[0], actief=True
+                ).distinct(),
             ]
             for onderdeel in Afdeling.OnderdeelOpties.choices
         ]
         context["zonder_afdeling"] = self.queryset.filter(
-            afdelingen__isnull=True
+            afdelingen__isnull=True,
+            actief=True,
         ).distinct()
 
         for taaktype in context["afdeling_onderdelen"]:
