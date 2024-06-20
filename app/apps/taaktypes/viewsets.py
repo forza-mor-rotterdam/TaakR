@@ -12,9 +12,19 @@ from apps.taaktypes.serializers import (
     TaaktypeVoorbeeldsituatieSerializer,
 )
 from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import viewsets
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            "taakapplicatie_basis_url", OpenApiTypes.URI, OpenApiParameter.QUERY
+        ),
+        OpenApiParameter("taaktype_actief", OpenApiTypes.BOOL, OpenApiParameter.QUERY),
+    ]
+)
 class AfdelingViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "uuid"
     queryset = Afdeling.objects.all().order_by("naam")

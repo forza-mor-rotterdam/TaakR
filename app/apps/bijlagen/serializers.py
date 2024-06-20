@@ -1,6 +1,8 @@
 import filetype
 from apps.bijlagen.models import Bijlage
 from drf_extra_fields.fields import Base64FileField
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 
@@ -22,9 +24,11 @@ class BijlageSerializer(serializers.ModelSerializer):
     afbeelding_relative_url = serializers.SerializerMethodField()
     afbeelding_verkleind_relative_url = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_afbeelding_relative_url(self, obj):
         return obj.afbeelding.url if obj.afbeelding else None
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_afbeelding_verkleind_relative_url(self, obj):
         return obj.afbeelding_verkleind.url if obj.afbeelding_verkleind else None
 
@@ -59,9 +63,11 @@ class BijlageAlleenLezenSerializer(serializers.ModelSerializer):
     afbeelding_relative_url = serializers.SerializerMethodField()
     afbeelding_verkleind_relative_url = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_afbeelding_relative_url(self, obj):
         return obj.afbeelding.url if obj.afbeelding else None
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_afbeelding_verkleind_relative_url(self, obj):
         return obj.afbeelding_verkleind.url if obj.afbeelding_verkleind else None
 
