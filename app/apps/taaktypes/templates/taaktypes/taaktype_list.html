@@ -1,7 +1,7 @@
 {% extends "base_beheer.html" %}
 {% load json_encode from main_tags %}
 {% block title %}
-    Taaktypes | FixeR
+    Taaktypes | TaakR
 {% endblock title %}
 {% block body %}
     {% block messages %}
@@ -53,7 +53,7 @@
                     <h2 class="color--primary">{{ onderdeel.0 }}</h2>
                     <ul class="list-blocks--title-images">
                         {% for taaktype in onderdeel.1 %}
-                            {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=True only %}
+                            {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
                         {% endfor %}
                     </ul>
                 </li>
@@ -62,7 +62,7 @@
         <h2 class="color--primary">Nog niet ingedeeld</h2>
         <ul class="list-blocks--title-images">
             {% for taaktype in zonder_afdeling %}
-                {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=True only %}
+                {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
             {% endfor %}
         </ul>
     </div>

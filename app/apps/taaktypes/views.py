@@ -50,12 +50,15 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         context["afdeling_onderdelen"] = [
             [
                 onderdeel[1],
-                self.queryset.filter(afdelingen__onderdeel=onderdeel[0]).distinct(),
+                self.queryset.filter(
+                    afdelingen__onderdeel=onderdeel[0], actief=True
+                ).distinct(),
             ]
             for onderdeel in Afdeling.OnderdeelOpties.choices
         ]
         context["zonder_afdeling"] = self.queryset.filter(
-            afdelingen__isnull=True
+            afdelingen__isnull=True,
+            actief=True,
         ).distinct()
 
         for taaktype in context["afdeling_onderdelen"]:
@@ -79,12 +82,24 @@ class TaaktypeLijstView(TaaktypeView, ListView):
                     break
 
         context["applicaties"] = Applicatie.objects.all()
+        context[
+            "editable"
+        ] = self.request.user.is_authenticated and self.request.user.has_perms(
+            ["authorisatie.taaktype_aanpassen"]
+        )
 
         return context
 
 
 class TaaktypeDetailView(TaaktypeView, DetailView):
-    ...
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[
+            "editable"
+        ] = self.request.user.is_authenticated and self.request.user.has_perms(
+            ["authorisatie.taaktype_aanpassen"]
+        )
+        return context
 
 
 @method_decorator(login_required, name="dispatch")
@@ -198,12 +213,13 @@ class TaaktypeAanmakenView(View):
             return redirect(reverse("taaktype_lijst"))
 
         taaktype_data = applicatie.fetch_taaktype_data(request.GET.get("taaktype_url"))
-
+        logger.info(f"TaaktypeAanmakenView: {taaktype_data}")
         taaktype, aangemaakt = Taaktype.objects.update_or_create(
             taakapplicatie_taaktype_url=taaktype_data.get("_links", {}).get("self"),
-            taakapplicatie=applicatie,
-            actief=taaktype_data.get("actief", True),
             defaults={
+                "taakapplicatie_taaktype_uuid": taaktype_data.get("uuid"),
+                "taakapplicatie": applicatie,
+                "actief": taaktype_data.get("actief", True),
                 "omschrijving": taaktype_data.get("omschrijving", ""),
                 "toelichting": taaktype_data.get("toelichting", ""),
             },

@@ -5,6 +5,8 @@ from apps.taaktypes.models import (
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
 )
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
@@ -13,6 +15,7 @@ class TaaktypeLinksSerializer(serializers.Serializer):
     self = serializers.SerializerMethodField()
     taakapplicatie_taaktype_url = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_self(self, obj):
         return reverse(
             "v1:taaktype-detail",
@@ -20,6 +23,7 @@ class TaaktypeLinksSerializer(serializers.Serializer):
             request=self.context.get("request"),
         )
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_taakapplicatie_taaktype_url(self, obj):
         return obj.taakapplicatie_taaktype_url
 
@@ -65,7 +69,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
             "taakapplicatie_taaktype_uuid",
             "omschrijving",
             "toelichting",
-            "verantwoordelijke",
+            "verantwoordelijke_afdeling",
             "icoon",
             "additionele_informatie",
             "actief",
@@ -83,6 +87,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
 class AfdelingLinksSerializer(serializers.Serializer):
     self = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_self(self, obj):
         return reverse(
             "v1:afdeling-detail",
@@ -110,6 +115,7 @@ class AfdelingSerializer(serializers.ModelSerializer):
 class TaaktypeMiddelLinksSerializer(serializers.Serializer):
     self = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_self(self, obj):
         return reverse(
             "v1:taaktype_middel-detail",
@@ -134,6 +140,7 @@ class TaaktypeVoorbeeldsituatieLinksSerializer(serializers.Serializer):
     self = serializers.SerializerMethodField()
     taaktype = serializers.SerializerMethodField()
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_self(self, obj):
         return reverse(
             "v1:taaktype_voorbeeldsituatie-detail",
@@ -141,6 +148,7 @@ class TaaktypeVoorbeeldsituatieLinksSerializer(serializers.Serializer):
             request=self.context.get("request"),
         )
 
+    @extend_schema_field(OpenApiTypes.URI)
     def get_taaktype(self, obj):
         return reverse(
             "v1:taaktype-detail",
