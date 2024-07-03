@@ -52,23 +52,35 @@
             <fieldset class="section">
                 <legend>{{ object.taakapplicatie.naam }} basisinformatie</legend>
                 <div class="container__flex">
-                    <dl class="dl--horizontal">
+                    <dl class="dl--horizontal width-dt-150">
                         <div>
                             <dt>Titel</dt>
                             <dd>
-                                {{ object.omschrijving }}
+                                {% if object.omschrijving %}
+                                    {{ object.omschrijving }}
+                                {% else %}
+                                    Nog niet opgegeven in {{ object.taakapplicatie.naam }}
+                                {% endif %}
                             </dd>
                         </div>
                         <div>
                             <dt>Omschrijving</dt>
                             <dd>
-                                {{ object.toelichting }}
+                                {% if object.toelichting %}
+                                    {{ object.toelichting }}
+                                {% else %}
+                                    Nog niet opgegeven in {{ object.taakapplicatie.naam }}
+                                {% endif %}
                             </dd>
                         </div>
                         <div>
                             <dt>Is actief</dt>
                             <dd>
-                                {{ object.actief }}
+                                {% if object.actief %}
+                                    Ja
+                                {% else %}
+                                    Nee
+                                {% endif %}
                             </dd>
                         </div>
                     </dl>
