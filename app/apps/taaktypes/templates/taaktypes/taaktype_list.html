@@ -16,36 +16,39 @@
         {% endif %}
     {% endblock messages %}
     <div class="page__beheer" data-controller="row-search">
-        <div>
-            <a href="{% url 'beheer' %}" class="link--back">
-                <svg width="25"
-                     height="16"
-                     viewBox="0 0 25 16"
-                     fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.15173 1.73256L7.73753 0.318359L1.44704 6.60885L1.4142 6.576L0 7.9902L1.4115 9.4017L1.37867 9.43453L7.67186 15.7277L9.08606 14.3135L3.7726 9.00006H24.0098V7.00006H3.88423L9.15173 1.73256Z" fill="#404B4F" />
-                </svg>
-                Beheer
-            </a>
-        </div>
         <div class="container__flex">
             <h1>Taaktypes</h1>
-            {% for applicatie in applicaties %}
-                {% if applicatie.taaktype_aanmaken_formulier_url %}
-                    <a class="btn btn-action"
-                       href="{{ applicatie.basis_url }}{{ applicatie.taaktype_aanmaken_formulier_url }}?redirect_url={{ ABSOLUTE_ROOT }}{% url 'taaktype_aanmaken' %}?taaktype_url=">
-                        <svg width="24"
-                             height="24"
-                             viewBox="0 0 32 32"
-                             fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17 6H15V15H6V17H15V26H17V17H26V15H17V6Z" fill="#ffffff"></path>
-                        </svg>
-                        Nieuw taaktype in {{ applicatie.naam }}
-                    </a>
-                    <br>
-                {% endif %}
-            {% endfor %}
+            {% if editable %}
+                {% for applicatie in applicaties %}
+                    {% if applicatie.taaktype_aanmaken_formulier_url %}
+                        <a class="btn btn-action"
+                           href="{{ applicatie.basis_url }}{{ applicatie.taaktype_aanmaken_formulier_url }}?redirect_url={{ ABSOLUTE_ROOT }}{% url 'taaktype_aanmaken' %}?taaktype_url=">
+                            <svg width="24"
+                                 height="24"
+                                 viewBox="0 0 32 32"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17 6H15V15H6V17H15V26H17V17H26V15H17V6Z" fill="#ffffff"></path>
+                            </svg>
+                            Nieuw taaktype in {{ applicatie.naam }}
+                        </a>
+                        <br>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <form>
+                <div class="form-row">
+                    <label for="id_zoeken">Zoeken op titel of afdeling</label>
+                    <div>
+                        <input type="text"
+                               id="id_zoeken"
+                               name="zoeken"
+                               class="form-control "
+                               data-action="row-search#search">
+                    </div>
+                    <span data-row-search-target="resultCount"></span>
+                </div>
+            </form>
         </div>
         <ul class="list-clean">
             {% for onderdeel in afdeling_onderdelen %}
@@ -62,6 +65,12 @@
         <h2 class="color--primary">Nog niet ingedeeld</h2>
         <ul class="list-blocks--title-images">
             {% for taaktype in zonder_afdeling %}
+                {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
+            {% endfor %}
+        </ul>
+        <h2 class="color--primary">Niet actief</h2>
+        <ul class="list-blocks--title-images">
+            {% for taaktype in niet_actief %}
                 {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
             {% endfor %}
         </ul>
