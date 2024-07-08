@@ -1,9 +1,9 @@
 {% load webpack_static from webpack_loader %}
-<li class="title-image editable">
+<li class="title-image editable" data-row-search-target="row">
     <a href="{% url 'taaktype_detail' taaktype.id %}">
         <div class="container__title">
             {% if taaktype.icoon %}<img alt="" src="{{ taaktype.icoon.url }}" />{% endif %}
-            <h3 class="title">{{ taaktype.omschrijving }}</h3>
+            <h3 class="title" data-row-search-target="searchable">{{ taaktype.omschrijving }}</h3>
         </div>
         <div class="container__image">
             {% if taaktype.voorbeeld_wel %}
@@ -20,7 +20,7 @@
                 <ul class="list-tags">
                     {% for afdeling in taaktype.afdelingen.all %}
                         <li>
-                            <span class="badge badge--green">{{ afdeling.naam }}</span>
+                            <span class="badge badge--green" data-row-search-target="searchable">{{ afdeling.naam }}</span>
                         </li>
                     {% endfor %}
                 </ul>

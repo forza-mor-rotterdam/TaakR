@@ -600,6 +600,13 @@ body.no-js {
     width: 60%;
 }
 
+.width-dt-150 {
+    dt {
+        min-width: 7em;
+        word-wrap: break-word;
+    }
+}
+
 .color--primary {
     color: $primary;
 }

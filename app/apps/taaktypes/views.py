@@ -42,6 +42,7 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         "volgende_taaktypes",
         "afdelingen",
         "taaktypemiddelen",
+        "voorbeeldsituatie_voor_taaktype",
         "voorbeeldsituatie_voor_taaktype__bijlagen",
     ).order_by("omschrijving")
 
@@ -59,6 +60,10 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         context["zonder_afdeling"] = self.queryset.filter(
             afdelingen__isnull=True,
             actief=True,
+        ).distinct()
+
+        context["niet_actief"] = self.queryset.filter(
+            actief=False,
         ).distinct()
 
         for taaktype in context["afdeling_onderdelen"]:
@@ -240,6 +245,7 @@ class TaaktypeAanmakenView(View):
 class AfdelingView(View):
     model = Afdeling
     success_url = reverse_lazy("afdeling_lijst")
+    queryset = Afdeling.objects.order_by("naam")
 
 
 @method_decorator(login_required, name="dispatch")
@@ -286,6 +292,7 @@ class AfdelingAanmakenView(AfdelingAanmakenAanpassenView, CreateView):
 class TaaktypeMiddelView(View):
     model = TaaktypeMiddel
     success_url = reverse_lazy("taaktypemiddel_lijst")
+    queryset = TaaktypeMiddel.objects.order_by("naam")
 
 
 @method_decorator(login_required, name="dispatch")

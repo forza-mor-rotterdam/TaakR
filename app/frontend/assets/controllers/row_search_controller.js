@@ -1,28 +1,49 @@
-// src/controllers/clipboard_controller.js
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['row', 'searchable']
+  static targets = ['row', 'searchable', 'resultCount']
 
   connect() {
-    this.searchableTargets.forEach((td) => {
-      td.dataset.value = td.textContent
+    this.searchableTargets.forEach((searchable) => {
+      searchable.dataset.value = searchable.textContent
     })
+    this.displayTypes = {
+      LI: 'list-item',
+      TR: 'table-row',
+    }
+    let formElem = this.element.querySelector('form')
+    if (formElem) {
+      formElem.addEventListener('submit', (e) => {
+        e.preventDefault()
+        return false
+      })
+    }
   }
+  escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
   search(e) {
-    this.rowTargets.forEach((tr) => {
-      tr.style.display = 'none'
+    this.rowTargets.forEach((searchableContainer) => {
+      searchableContainer.style.display = 'none'
     })
-    this.searchableTargets.forEach((td) => {
-      const re = new RegExp(e.target.value, 'gi')
-      let newContent = td.dataset.value
-      if (re.test(td.dataset.value)) {
-        td.parentElement.style.display = 'table-row'
+    this.resultCountTarget.textContent = ''
+    this.searchableTargets.forEach((searchable) => {
+      const value = this.escapeRegExp(e.target.value)
+      const re = new RegExp(value, 'gi')
+      let newContent = searchable.dataset.value
+      if (re.test(searchable.dataset.value)) {
+        let container = searchable.closest("[data-row-search-target='row']")
+        container.style.display = this.displayTypes[container.nodeName]
         newContent = newContent.replace(re, function (match) {
           return '<mark>' + match + '</mark>'
         })
       }
-      td.innerHTML = newContent
+      searchable.innerHTML = newContent
     })
+    const foundCount = this.rowTargets.filter(
+      (searchableContainer) => searchableContainer.style.display != 'none'
+    ).length
+    this.resultCountTarget.textContent = `${foundCount} / ${this.rowTargets.length}`
   }
 }

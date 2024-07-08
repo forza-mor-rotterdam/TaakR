@@ -71,7 +71,7 @@ router.register(r"bijlage", BijlageViewSet, basename="bijlage")
 
 
 urlpatterns = [
-    path("", root, name="root"),
+    # path("", root, name="root"),
     path("api/v1/", include((router.urls, "app"), namespace="v1")),
     path("config/", config, name="config"),
     path("health/", include("health_check.urls")),
@@ -111,14 +111,14 @@ urlpatterns = [
         RechtengroepVerwijderenView.as_view(),
         name="rechtengroep_verwijderen",
     ),
-    path("beheer/taaktype/", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
+    path("", TaaktypeLijstView.as_view(), name="taaktype_lijst"),
     path(
         "beheer/taaktype/aanmaken/",
         TaaktypeAanmakenView.as_view(),
         name="taaktype_aanmaken",
     ),
     path(
-        "beheer/taaktype/<int:pk>/",
+        "taaktype/<int:pk>/",
         TaaktypeDetailView.as_view(),
         name="taaktype_detail",
     ),
