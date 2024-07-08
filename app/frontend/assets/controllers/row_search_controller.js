@@ -11,14 +11,26 @@ export default class extends Controller {
       LI: 'list-item',
       TR: 'table-row',
     }
+    let formElem = this.element.querySelector('form')
+    if (formElem) {
+      formElem.addEventListener('submit', (e) => {
+        e.preventDefault()
+        return false
+      })
+    }
   }
+  escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
   search(e) {
     this.rowTargets.forEach((searchableContainer) => {
       searchableContainer.style.display = 'none'
     })
     this.resultCountTarget.textContent = ''
     this.searchableTargets.forEach((searchable) => {
-      const re = new RegExp(e.target.value, 'gi')
+      const value = this.escapeRegExp(e.target.value)
+      const re = new RegExp(value, 'gi')
       let newContent = searchable.dataset.value
       if (re.test(searchable.dataset.value)) {
         let container = searchable.closest("[data-row-search-target='row']")
