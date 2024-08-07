@@ -24,7 +24,7 @@ export default class extends Controller {
   }
 
   search(e) {
-    if (e.target.value.length != 0) {
+    if (e.target.value.trim().length != 0) {
       this.rowTargets.forEach((searchableContainer) => {
         searchableContainer.style.display = 'none'
       })
@@ -32,7 +32,7 @@ export default class extends Controller {
       if (this.hasResultCountTarget) {
         this.resultCountTarget.textContent = ''
       }
-      const value = this.escapeRegExp(e.target.value)
+      const value = this.escapeRegExp(e.target.value.trim())
       const re = new RegExp(value, 'gi')
       this.searchableTargets.forEach((searchable) => {
         searchable.innerHTML = ''
