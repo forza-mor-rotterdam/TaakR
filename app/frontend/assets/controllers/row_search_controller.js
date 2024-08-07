@@ -32,9 +32,10 @@ export default class extends Controller {
       if (this.hasResultCountTarget) {
         this.resultCountTarget.textContent = ''
       }
-      const value = this.escapeRegExp(e.target.value.trim())
-      const re = new RegExp(value, 'gi')
+
       this.searchableTargets.forEach((searchable) => {
+        const value = this.escapeRegExp(e.target.value.trim())
+        const re = new RegExp(value, 'gi')
         searchable.innerHTML = ''
         if (re.test(searchable.dataset.value)) {
           const reg = new RegExp(value, 'gi')
