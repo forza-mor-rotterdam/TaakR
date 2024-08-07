@@ -36,20 +36,20 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <form>
-                <div class="form-row">
-                    <label for="id_zoeken">Zoeken op titel of afdeling</label>
-                    <div>
-                        <input type="text"
-                               id="id_zoeken"
-                               name="zoeken"
-                               class="form-control "
-                               data-action="row-search#search">
-                    </div>
-                    <span data-row-search-target="resultCount"></span>
-                </div>
-            </form>
         </div>
+        <form>
+            <div class="form-row">
+                <label for="id_zoeken">Zoeken op titel of afdeling</label>
+                <div>
+                    <input type="text"
+                           id="id_zoeken"
+                           name="zoeken"
+                           class="form-control"
+                           data-action="row-search#search">
+                </div>
+                <span data-row-search-target="resultCount"></span>
+            </div>
+        </form>
         <ul class="list-clean">
             {% for onderdeel in afdeling_onderdelen %}
                 <li>

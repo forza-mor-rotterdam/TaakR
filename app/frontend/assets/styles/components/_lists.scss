@@ -113,6 +113,13 @@ dl {
                 font-size: $h4-font-size;
                 margin: 0.5em 0;
                 display: inline-block;
+                position: relative;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                height: 2.4em;
+                -webkit-box-orient: vertical;
+                width: 100%;
             }
 
             img {
