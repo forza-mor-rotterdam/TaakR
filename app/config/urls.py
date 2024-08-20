@@ -13,17 +13,7 @@ from apps.authorisatie.views import (
 from apps.beheer.views import beheer
 from apps.bijlagen.viewsets import BijlageViewSet
 from apps.health.views import healthz
-from apps.main.views import (
-    clear_melding_token_from_cache,
-    config,
-    http_403,
-    http_404,
-    http_500,
-    login_required_view,
-    root,
-    serve_protected_media,
-    ui_settings_handler,
-)
+from apps.main.views import config, http_403, http_404, http_500, ui_settings_handler
 from apps.taaktypes.views import (
     AfdelingAanmakenView,
     AfdelingAanpassenView,
