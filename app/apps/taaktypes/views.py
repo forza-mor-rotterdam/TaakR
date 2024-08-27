@@ -6,7 +6,6 @@ from apps.bijlagen.tasks import task_aanmaken_afbeelding_versies
 from apps.taaktypes.forms import (
     AfdelingAanmakenForm,
     AfdelingAanpassenForm,
-    TaaktypeAanmakenForm,
     TaaktypeAanpassenForm,
     TaaktypeMiddelAanmakenForm,
     TaaktypeMiddelAanpassenForm,

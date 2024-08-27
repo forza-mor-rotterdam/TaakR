@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class ApplicatieTokenAPIHealthCheck(BaseHealthCheckBackend):
+    ### Applicaties aren't required to authenticate in TaakR so this has been disabled. Could possibly be set to simply check an endpoint for the applicatie. ###
     critical_service = False
 
     def check_status(self):
@@ -26,8 +27,8 @@ class ApplicatieTokenAPIHealthCheck(BaseHealthCheckBackend):
                 "token": None,
                 "naam": applicatie.naam,
                 "applicatie_data_exists": (
-                    applicatie.applicatie_gebruiker_naam
-                    and applicatie.applicatie_gebruiker_wachtwoord
+                    applicatie.applicatie_gebruiker_naam  # No longer there
+                    and applicatie.applicatie_gebruiker_wachtwoord  # No longer there
                     and applicatie.basis_url
                 ),
                 "result": None,
