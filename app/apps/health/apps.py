@@ -6,9 +6,3 @@ from django.apps import AppConfig
 class HealthConfig(AppConfig):
     name = "apps.health"
     verbose_name = "Health"
-
-    # Applicaties aren't required to authenticate in TaakR so this has been disabled.
-    # def ready(self):
-    #     from apps.health.custom_checks import ApplicatieTokenAPIHealthCheck
-
-    #     plugin_dir.register(ApplicatieTokenAPIHealthCheck)
