@@ -20,6 +20,7 @@ from apps.taaktypes.models import (
 )
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -57,7 +58,7 @@ class TaaktypeLijstView(TaaktypeView, ListView):
             for onderdeel in Afdeling.OnderdeelOpties.choices
         ]
         context["zonder_afdeling"] = self.queryset.filter(
-            afdelingen__isnull=True,
+            Q(Q(afdelingen__isnull=True) | Q(afdelingen__onderdeel__isnull=True)),
             actief=True,
         ).distinct()
 

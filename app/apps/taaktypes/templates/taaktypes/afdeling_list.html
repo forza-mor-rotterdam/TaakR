@@ -33,7 +33,7 @@
             <thead>
                 <tr>
                     <th>Naam</th>
-                    <th>Onderdeel</th>
+                    <th>Gemeente onderdeel</th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,7 +41,13 @@
                 {% for object in object_list %}
                     <tr data-row-search-target="row">
                         <td data-row-search-target="searchable">{{ object.naam }}</td>
-                        <td data-row-search-target="searchable">{{ object.onderdeel }}</td>
+                        <td data-row-search-target="searchable">
+                            {% if object.onderdeel %}
+                                {{ object.onderdeel }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="{% url 'afdeling_aanpassen' object.pk %}"
                                aria-label="Aanpassen">{% include "icons/edit.svg" %}</a>
