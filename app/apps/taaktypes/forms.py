@@ -310,6 +310,7 @@ class AfdelingAanpassenForm(forms.ModelForm):
         self.fields[
             "icoon"
         ].help_text = "Kies een icoon voor het taaktype. Gebruik het bestandstype svg."
+        self.fields["onderdeel"].label = "Gemeente onderdeel"
 
     class Meta:
         model = Afdeling
