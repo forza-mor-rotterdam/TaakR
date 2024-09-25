@@ -33,6 +33,7 @@ class Applicatie(BasisModel):
         default="Applicatie",
     )
     basis_url = models.URLField(default="https://example.com")
+    cache_timeout = models.PositiveIntegerField(default=0)
     valide_basis_urls = ArrayField(
         base_field=models.URLField(),
         default=list,
