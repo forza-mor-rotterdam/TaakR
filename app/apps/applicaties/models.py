@@ -2,6 +2,7 @@ import logging
 from urllib.parse import urlencode, urlparse
 
 import requests
+import urllib3
 from cryptography.fernet import Fernet
 from django.conf import settings
 from django.contrib.gis.db import models
@@ -32,6 +33,7 @@ class Applicatie(BasisModel):
         default="Applicatie",
     )
     basis_url = models.URLField(default="https://example.com")
+    cache_timeout = models.PositiveIntegerField(default=0)
     valide_basis_urls = ArrayField(
         base_field=models.URLField(),
         default=list,
@@ -98,7 +100,9 @@ class Applicatie(BasisModel):
         )
 
     def _get_headers(self):
-        return {}
+        return {
+            "user-agent": urllib3.util.SKIP_HEADER,
+        }
 
     def _do_request(
         self, url, method="get", data={}, params={}, raw_response=True, cache_timeout=0

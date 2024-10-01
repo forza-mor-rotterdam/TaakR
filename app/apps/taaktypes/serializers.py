@@ -66,7 +66,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
         fields = (
             "_links",
             "uuid",
-            "taakapplicatie_taaktype_uuid",
+            # "taakapplicatie_taaktype_uuid",
             "omschrijving",
             "toelichting",
             "verantwoordelijke_afdeling",
