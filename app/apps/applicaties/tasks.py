@@ -19,20 +19,16 @@ class BaseTaskWithRetry(celery.Task):
 @shared_task(bind=True, base=BaseTaskWithRetry)
 def fetch_and_save_taaktypes(self, applicatie_id):
     applicatie = Applicatie.objects.get(id=applicatie_id)
-    taaktypes = applicatie.taaktypes_halen()
+    taaktypes = applicatie.get_taaktypes()
     logger.info(f"Taaktypes: {taaktypes}")
-    save_taaktypes.delay(applicatie, taaktypes)
+    for taaktype_data in taaktypes:
+        save_taaktype.delay(applicatie_id, taaktype_data)
     logger.info(f"Fetched and saved taaktypes for {applicatie.naam}")
 
 
 @shared_task(bind=True, base=BaseTaskWithRetry)
-def save_taaktypes(applicatie, taaktypes):
-    for taaktype_data in taaktypes:
-        save_taaktype.delay(applicatie, taaktype_data)
-
-
-@shared_task(bind=True, base=BaseTaskWithRetry)
-def save_taaktype(applicatie, taaktype_data):
+def save_taaktype(self, applicatie_id, taaktype_data):
+    applicatie = Applicatie.objects.get(id=applicatie_id)
     logger.info(f"Taaktype data: {taaktype_data}")
     url = taaktype_data.get("_links", {}).get("self")
     if isinstance(url, dict):

@@ -141,6 +141,21 @@ class Applicatie(BasisModel):
             return response
         return response.json()
 
+    def get_taaktypes(self, params={}) -> list:
+        alle_taaktypes = []
+        next_page = f"{self.basis_url}/api/v1/taaktype"
+        while next_page:
+            response = self._do_request(
+                next_page,
+                params=params,
+                cache_timeout=0,
+                raw_response=False,
+            )
+            current_taaktypes = response.get("results", [])
+            alle_taaktypes.extend(current_taaktypes)
+            next_page = response.get("next")
+        return alle_taaktypes
+
     def taaktypes_halen(self, cache_timeout=60):
         if self.basis_url:
             taaktypes_response = self._do_request(
