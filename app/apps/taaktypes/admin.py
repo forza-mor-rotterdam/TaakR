@@ -26,7 +26,12 @@ class TaaktypeMiddelAdmin(admin.ModelAdmin):
 
 
 class TaaktypeAdmin(admin.ModelAdmin):
-    list_display = ("taakapplicatie", "taakapplicatie_taaktype_url", "omschrijving")
+    list_display = (
+        "uuid",
+        "taakapplicatie",
+        "taakapplicatie_taaktype_url",
+        "omschrijving",
+    )
     search_fields = ("taakapplicatie__naam", "omschrijving")
     actions = ["refresh_taaktypes"]
     list_filter = ("taakapplicatie",)
