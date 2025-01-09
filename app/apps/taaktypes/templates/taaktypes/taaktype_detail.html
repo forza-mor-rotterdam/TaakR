@@ -105,6 +105,17 @@
             </ul>
         </section>
         <section>
+            <h2 class="color--primary">Links</h2>
+            <ul>
+                {% for link in object.links_voor_taaktype.all %}
+                    <li>
+                        <a href="{{ link.url }}"
+                           {% if link.open_in_nieuwe_tab %}target="_blank"{% endif %}>{{ link.titel }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
             <h2 class="color--primary">Gerelateerde taken</h2>
             <ul class="list-blocks--title-images">
                 {% for taaktype in object.gerelateerde_taaktypes.all %}

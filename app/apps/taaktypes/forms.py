@@ -348,7 +348,7 @@ LinkFormSet = inlineformset_factory(
     form=LinkForm,
     extra=1,
     can_delete=True,
-    can_delete_extra=False,
+    can_delete_extra=True,
 )
 
 

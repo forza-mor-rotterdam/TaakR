@@ -80,19 +80,6 @@ export default class extends Controller {
       e.target.classList.add('hide')
     }
   }
-  linkFormulierVerwijder(e) {
-    const linkFormulier = e.target.closest('[data-taaktypeformulier-target="link"]')
-    // Array.from(linkFormulier.querySelectorAll('input[required]')).map(elem => {
-    //   elem.value = ''
-    // })
-    Array.from(linkFormulier.closest('form').elements)
-      .filter((elem) => elem.closest('[data-taaktypeformulier-target="link"]') === linkFormulier)
-      .map((el) => {
-        el.value = el.defaultValue
-        console.log(el)
-      })
-    // linkFormulier.classList.add('hide')
-  }
   linkFormulierToevoegen() {
     this.linkTargets.find((elem) => elem.classList.contains('hide'))?.classList.remove('hide')
   }
