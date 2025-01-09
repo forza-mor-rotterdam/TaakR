@@ -8,6 +8,19 @@ from utils.models import BasisModel
 ### Future code below ###
 
 
+class Link(BasisModel):
+    toon_in_planr = models.BooleanField(default=True)
+    toon_in_taakapplicatie = models.BooleanField(default=True)
+    open_in_nieuwe_tab = models.BooleanField(default=False)
+    url = models.URLField()
+    titel = models.CharField(max_length=100)
+    taaktype = models.ForeignKey(
+        to="taaktypes.Taaktype",
+        related_name="links_voor_taaktype",
+        on_delete=models.CASCADE,
+    )
+
+
 class Afdeling(BasisModel):
     """
     Afdeling model voor Taaktypes

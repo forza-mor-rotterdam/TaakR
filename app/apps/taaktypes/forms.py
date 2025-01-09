@@ -2,6 +2,7 @@ from apps.bijlagen.models import Bijlage
 from apps.services.onderwerpen import OnderwerpenService
 from apps.taaktypes.models import (
     Afdeling,
+    Link,
     Taaktype,
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
@@ -59,6 +60,12 @@ BijlageFormSet = generic_inlineformset_factory(
     can_delete=True,
     can_delete_extra=True,
 )
+
+
+class LinkForm(forms.ModelForm):
+    class Meta:
+        model = Link
+        exclude = ()
 
 
 class TaaktypeVoorbeeldsituatieFormNiet(forms.ModelForm):
@@ -333,6 +340,16 @@ class TaaktypeMiddelAanmakenForm(TaaktypeMiddelAanpassenForm):
     class Meta:
         model = TaaktypeMiddel
         fields = ("naam",)
+
+
+LinkFormSet = inlineformset_factory(
+    Taaktype,
+    Link,
+    form=LinkForm,
+    extra=1,
+    can_delete=True,
+    can_delete_extra=False,
+)
 
 
 TaaktypeVoorbeeldsituatieNietFormSet = inlineformset_factory(

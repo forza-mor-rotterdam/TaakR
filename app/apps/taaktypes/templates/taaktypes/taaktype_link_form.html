@@ -1,0 +1,18 @@
+{% load rotterdam_formulier_html %}
+<fieldset class="task--hideable {% if not link_form.instance.id and count != 1 and not link_form.errors %}hide{% endif %}"
+          data-taaktypeformulier-target="link">
+    {% if not link_form.instance.id and count != 1 or link_form.errors %}
+        <a href="#"
+           data-action="taaktypeformulier#linkFormulierVerwijder:prevent">X</a>
+    {% endif %}
+    <div class="hidden-fields">{{ link_form.id }}</div>
+    <h2 class="h4">Taaktype link</h2>
+    {{ link_form.titel|render_rotterdam_formulier }}
+    {{ link_form.url|render_rotterdam_formulier }}
+    {{ link_form.toon_in_planr|render_rotterdam_formulier }}
+    {{ link_form.toon_in_taakapplicatie|render_rotterdam_formulier }}
+    {{ link_form.open_in_nieuwe_tab|render_rotterdam_formulier }}
+    <p>
+        {% if link_form.DELETE %}<label>{{ link_form.DELETE }}Verwijder deze opgeslagen link</label>{% endif %}
+    </p>
+</fieldset>

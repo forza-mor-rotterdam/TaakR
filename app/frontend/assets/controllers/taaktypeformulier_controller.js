@@ -8,7 +8,7 @@ let inputList = null
 // eslint-disable-next-line no-unused-vars
 let formData = null
 export default class extends Controller {
-  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet']
+  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet', 'link']
 
   initializeSelect2() {
     const afdelingen = this.formTaaktypeTarget.querySelector('#afdelingen_1')
@@ -79,5 +79,21 @@ export default class extends Controller {
     if (e.target.parentNode.querySelectorAll('.hide').length === 0) {
       e.target.classList.add('hide')
     }
+  }
+  linkFormulierVerwijder(e) {
+    const linkFormulier = e.target.closest('[data-taaktypeformulier-target="link"]')
+    // Array.from(linkFormulier.querySelectorAll('input[required]')).map(elem => {
+    //   elem.value = ''
+    // })
+    Array.from(linkFormulier.closest('form').elements)
+      .filter((elem) => elem.closest('[data-taaktypeformulier-target="link"]') === linkFormulier)
+      .map((el) => {
+        el.value = el.defaultValue
+        console.log(el)
+      })
+    // linkFormulier.classList.add('hide')
+  }
+  linkFormulierToevoegen() {
+    this.linkTargets.find((elem) => elem.classList.contains('hide'))?.classList.remove('hide')
   }
 }
