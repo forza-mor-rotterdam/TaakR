@@ -36,6 +36,12 @@ class TaaktypeSerializer(serializers.ModelSerializer):
         view_name="v1:afdeling-detail",
         lookup_field="uuid",
     )
+    verantwoordelijke_afdeling = serializers.HyperlinkedRelatedField(
+        many=False,
+        read_only=True,
+        view_name="v1:afdeling-detail",
+        lookup_field="uuid",
+    )
     taaktypemiddelen = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
