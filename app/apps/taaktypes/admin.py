@@ -1,6 +1,7 @@
 from apps.applicaties.tasks import fetch_and_save_taaktypes
 from apps.taaktypes.models import (
     Afdeling,
+    Link,
     Taaktype,
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
@@ -23,6 +24,13 @@ class TaaktypeMiddelAdmin(admin.ModelAdmin):
         "naam",
     )
     list_editable = ("naam",)
+
+
+class LinkAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "titel",
+    )
 
 
 class TaaktypeAdmin(admin.ModelAdmin):
@@ -54,6 +62,7 @@ class TaaktypeVoorbeeldsituatieAdmin(admin.ModelAdmin):
     )
 
 
+admin.site.register(Link, LinkAdmin)
 admin.site.register(Afdeling, AfdelingAdmin)
 admin.site.register(TaaktypeMiddel, TaaktypeMiddelAdmin)
 admin.site.register(TaaktypeVoorbeeldsituatie, TaaktypeVoorbeeldsituatieAdmin)

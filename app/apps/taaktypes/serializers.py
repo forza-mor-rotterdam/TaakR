@@ -1,6 +1,7 @@
 from apps.bijlagen.models import Bijlage
 from apps.taaktypes.models import (
     Afdeling,
+    Link,
     Taaktype,
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
@@ -9,6 +10,18 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+
+
+class LinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Link
+        fields = (
+            "url",
+            "titel",
+            "toon_in_planr",
+            "toon_in_taakapplicatie",
+            "open_in_nieuwe_tab",
+        )
 
 
 class TaaktypeLinksSerializer(serializers.Serializer):
@@ -66,6 +79,10 @@ class TaaktypeSerializer(serializers.ModelSerializer):
         view_name="v1:taaktype_voorbeeldsituatie-detail",
         lookup_field="uuid",
     )
+    links = LinkSerializer(
+        many=True,
+        source="links_voor_taaktype",
+    )
 
     class Meta:
         model = Taaktype
@@ -86,6 +103,7 @@ class TaaktypeSerializer(serializers.ModelSerializer):
             "gerelateerde_onderwerpen",
             "voorbeeldsituatie_voor_taaktype",
             "taakapplicatie_taaktype_url",
+            "links",
         )
         read_only_fields = ("_links",)
 

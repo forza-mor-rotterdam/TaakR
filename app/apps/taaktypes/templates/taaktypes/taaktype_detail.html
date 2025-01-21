@@ -104,6 +104,22 @@
                 {% endfor %}
             </ul>
         </section>
+        <section class="padding-bottom">
+            <h2 class="color--primary">Links</h2>
+            <ul class="list-clean cols3-md">
+                {% for link in object.links_voor_taaktype.all %}
+                    <li class="padding-bottom-half">
+                        <a href="{{ link.url }}"
+                           class="link--external"
+                           {% if link.open_in_nieuwe_tab %}target="_blank"{% endif %}>{{ link.titel }}
+                            {% if link.open_in_nieuwe_tab %}
+                                {% include "icons/external-link.svg" %}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
         <section>
             <h2 class="color--primary">Gerelateerde taken</h2>
             <ul class="list-blocks--title-images">

@@ -47,6 +47,7 @@
               class="form--beheer full-width"
               enctype="multipart/form-data"
               data-controller="taaktypeformulier"
+              novalidate
               data-taaktypeformulier-target="formTaaktype">
             {% csrf_token %}
             <fieldset class="section">
@@ -105,7 +106,7 @@
                             <div class="container__example--task">
                                 {% if form.instance.icoon %}
                                     Huidig icoon:
-                                    <img class="icon-preview" src="{{ form.instance.icoon.url }}" />
+                                    <img class="icon-preview" src="{{ form.instance.icoon.url }}" alt="" />
                                 {% endif %}
                             </div>
                         </div>
@@ -147,6 +148,19 @@
                         </button>
                         <small class="margin-bottom">U kunt maximaal 5 voorbeeldsituaties opgeven</small>
                     </div>
+                </div>
+            </fieldset>
+            <fieldset class="section">
+                <legend>Links</legend>
+                {{ links.management_form }}
+                <div class="container__hideables">
+                    {% for link_form in links.forms %}
+                        {% include "taaktypes/taaktype_link_form.html" with count=forloop.counter0|add:1 %}
+                    {% endfor %}
+                    <button type="button"
+                            class="btn btn-textlink"
+                            data-action="taaktypeformulier#linkFormulierToevoegen">+ Voeg nog een link toe</button>
+                    <small class="margin-bottom">U kunt maximaal 10 links opgeven</small>
                 </div>
             </fieldset>
             <fieldset class="section">

@@ -8,7 +8,7 @@ let inputList = null
 // eslint-disable-next-line no-unused-vars
 let formData = null
 export default class extends Controller {
-  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet']
+  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet', 'link']
 
   initializeSelect2() {
     const afdelingen = this.formTaaktypeTarget.querySelector('#afdelingen_1')
@@ -78,6 +78,16 @@ export default class extends Controller {
     }
     if (e.target.parentNode.querySelectorAll('.hide').length === 0) {
       e.target.classList.add('hide')
+    }
+  }
+  linkFormulierToevoegen(e) {
+    const hiddenLinks = this.linkTargets.filter((link) => link.classList.contains('hide'))
+    if (hiddenLinks.length > 0) {
+      hiddenLinks[0].classList.remove('hide')
+      hiddenLinks[0].querySelector('input[type=text]').focus()
+      if (hiddenLinks.length === 1) {
+        e.target.classList.add('hide')
+      }
     }
   }
 }
