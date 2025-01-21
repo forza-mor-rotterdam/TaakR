@@ -302,11 +302,16 @@ a,
 
     &.link--external {
         svg {
-            display: inline-block;
+            display: none;
             padding-left: 0.5rem;
             path,
             rect {
                 fill: $green-tint01;
+            }
+        }
+        &.show-externallink {
+            svg {
+                display: inline-block;
             }
         }
     }
