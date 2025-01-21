@@ -104,13 +104,18 @@
                 {% endfor %}
             </ul>
         </section>
-        <section>
+        <section class="padding-bottom">
             <h2 class="color--primary">Links</h2>
-            <ul>
+            <ul class="list-clean cols3-md">
                 {% for link in object.links_voor_taaktype.all %}
-                    <li>
+                    <li class="padding-bottom-half">
                         <a href="{{ link.url }}"
-                           {% if link.open_in_nieuwe_tab %}target="_blank"{% endif %}>{{ link.titel }}</a>
+                           class="link--external"
+                           {% if link.open_in_nieuwe_tab %}target="_blank"{% endif %}>{{ link.titel }}
+                            {% if link.open_in_nieuwe_tab %}
+                                {% include "icons/external-link.svg" %}
+                            {% endif %}
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

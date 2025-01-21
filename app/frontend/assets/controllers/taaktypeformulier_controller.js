@@ -80,7 +80,14 @@ export default class extends Controller {
       e.target.classList.add('hide')
     }
   }
-  linkFormulierToevoegen() {
-    this.linkTargets.find((elem) => elem.classList.contains('hide'))?.classList.remove('hide')
+  linkFormulierToevoegen(e) {
+    const hiddenLinks = this.linkTargets.filter((link) => link.classList.contains('hide'))
+    if (hiddenLinks.length > 0) {
+      hiddenLinks[0].classList.remove('hide')
+      hiddenLinks[0].querySelector('input[type=text]').focus()
+      if (hiddenLinks.length === 1) {
+        e.target.classList.add('hide')
+      }
+    }
   }
 }
