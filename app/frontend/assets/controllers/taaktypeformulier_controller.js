@@ -57,6 +57,22 @@ export default class extends Controller {
       this.voorbeeldNietTarget.querySelector('button.btn-textlink').classList.add('hide')
     }
   }
+
+  linkTargetConnected(elem) {
+    // poging om maxlength aan te passen omdat bij de url ''http:// er voor geplaats wordt als dit ontbreekt
+    // maar bij nader inzien niet nodig? Zonder http:// valideert de url sowieso niet?
+    // const inputUrl = elem.querySelector('[id*=-url]')
+    // console.log('inputUrl', inputUrl.getAttribute('maxlength'))
+    // const ml = Number(inputUrl.getAttribute('maxlength')) - 7
+    // inputUrl.setAttribute('maxlength', ml)
+    // console.log('inputUrl', inputUrl.getAttribute('maxlength'))
+
+    const inputUrl = elem.querySelector('[id*=-url]')
+    console.log('inputUrl.value', inputUrl.value.length, inputUrl.value)
+    if (inputUrl.value.length > 0) {
+      elem.classList.remove('hide')
+    }
+  }
   doSelect2(element, placeholder = 'Zoek op') {
     $(element).select2({ placeholder: placeholder })
     this.setNotRequiredSelect2(element)

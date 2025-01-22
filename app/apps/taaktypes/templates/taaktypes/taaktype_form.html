@@ -151,6 +151,17 @@
                 </div>
             </fieldset>
             <fieldset class="section">
+                <legend>Gerelateerd aan dit taaktype</legend>
+                <div class="container__flex">
+                    {{ form.volgende_taaktypes|render_rotterdam_formulier }}
+                    {{ form.gerelateerde_onderwerpen|render_rotterdam_formulier }}
+                </div>
+                <div class="container__flex">
+                    {{ form.gerelateerde_taaktypes|render_rotterdam_formulier }}
+                    <div>&nbsp;</div>
+                </div>
+            </fieldset>
+            <fieldset class="section">
                 <legend>Links</legend>
                 {{ links.management_form }}
                 <div class="container__hideables">
@@ -161,17 +172,6 @@
                             class="btn btn-textlink"
                             data-action="taaktypeformulier#linkFormulierToevoegen">+ Voeg nog een link toe</button>
                     <small class="margin-bottom">U kunt maximaal 10 links opgeven</small>
-                </div>
-            </fieldset>
-            <fieldset class="section">
-                <legend>Gerelateerd aan dit taaktype</legend>
-                <div class="container__flex">
-                    {{ form.volgende_taaktypes|render_rotterdam_formulier }}
-                    {{ form.gerelateerde_onderwerpen|render_rotterdam_formulier }}
-                </div>
-                <div class="container__flex">
-                    {{ form.gerelateerde_taaktypes|render_rotterdam_formulier }}
-                    <div>&nbsp;</div>
                 </div>
             </fieldset>
             <div class="form-row container__button">

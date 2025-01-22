@@ -399,6 +399,10 @@ ul {
     &.cols3-md {
         @media (min-width: map-get($grid-breakpoints, md)) {
             columns: 3;
+
+            li {
+                break-inside: avoid-column;
+            }
         }
     }
 }
