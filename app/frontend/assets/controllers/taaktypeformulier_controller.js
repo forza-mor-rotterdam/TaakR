@@ -56,6 +56,10 @@ export default class extends Controller {
     if (this.voorbeeldNietTarget.querySelectorAll('.task--hideable.hide').length === 0) {
       this.voorbeeldNietTarget.querySelector('button.btn-textlink').classList.add('hide')
     }
+
+    const hiddenLinks = this.linkTargets.filter((link) => link.classList.contains('hide'))
+    if (!hiddenLinks.length)
+      this.linkTargets[0].parentNode.querySelector('button').classList.add('hide')
   }
 
   linkTargetConnected(elem) {

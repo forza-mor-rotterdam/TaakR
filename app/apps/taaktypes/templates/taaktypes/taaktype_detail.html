@@ -104,7 +104,15 @@
                 {% endfor %}
             </ul>
         </section>
-        <section class="padding-bottom">
+        <section>
+            <h2 class="color--primary">Gerelateerde taken</h2>
+            <ul class="list-blocks--title-images">
+                {% for taaktype in object.gerelateerde_taaktypes.all %}
+                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
+                {% endfor %}
+            </ul>
+        </section>
+        <section class="padding-bottom-2x">
             <h2 class="color--primary">Links</h2>
             {% if object.links_voor_taaktype.all|length %}
                 <ul class="list-clean cols3-md">
@@ -123,14 +131,6 @@
             {% else %}
                 <p>Geen gerelateerde links</p>
             {% endif %}
-        </section>
-        <section>
-            <h2 class="color--primary">Gerelateerde taken</h2>
-            <ul class="list-blocks--title-images">
-                {% for taaktype in object.gerelateerde_taaktypes.all %}
-                    {% include "taaktypes/taaktype_tile.html" with taaktype=taaktype editable=editable only %}
-                {% endfor %}
-            </ul>
         </section>
     </div>
 {% endblock body %}
