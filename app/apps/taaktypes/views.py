@@ -6,6 +6,7 @@ from apps.bijlagen.tasks import task_aanmaken_afbeelding_versies
 from apps.taaktypes.forms import (
     AfdelingAanmakenForm,
     AfdelingAanpassenForm,
+    LinkFormSet,
     TaaktypeAanpassenForm,
     TaaktypeMiddelAanmakenForm,
     TaaktypeMiddelAanpassenForm,
@@ -14,6 +15,7 @@ from apps.taaktypes.forms import (
 )
 from apps.taaktypes.models import (
     Afdeling,
+    Link,
     Taaktype,
     TaaktypeMiddel,
     TaaktypeVoorbeeldsituatie,
@@ -112,6 +114,7 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        queryset_link = Link.objects.filter(taaktype=self.object)
         queryset_wel = TaaktypeVoorbeeldsituatie.objects.filter(
             type=TaaktypeVoorbeeldsituatie.TypeOpties.WAAROM_WEL,
             taaktype=self.object,
@@ -122,8 +125,16 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
         )
         TaaktypeVoorbeeldsituatieWelFormSet.extra = 5 - queryset_wel.count()
         TaaktypeVoorbeeldsituatieNietFormSet.extra = 5 - queryset_niet.count()
+        LinkFormSet.extra = 10 - queryset_link.count()
 
         if self.request.POST:
+            context["links"] = LinkFormSet(
+                self.request.POST or None,
+                self.request.FILES or None,
+                instance=self.object,
+                prefix="link",
+                queryset=queryset_link,
+            )
             context["voorbeeldsituatie_wel"] = TaaktypeVoorbeeldsituatieWelFormSet(
                 self.request.POST or None,
                 self.request.FILES or None,
@@ -139,6 +150,11 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
                 queryset=queryset_niet,
             )
         else:
+            context["links"] = LinkFormSet(
+                instance=self.object,
+                prefix="link",
+                queryset=queryset_link,
+            )
             context["voorbeeldsituatie_wel"] = TaaktypeVoorbeeldsituatieWelFormSet(
                 instance=self.object,
                 prefix="voorbeeldsituatie_wel",
@@ -154,10 +170,23 @@ class TaaktypeAanmakenAanpassenView(TaaktypeView):
     def form_valid(self, form):
         context = self.get_context_data()
         self.object = form.save()
-        formsets = [context["voorbeeldsituatie_wel"], context["voorbeeldsituatie_niet"]]
+
+        links_formset = context["links"]
+        print("links_formset.is_valid()")
+        for f in links_formset.forms:
+            print(f.is_valid())
+            print(f.cleaned_data)
+            print(f.errors.as_data())
+        formsets = [
+            context["voorbeeldsituatie_wel"],
+            context["voorbeeldsituatie_niet"],
+            context["links"],
+        ]
         if not all([x.is_valid() for x in formsets]):
             return self.render_to_response(self.get_context_data(form=form))
 
+        links_formset.instance = self.object
+        links_formset.save()
         for voorbeeldsituatie_formset in [
             context["voorbeeldsituatie_wel"],
             context["voorbeeldsituatie_niet"],

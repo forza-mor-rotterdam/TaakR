@@ -299,6 +299,22 @@ a,
             }
         }
     }
+
+    &.link--external {
+        svg {
+            display: none;
+            padding-left: 0.5rem;
+            path,
+            rect {
+                fill: $green-tint01;
+            }
+        }
+        &.show-externallink {
+            svg {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 button {
@@ -376,6 +392,16 @@ ul {
 
             img {
                 max-width: 100%;
+            }
+        }
+    }
+
+    &.cols3-md {
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            columns: 3;
+
+            li {
+                break-inside: avoid-column;
             }
         }
     }

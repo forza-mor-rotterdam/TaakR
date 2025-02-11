@@ -78,6 +78,14 @@
             gap: 1rem;
             margin-top: 0;
         }
+
+        &--left {
+            justify-content: left;
+
+            > div {
+                flex: 0 1 auto;
+            }
+        }
     }
 
     fieldset .container__flex {

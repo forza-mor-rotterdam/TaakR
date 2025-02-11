@@ -8,7 +8,7 @@ let inputList = null
 // eslint-disable-next-line no-unused-vars
 let formData = null
 export default class extends Controller {
-  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet']
+  static targets = ['formTaaktype', 'voorbeeldWel', 'voorbeeldNiet', 'link']
 
   initializeSelect2() {
     const afdelingen = this.formTaaktypeTarget.querySelector('#afdelingen_1')
@@ -56,6 +56,26 @@ export default class extends Controller {
     if (this.voorbeeldNietTarget.querySelectorAll('.task--hideable.hide').length === 0) {
       this.voorbeeldNietTarget.querySelector('button.btn-textlink').classList.add('hide')
     }
+
+    const hiddenLinks = this.linkTargets.filter((link) => link.classList.contains('hide'))
+    if (!hiddenLinks.length)
+      this.linkTargets[0].parentNode.querySelector('button').classList.add('hide')
+  }
+
+  linkTargetConnected(elem) {
+    // poging om maxlength aan te passen omdat bij de url ''http:// er voor geplaats wordt als dit ontbreekt
+    // maar bij nader inzien niet nodig? Zonder http:// valideert de url sowieso niet?
+    // const inputUrl = elem.querySelector('[id*=-url]')
+    // console.log('inputUrl', inputUrl.getAttribute('maxlength'))
+    // const ml = Number(inputUrl.getAttribute('maxlength')) - 7
+    // inputUrl.setAttribute('maxlength', ml)
+    // console.log('inputUrl', inputUrl.getAttribute('maxlength'))
+
+    const inputUrl = elem.querySelector('[id*=-url]')
+    console.log('inputUrl.value', inputUrl.value.length, inputUrl.value)
+    if (inputUrl.value.length > 0) {
+      elem.classList.remove('hide')
+    }
   }
   doSelect2(element, placeholder = 'Zoek op') {
     $(element).select2({ placeholder: placeholder })
@@ -78,6 +98,16 @@ export default class extends Controller {
     }
     if (e.target.parentNode.querySelectorAll('.hide').length === 0) {
       e.target.classList.add('hide')
+    }
+  }
+  linkFormulierToevoegen(e) {
+    const hiddenLinks = this.linkTargets.filter((link) => link.classList.contains('hide'))
+    if (hiddenLinks.length > 0) {
+      hiddenLinks[0].classList.remove('hide')
+      hiddenLinks[0].querySelector('input[type=text]').focus()
+      if (hiddenLinks.length === 1) {
+        e.target.classList.add('hide')
+      }
     }
   }
 }

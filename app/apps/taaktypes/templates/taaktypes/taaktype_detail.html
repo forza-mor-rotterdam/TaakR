@@ -112,5 +112,25 @@
                 {% endfor %}
             </ul>
         </section>
+        <section class="padding-bottom-2x">
+            <h2 class="color--primary">Links</h2>
+            {% if object.links_voor_taaktype.all|length %}
+                <ul class="list-clean cols3-md">
+                    {% for link in object.links_voor_taaktype.all %}
+                        <li class="padding-bottom-half" data-controller="utils">
+                            <a href="{{ link.url }}"
+                               class="link--external"
+                               data-utils-target="link"
+                               {% if link.open_in_nieuwe_tab %}target="_blank"{% endif %}>
+                                {{ link.titel }}
+                                {% include "icons/external-link.svg" %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Geen gerelateerde links</p>
+            {% endif %}
+        </section>
     </div>
 {% endblock body %}
