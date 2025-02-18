@@ -23,7 +23,7 @@ from apps.taaktypes.models import (
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -47,6 +47,15 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         "voorbeeldsituatie_voor_taaktype",
         "voorbeeldsituatie_voor_taaktype__bijlagen",
     ).order_by("omschrijving")
+
+    def get(self, request, *args, **kwargs):
+        applicatie = Applicatie.vind_applicatie_obv_uri(request.GET.get("taaktype_url"))
+        if applicatie:
+            taaktype = get_object_or_404(
+                Taaktype, taakapplicatie_taaktype_url=request.GET.get("taaktype_url")
+            )
+            return redirect(reverse("taaktype_detail", args=[taaktype.id]))
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
