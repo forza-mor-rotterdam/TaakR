@@ -29,7 +29,13 @@
         </div>
         <h1>{{ taaktype.omschrijving }}</h1>
         <h2 class="h4">Omschrijving taaktype</h2>
-        <p>{{ taaktype.toelichting }}</p>
+        <p>
+            {% if taaktype.toelichting %}
+                {{ taaktype.toelichting }}
+            {% else %}
+                Nog niet ingevuld
+            {% endif %}
+        </p>
         <h2 class="h4">Wie is er verantwoordelijk voor de uitvoering van het proces?</h2>
         <p>
             {% if taaktype.verantwoordelijke_afdeling %}
