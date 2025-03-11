@@ -100,6 +100,8 @@
                     </div>
                     <div>
                         {{ form.verantwoordelijke_afdeling|render_rotterdam_formulier }}
+                        {{ form.verantwoordelijke_persoon_naam|render_rotterdam_formulier }}
+                        {{ form.verantwoordelijke_persoon_personeelsnummer|render_rotterdam_formulier }}
                         <div data-controller="bijlagen" class="has-button-fullwidth">
                             <h3 class="h5">Icoon</h3>
                             {{ form.icoon|render_rotterdam_formulier }}
@@ -116,6 +118,33 @@
                             </h3>
                             {{ form.actief|render_rotterdam_formulier }}
                         </div> {% endcomment %}
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="section">
+                <legend>Doorlooptijd</legend>
+                <div class="container__flex container__hideables"
+                     data-controller="dagen-uren">
+                    {{ form.doorlooptijd|render_rotterdam_formulier }}
+                    <div class="form-row">
+                        <label>Dagen</label>
+                        <input type="number"
+                               name="dagen"
+                               id="id_dagen"
+                               min="0"
+                               step="1"
+                               data-dagen-uren-target="dagen"
+                               data-action="input->dagen-uren#dagenChangedHandler">
+                        <label>Uren</label>
+                        <input type="number"
+                               name="uren"
+                               id="id_uren"
+                               min="0"
+                               max="23"
+                               step="1"
+                               data-dagen-uren-target="uren"
+                               data-action="input->dagen-uren#urenChangedHandler">
+                        {{ form.doorlooptijd_alleen_werkdagen|render_rotterdam_formulier }}
                     </div>
                 </div>
             </fieldset>

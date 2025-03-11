@@ -120,26 +120,13 @@ class TaaktypeVoorbeeldsituatieFormWel(TaaktypeVoorbeeldsituatieFormNiet):
 
 
 class TaaktypeAanpassenForm(forms.ModelForm):
-    # toelichting = forms.CharField(
-    #     label="Omschrijving",
-    #     widget=forms.Textarea(
-    #         attrs={
-    #             "data-testid": "toelichting",
-    #             "rows": "4",
-    #         }
-    #     ),
-    #     required=True,
-    # )
-    # omschrijving = forms.CharField(
-    #     label="Titel",
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "data-testid": "titel",
-    #             "rows": "4",
-    #         }
-    #     ),
-    #     required=True,
-    # )
+    doorlooptijd = forms.CharField(
+        widget=forms.HiddenInput(
+            attrs={
+                "data-dagen-uren-target": "seconden",
+            }
+        ),
+    )
     icoon = forms.FileField(
         label="Icoon",
         required=False,
@@ -173,7 +160,12 @@ class TaaktypeAanpassenForm(forms.ModelForm):
         widget=Select2MultipleWidget(attrs={"class": "select2", "id": "afdelingen_1"}),
         queryset=Afdeling.objects.all(),
         label="Afdelingen",
-        required=False,
+        required=True,
+    )
+    verantwoordelijke_afdeling = forms.ModelChoiceField(
+        queryset=Afdeling.objects.all(),
+        label="Verantwoordelijke afdeling",
+        required=True,
     )
     taaktypemiddelen = forms.ModelMultipleChoiceField(
         widget=Select2MultipleWidget(
@@ -203,8 +195,9 @@ class TaaktypeAanpassenForm(forms.ModelForm):
 
     def __init__(self, *args, current_taaktype=None, **kwargs):
         super().__init__(*args, **kwargs)
-        # if current_taaktype:
-        taaktypes_lijst = Taaktype.objects.filter(actief=True)
+        taaktypes_lijst = Taaktype.objects.filter(actief=True).exclude(
+            id=self.instance.id
+        )
         self.fields["volgende_taaktypes"].queryset = taaktypes_lijst
         self.fields["gerelateerde_taaktypes"].queryset = taaktypes_lijst
         # START gerelateerde_onderwerpen
@@ -256,6 +249,10 @@ class TaaktypeAanpassenForm(forms.ModelForm):
             # "omschrijving",
             # "toelichting",
             "verantwoordelijke_afdeling",
+            "verantwoordelijke_persoon_naam",
+            "verantwoordelijke_persoon_personeelsnummer",
+            "doorlooptijd",
+            "doorlooptijd_alleen_werkdagen",
             "icoon",
             "volgende_taaktypes",
             "gerelateerde_taaktypes",
@@ -273,6 +270,10 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
             # "omschrijving",
             # "toelichting",
             "verantwoordelijke_afdeling",
+            "verantwoordelijke_persoon_naam",
+            "verantwoordelijke_persoon_personeelsnummer",
+            "doorlooptijd",
+            "doorlooptijd_alleen_werkdagen",
             "icoon",
             "volgende_taaktypes",
             "gerelateerde_taaktypes",
@@ -284,6 +285,9 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        taaktypes_lijst = Taaktype.objects.filter(actief=True)
+        self.fields["volgende_taaktypes"].queryset = taaktypes_lijst
+        self.fields["gerelateerde_taaktypes"].queryset = taaktypes_lijst
         # self.fields[
         #     "omschrijving"
         # ].help_text = "Omschrijf het taaktype zo concreet mogelijk. Formuleer de gewenste actie, bijvoorbeeld 'Grofvuil ophalen'."

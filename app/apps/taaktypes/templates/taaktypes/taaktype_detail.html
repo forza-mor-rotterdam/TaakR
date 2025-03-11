@@ -44,6 +44,34 @@
                 Nog niet ingevuld
             {% endif %}
         </p>
+        {% if perms.authorisatie.taaktype_bekijken %}
+            <h2 class="h4">Wie is de verantwoordelijk persoon?</h2>
+            <p>
+                <h2 class="h5">Naam verantwoordelijke persoon</h2>
+                {% if taaktype.verantwoordelijke_persoon_naam %}
+                    {{ taaktype.verantwoordelijke_persoon_naam }}
+                {% else %}
+                    Nog niet ingevuld
+                {% endif %}
+                <h2 class="h5">Personeelsnummer verantwoordelijke persoon</h2>
+                {% if taaktype.verantwoordelijke_persoon_personeelsnummer %}
+                    {{ taaktype.verantwoordelijke_persoon_personeelsnummer }}
+                {% else %}
+                    Nog niet ingevuld
+                {% endif %}
+            </p>
+        {% endif %}
+        <h2 class="h4">Doorlooptijd</h2>
+        <p>
+            <h2 class="h5">Seconden</h2>
+            {% if taaktype.doorlooptijd %}
+                {{ taaktype.doorlooptijd }}
+            {% else %}
+                Nog niet ingevuld
+            {% endif %}
+            <h2 class="h5">Uitvoering alleen op werkdagen (dus niet in het weekend of op feestdagen)</h2>
+            {{ taaktype.doorlooptijd_alleen_werkdagen }}
+        </p>
         <section class="padding-bottom">
             <div class="container__badges--overview">
                 {% if taaktype.afdelingen.all|length > 0 %}
