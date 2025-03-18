@@ -27,51 +27,66 @@
                 Taaktypes
             </a>
         </div>
-        <h1>{{ taaktype.omschrijving }}</h1>
-        <h2 class="h4">Omschrijving taaktype</h2>
-        <p>
-            {% if taaktype.toelichting %}
-                {{ taaktype.toelichting }}
-            {% else %}
-                Nog niet ingevuld
-            {% endif %}
-        </p>
-        <h2 class="h4">Wie is er verantwoordelijk voor de uitvoering van het proces?</h2>
-        <p>
-            {% if taaktype.verantwoordelijke_afdeling %}
-                {{ taaktype.verantwoordelijke_afdeling }}
-            {% else %}
-                Nog niet ingevuld
-            {% endif %}
-        </p>
-        <section class="padding-bottom">
+        <section class="section--seperated">
+            <h1 class="h2">{{ taaktype.omschrijving }}</h1>
+            <p>
+                {% if taaktype.toelichting %}
+                    {{ taaktype.toelichting }}
+                {% else %}
+                    Nog niet ingevuld
+                {% endif %}
+            </p>
+        </section>
+        <section class="section--seperated">
+            <div class="container__flex">
+                <div>
+                    <h2 class="h5">Verantwoordelijke afdeling</h2>
+                    <p>
+                        {% if taaktype.verantwoordelijke_afdeling %}
+                            {{ taaktype.verantwoordelijke_afdeling }}
+                        {% else %}
+                            Nog niet ingevuld
+                        {% endif %}
+                    </p>
+                    <h2 class="h5">Uitvoerende afdelingen</h2>
+                    <p>
+                        {% for afdeling in taaktype.afdelingen.all %}
+                            {{ afdeling.naam }}
+                            {% if taaktype.afdelingen.all|length != forloop.counter %},{% endif %}
+                        {% endfor %}
+                    </p>
+                    <h2 class="h5">Doorlooptijd</h2>
+                    <p>
+                        {% if taaktype.doorlooptijd %}
+                            <span data-controller="dagen-uren" data-dagen-uren-target="periode">{{ taaktype.doorlooptijd }}</span>
+                            {% if taaktype.doorlooptijd_alleen_werkdagen %}. Alleen op werkdagen.{% endif %}
+                        {% else %}
+                            Nog niet ingevuld
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    {% if perms.authorisatie.taaktype_bekijken %}
+                        <h2 class="h5">Verantwoordelijke medewerker</h2>
+                        {% if taaktype.verantwoordelijke_persoon_naam %}
+                            {{ taaktype.verantwoordelijke_persoon_naam }}
+                        {% else %}
+                            Nog niet ingevuld
+                        {% endif %}
+                        <h2 class="h5">Personeelsnummer verantwoordelijke medewerker</h2>
+                        {% if taaktype.verantwoordelijke_persoon_personeelsnummer %}
+                            {{ taaktype.verantwoordelijke_persoon_personeelsnummer }}
+                        {% else %}
+                            Nog niet ingevuld
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section class="section--seperated">
             <div class="container__badges--overview">
-                {% if taaktype.afdelingen.all|length > 0 %}
-                    <div class="margin-bottom">
-                        <h2 class="h5">Afdelingen</h2>
-                        <ul class="list-tags">
-                            {% for afdeling in taaktype.afdelingen.all %}
-                                <li>
-                                    <span class="badge badge--green">{{ afdeling.naam }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
-                {% if taaktype.taaktypemiddelen.all|length > 0 %}
-                    <div class="margin-bottom">
-                        <h2 class="h5">Benodigd materiaal</h2>
-                        <ul class="list-tags">
-                            {% for middel in taaktype.taaktypemiddelen.all %}
-                                <li>
-                                    <span class="badge badge--green">{{ middel.naam }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
                 {% if taaktype.gerelateerde_onderwerpen|length > 0 %}
-                    <div class="margin-bottom">
+                    <div>
                         <h2 class="h5">Gerelateerde onderwerpen</h2>
                         <ul class="list-tags">
                             {% for onderwerp in taaktype.gerelateerde_onderwerpen %}
@@ -82,9 +97,21 @@
                         </ul>
                     </div>
                 {% endif %}
+                {% if taaktype.taaktypemiddelen.all|length > 0 %}
+                    <div>
+                        <h2 class="h5">Benodigd materiaal</h2>
+                        <ul class="list-tags">
+                            {% for middel in taaktype.taaktypemiddelen.all %}
+                                <li>
+                                    <span class="badge badge--green">{{ middel.naam }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         </section>
-        <section class="display-flex--2cols-md">
+        <section class="section--seperated display-flex--2cols-md">
             <div class="border--gray-shadowed margin-bottom">
                 <h2 class="label--positive">Wanneer is de taak relevant?</h2>
                 <ul class="list-clean margin-bottom">

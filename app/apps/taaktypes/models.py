@@ -114,6 +114,25 @@ class Taaktype(BasisModel):
         null=True,
         blank=True,
     )
+    verantwoordelijke_persoon_naam = models.CharField(
+        verbose_name="Naam verantwoordelijke persoon",
+        max_length=300,
+        blank=True,
+        null=True,
+    )
+    verantwoordelijke_persoon_personeelsnummer = models.CharField(
+        verbose_name="Personeelsnummer verantwoordelijke persoon",
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    doorlooptijd = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+    )
+    doorlooptijd_alleen_werkdagen = models.BooleanField(
+        default=True,
+    )
     icoon = models.ImageField(
         upload_to="taaktype/icons", null=True, blank=True, max_length=255
     )
