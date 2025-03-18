@@ -893,3 +893,11 @@ body > .select2-container--default,
 .modal > .select2-container--default {
     margin-top: 0 !important;
 }
+
+.hide-label-required-field {
+    label {
+        > small {
+            display: none;
+        }
+    }
+}

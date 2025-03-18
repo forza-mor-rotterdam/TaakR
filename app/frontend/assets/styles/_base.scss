@@ -312,6 +312,7 @@ a,
         &.show-externallink {
             svg {
                 display: inline-block;
+                transform: translateY(4px);
             }
         }
     }

@@ -159,7 +159,7 @@ class TaaktypeAanpassenForm(forms.ModelForm):
     afdelingen = forms.ModelMultipleChoiceField(
         widget=Select2MultipleWidget(attrs={"class": "select2", "id": "afdelingen_1"}),
         queryset=Afdeling.objects.all(),
-        label="Afdelingen",
+        label="Uitvoerende afdelingen",
         required=True,
     )
     verantwoordelijke_afdeling = forms.ModelChoiceField(
