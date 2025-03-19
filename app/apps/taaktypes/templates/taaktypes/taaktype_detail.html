@@ -58,8 +58,10 @@
                     <h2 class="h5">Doorlooptijd</h2>
                     <p>
                         {% if taaktype.doorlooptijd %}
-                            <span data-controller="dagen-uren" data-dagen-uren-target="periode">{{ taaktype.doorlooptijd }}</span>
-                            {% if taaktype.doorlooptijd_alleen_werkdagen %}. Alleen op werkdagen.{% endif %}
+                            {% spaceless %}
+                                <span data-controller="dagen-uren" data-dagen-uren-target="periode">{{ taaktype.doorlooptijd }}</span>
+                                {% if taaktype.doorlooptijd_alleen_werkdagen %}<span>. Alleen op werkdagen.</span>{% endif %}
+                            {% endspaceless %}
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}
