@@ -71,13 +71,13 @@
                     {% if perms.authorisatie.taaktype_bekijken %}
                         <h2 class="h5">Verantwoordelijke medewerker</h2>
                         {% if taaktype.verantwoordelijke_persoon_naam %}
-                            {{ taaktype.verantwoordelijke_persoon_naam }}
+                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_naam }}</p>
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}
                         <h2 class="h5">Personeelsnummer verantwoordelijke medewerker</h2>
                         {% if taaktype.verantwoordelijke_persoon_personeelsnummer %}
-                            {{ taaktype.verantwoordelijke_persoon_personeelsnummer }}
+                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_personeelsnummer }}</p>
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}
