@@ -59,7 +59,7 @@
                     <p>
                         {% if taaktype.doorlooptijd %}
                             {% spaceless %}
-                                <span data-controller="dagen-uren" data-dagen-uren-target="periode">{{ taaktype.doorlooptijd }}</span>
+                                {{ taaktype.doorlooptijd_dagen_uren }}
                                 {% if taaktype.doorlooptijd_alleen_werkdagen %}<span>. Alleen op werkdagen.</span>{% endif %}
                             {% endspaceless %}
                         {% else %}
