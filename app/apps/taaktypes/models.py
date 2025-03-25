@@ -162,6 +162,28 @@ class Taaktype(BasisModel):
     )
     actief = models.BooleanField(default=True)
 
+    def doorlooptijd_dagen_uren(self):
+        uren_seconden = 60 * 60
+        dagen_seconden = 24 * uren_seconden
+        huidige_dagen_seconden = self.doorlooptijd - (
+            self.doorlooptijd % dagen_seconden
+        )
+        huidige_uren_seconden = self.doorlooptijd - huidige_dagen_seconden
+        dagen = int(huidige_dagen_seconden / dagen_seconden)
+        uren = int(
+            (huidige_uren_seconden - (huidige_uren_seconden % uren_seconden))
+            / uren_seconden
+        )
+
+        periode = ""
+        if dagen:
+            periode += f"{dagen} dagen"
+        if dagen and uren:
+            periode += " en "
+        if uren:
+            periode += f"{uren} uur"
+        return periode
+
     def bijlagen(self):
         return Bijlage.objects.filter(
             content_type=ContentType.objects.get_for_model(TaaktypeVoorbeeldsituatie),

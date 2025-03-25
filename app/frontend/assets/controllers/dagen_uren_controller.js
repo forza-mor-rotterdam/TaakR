@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['dagen', 'uren', 'seconden', 'periode']
+  static targets = ['dagen', 'uren', 'seconden']
 
   secondenTargetConnected() {
     this.dagenMax = 365
@@ -19,18 +19,6 @@ export default class extends Controller {
     const daysHours = this.secondsToDaysHours(this.secondenTarget.value)
     this.dagenTarget.value = daysHours.dagen
     this.urenTarget.value = daysHours.uren
-  }
-
-  periodeTargetConnected(element) {
-    if (element.textContent) {
-      const dagen = this.secondsToDaysHours(element.textContent).dagen
-      const uren = this.secondsToDaysHours(element.textContent).uren
-      let periode = ''
-      if (dagen) periode += `${dagen} dagen`
-      if (dagen && uren) periode += ` en `
-      if (uren) periode += `${uren} uur`
-      element.textContent = periode
-    }
   }
 
   dagenChangedHandler(e) {
