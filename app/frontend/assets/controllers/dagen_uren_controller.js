@@ -8,7 +8,7 @@ export default class extends Controller {
     this.urenMax = 23
     this.urenSeconden = 60 * 60
     this.dagenSeconden = 24 * this.urenSeconden
-    const huidigeSeconden = this.secondenTarget.value
+    const huidigeSeconden = this.secondenTarget.value ? this.secondenTarget.value : 0
     const huidigeDagenSeconden = huidigeSeconden - (huidigeSeconden % this.dagenSeconden)
     const huidigeUrenSeconden = huidigeSeconden - huidigeDagenSeconden
     this.dagen = huidigeDagenSeconden / this.dagenSeconden
