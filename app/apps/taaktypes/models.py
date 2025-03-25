@@ -127,6 +127,7 @@ class Taaktype(BasisModel):
         null=True,
     )
     doorlooptijd = models.PositiveIntegerField(
+        default=0,
         blank=True,
         null=True,
     )
