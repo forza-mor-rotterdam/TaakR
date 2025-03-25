@@ -36,11 +36,6 @@ class BeheerBekijkenPermissie(BasisPermissie):
     codenaam = "beheer_bekijken"
 
 
-class TaaktypeBekijkenPermissie(BasisPermissie):
-    naam = "Taaktype bekijken"
-    codenaam = "taaktype_bekijken"
-
-
 class TaaktypeAanmakenPermissie(BasisPermissie):
     naam = "Taaktype aanmaken"
     codenaam = "taaktype_aanmaken"
@@ -116,6 +111,11 @@ class RechtengroepVerwijderenPermissie(BasisPermissie):
     codenaam = "rechtengroep_verwijderen"
 
 
+class VerantwoordelijkePersoonBekijkenPermissie(BasisPermissie):
+    naam = "Verantwoordelijke persoon bekijken"
+    codenaam = "verantwoordelijke_persoon_bekijken"
+
+
 gebruikersgroep_permissies = (
     GebruikerLijstBekijkenPermissie,
     GebruikerAanmakenPermissie,
@@ -123,7 +123,6 @@ gebruikersgroep_permissies = (
     GebruikerBekijkenPermissie,
     GebruikerVerwijderenPermissie,
     BeheerBekijkenPermissie,
-    TaaktypeBekijkenPermissie,
     TaaktypeAanmakenPermissie,
     TaaktypeAanpassenPermissie,
     TaaktypeMiddelLijstBekijkenPermissie,
@@ -139,6 +138,7 @@ gebruikersgroep_permissies = (
     RechtengroepBekijkenPermissie,
     RechtengroepAanpassenPermissie,
     RechtengroepVerwijderenPermissie,
+    VerantwoordelijkePersoonBekijkenPermissie,
 )
 
 gebruikersgroep_permissie_opties = [
