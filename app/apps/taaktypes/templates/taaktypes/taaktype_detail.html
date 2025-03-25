@@ -58,8 +58,10 @@
                     <h2 class="h5">Doorlooptijd</h2>
                     <p>
                         {% if taaktype.doorlooptijd %}
-                            {{ taaktype.doorlooptijd_dagen_uren }}
-                            {% if taaktype.doorlooptijd_alleen_werkdagen %}. Alleen op werkdagen.{% endif %}
+                            {% spaceless %}
+                                {{ taaktype.doorlooptijd_dagen_uren }}
+                                {% if taaktype.doorlooptijd_alleen_werkdagen %}<span>. Alleen op werkdagen.</span>{% endif %}
+                            {% endspaceless %}
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}
@@ -69,13 +71,13 @@
                     {% if perms.authorisatie.verantwoordelijke_persoon_bekijken %}
                         <h2 class="h5">Verantwoordelijke medewerker</h2>
                         {% if taaktype.verantwoordelijke_persoon_naam %}
-                            {{ taaktype.verantwoordelijke_persoon_naam }}
+                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_naam }}</p>
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}
                         <h2 class="h5">Personeelsnummer verantwoordelijke medewerker</h2>
                         {% if taaktype.verantwoordelijke_persoon_personeelsnummer %}
-                            {{ taaktype.verantwoordelijke_persoon_personeelsnummer }}
+                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_personeelsnummer }}</p>
                         {% else %}
                             Nog niet ingevuld
                         {% endif %}

@@ -134,33 +134,35 @@
                 <div class="container__flex" data-controller="dagen-uren">
                     <div>
                         {{ form.doorlooptijd|render_rotterdam_formulier }}
-                        <div class="form-row container__flex">
-                            <div>
-                                <label>Dagen</label>
-                                <input type="number"
-                                       name="dagen"
-                                       id="id_dagen"
-                                       min="0"
-                                       max="365"
-                                       step="1"
-                                       class="form-control"
-                                       data-dagen-uren-target="dagen"
-                                       data-action="input->dagen-uren#dagenChangedHandler">
+                        <div class="form-row">
+                            <div class="container__flex no-margin-bottom">
+                                <div>
+                                    <label>Dagen</label>
+                                    <input type="number"
+                                           name="dagen"
+                                           id="id_dagen"
+                                           min="0"
+                                           max="365"
+                                           step="1"
+                                           class="form-control"
+                                           data-dagen-uren-target="dagen"
+                                           data-action="input->dagen-uren#dagenChangedHandler">
+                                </div>
+                                <div>
+                                    <label>Uren</label>
+                                    <input type="number"
+                                           name="uren"
+                                           id="id_uren"
+                                           min="-1"
+                                           max="24"
+                                           step="1"
+                                           class="form-control"
+                                           data-dagen-uren-target="uren"
+                                           data-action="input->dagen-uren#urenChangedHandler">
+                                </div>
                             </div>
-                            <div>
-                                <label>Uren</label>
-                                <input type="number"
-                                       name="uren"
-                                       id="id_uren"
-                                       min="-1"
-                                       max="24"
-                                       step="1"
-                                       class="form-control"
-                                       data-dagen-uren-target="uren"
-                                       data-action="input->dagen-uren#urenChangedHandler">
-                            </div>
+                            {{ form.doorlooptijd_alleen_werkdagen|render_rotterdam_formulier }}
                         </div>
-                        {{ form.doorlooptijd_alleen_werkdagen|render_rotterdam_formulier }}
                     </div>
                     <div>&nbsp;</div>
                 </div>
