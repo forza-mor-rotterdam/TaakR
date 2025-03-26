@@ -127,6 +127,19 @@ class TaaktypeAanpassenForm(forms.ModelForm):
             }
         ),
     )
+    verantwoordelijke_persoon_personeelsnummer = forms.IntegerField(
+        widget=forms.widgets.NumberInput(
+            attrs={
+                "data-controller": "utils",
+                "data-action": "input->utils#maxNumberChangedHandler",
+                "class": "form-control no-arrows",
+            }
+        ),
+        label="Personeelsnummer verantwoordelijke persoon",
+        min_value=0,
+        max_value=99999999,
+        required=False,
+    )
     icoon = forms.FileField(
         label="Icoon",
         required=False,

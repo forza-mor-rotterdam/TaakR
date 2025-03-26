@@ -124,18 +124,7 @@
                         {{ form.verantwoordelijke_afdeling|render_rotterdam_formulier }}
                         {{ form.afdelingen|render_rotterdam_formulier }}
                         {{ form.verantwoordelijke_persoon_naam|render_rotterdam_formulier }}
-                        {% comment %} {{ form.verantwoordelijke_persoon_personeelsnummer|render_rotterdam_formulier }} {% endcomment %}
-                        <div class="form-row">
-                            <label for="id_verantwoordelijke_persoon_personeelsnummer">Personeelsnummer verantwoordelijke persoon</label>
-                            <input type="number"
-                                   id="id_verantwoordelijke_persoon_personeelsnummer"
-                                   name="verantwoordelijke_persoon_personeelsnummer"
-                                   class="form-control no-arrows"
-                                   min="0"
-                                   max="99999999"
-                                   data-controller="maxnumber"
-                                   data-action="input->maxnumber#maxNumberChangedHandler">
-                        </div>
+                        {{ form.verantwoordelijke_persoon_personeelsnummer|render_rotterdam_formulier }}
                     </div>
                     <div>&nbsp;</div>
                 </div>
