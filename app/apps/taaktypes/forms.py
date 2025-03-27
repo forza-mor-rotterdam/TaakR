@@ -130,8 +130,8 @@ class TaaktypeAanpassenForm(forms.ModelForm):
     verantwoordelijke_persoon_personeelsnummer = forms.IntegerField(
         widget=forms.widgets.NumberInput(
             attrs={
-                "data-controller": "utils",
-                "data-action": "input->utils#maxNumberChangedHandler",
+                "data-controller": "maxnumber",
+                "data-action": "input->maxnumber#maxNumberChangedHandler",
                 "class": "form-control no-arrows",
             }
         ),
