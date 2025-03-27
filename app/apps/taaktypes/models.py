@@ -177,7 +177,7 @@ class Taaktype(BasisModel):
 
         periode = ""
         if dagen:
-            periode += f"{dagen} dagen"
+            periode += f"{dagen} {'dagen' if dagen > 1 else 'dag'}"
         if dagen and uren:
             periode += " en "
         if uren:

@@ -51,16 +51,14 @@
                     <h2 class="h5">Uitvoerende afdelingen</h2>
                     <p>
                         {% for afdeling in taaktype.afdelingen.all %}
-                            {{ afdeling.naam }}
-                            {% if taaktype.afdelingen.all|length != forloop.counter %},{% endif %}
+                            {{ afdeling.naam }}{% if taaktype.afdelingen.all|length != forloop.counter %},{% endif %}
                         {% endfor %}
                     </p>
                     <h2 class="h5">Doorlooptijd</h2>
                     <p>
                         {% if taaktype.doorlooptijd %}
                             {% spaceless %}
-                                {{ taaktype.doorlooptijd_dagen_uren }}
-                                {% if taaktype.doorlooptijd_alleen_werkdagen %}<span>. Alleen op werkdagen.</span>{% endif %}
+                                {{ taaktype.doorlooptijd_dagen_uren }}{% if taaktype.doorlooptijd_alleen_werkdagen %}<span>, alleen op werkdagen</span>{% endif %}
                             {% endspaceless %}
                         {% else %}
                             Nog niet ingevuld
