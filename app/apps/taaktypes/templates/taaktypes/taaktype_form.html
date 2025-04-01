@@ -96,10 +96,8 @@
                         {% comment %} {{ form.omschrijving|render_rotterdam_formulier }}
                         {{ form.toelichting|render_rotterdam_formulier }} {% endcomment %}
                         {{ form.taaktypemiddelen|render_rotterdam_formulier }}
-                        {{ form.afdelingen|render_rotterdam_formulier }}
                     </div>
                     <div>
-                        {{ form.verantwoordelijke_afdeling|render_rotterdam_formulier }}
                         <div data-controller="bijlagen" class="has-button-fullwidth">
                             <h3 class="h5">Icoon</h3>
                             {{ form.icoon|render_rotterdam_formulier }}
@@ -117,6 +115,56 @@
                             {{ form.actief|render_rotterdam_formulier }}
                         </div> {% endcomment %}
                     </div>
+                </div>
+            </fieldset>
+            <fieldset class="section">
+                <legend>Verantwoordelijke afdeling en personen</legend>
+                <div class="container__flex">
+                    <div class="hide-label-required-field">
+                        {{ form.verantwoordelijke_afdeling|render_rotterdam_formulier }}
+                        {{ form.afdelingen|render_rotterdam_formulier }}
+                        {{ form.verantwoordelijke_persoon_naam|render_rotterdam_formulier }}
+                        {{ form.verantwoordelijke_persoon_personeelsnummer|render_rotterdam_formulier }}
+                    </div>
+                    <div>&nbsp;</div>
+                </div>
+            </fieldset>
+            <fieldset class="section">
+                <legend>Doorlooptijd</legend>
+                <div class="container__flex" data-controller="dagen-uren">
+                    <div>
+                        {{ form.doorlooptijd|render_rotterdam_formulier }}
+                        <div class="form-row">
+                            <div class="container__flex no-margin-bottom">
+                                <div>
+                                    <label for="id_dagen">Dagen</label>
+                                    <input type="number"
+                                           name="dagen"
+                                           id="id_dagen"
+                                           min="0"
+                                           max="365"
+                                           step="1"
+                                           class="form-control"
+                                           data-dagen-uren-target="dagen"
+                                           data-action="input->dagen-uren#dagenChangedHandler">
+                                </div>
+                                <div>
+                                    <label for="id_uren">Uren</label>
+                                    <input type="number"
+                                           name="uren"
+                                           id="id_uren"
+                                           min="-1"
+                                           max="24"
+                                           step="1"
+                                           class="form-control"
+                                           data-dagen-uren-target="uren"
+                                           data-action="input->dagen-uren#urenChangedHandler">
+                                </div>
+                            </div>
+                            {{ form.doorlooptijd_alleen_werkdagen|render_rotterdam_formulier }}
+                        </div>
+                    </div>
+                    <div>&nbsp;</div>
                 </div>
             </fieldset>
             <fieldset class="section">

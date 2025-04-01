@@ -312,6 +312,7 @@ a,
         &.show-externallink {
             svg {
                 display: inline-block;
+                transform: translateY(4px);
             }
         }
     }
@@ -564,6 +565,16 @@ body.no-js {
     }
 }
 
+.no-arrows {
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
 .no-padding {
     padding: 0 !important;
 }
@@ -654,6 +665,10 @@ body.no-js {
     margin-top: 0;
     display: block;
     padding-bottom: 1em;
+}
+
+.word-break-word {
+    word-break: break-word;
 }
 
 .label--positive {

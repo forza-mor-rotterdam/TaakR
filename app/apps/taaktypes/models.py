@@ -114,6 +114,26 @@ class Taaktype(BasisModel):
         null=True,
         blank=True,
     )
+    verantwoordelijke_persoon_naam = models.CharField(
+        verbose_name="Naam verantwoordelijke persoon",
+        max_length=300,
+        blank=True,
+        null=True,
+    )
+    verantwoordelijke_persoon_personeelsnummer = models.CharField(
+        verbose_name="Personeelsnummer verantwoordelijke persoon",
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    doorlooptijd = models.PositiveIntegerField(
+        default=0,
+        blank=True,
+        null=True,
+    )
+    doorlooptijd_alleen_werkdagen = models.BooleanField(
+        default=True,
+    )
     icoon = models.ImageField(
         upload_to="taaktype/icons", null=True, blank=True, max_length=255
     )
@@ -141,6 +161,28 @@ class Taaktype(BasisModel):
         blank=True,
     )
     actief = models.BooleanField(default=True)
+
+    def doorlooptijd_dagen_uren(self):
+        uren_seconden = 60 * 60
+        dagen_seconden = 24 * uren_seconden
+        huidige_dagen_seconden = self.doorlooptijd - (
+            self.doorlooptijd % dagen_seconden
+        )
+        huidige_uren_seconden = self.doorlooptijd - huidige_dagen_seconden
+        dagen = int(huidige_dagen_seconden / dagen_seconden)
+        uren = int(
+            (huidige_uren_seconden - (huidige_uren_seconden % uren_seconden))
+            / uren_seconden
+        )
+
+        periode = ""
+        if dagen:
+            periode += f"{dagen} {'dagen' if dagen > 1 else 'dag'}"
+        if dagen and uren:
+            periode += " en "
+        if uren:
+            periode += f"{uren} uur"
+        return periode
 
     def bijlagen(self):
         return Bijlage.objects.filter(

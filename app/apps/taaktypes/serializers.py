@@ -89,10 +89,11 @@ class TaaktypeSerializer(serializers.ModelSerializer):
         fields = (
             "_links",
             "uuid",
-            # "taakapplicatie_taaktype_uuid",
             "omschrijving",
             "toelichting",
             "verantwoordelijke_afdeling",
+            "doorlooptijd",
+            "doorlooptijd_alleen_werkdagen",
             "icoon",
             "additionele_informatie",
             "actief",
