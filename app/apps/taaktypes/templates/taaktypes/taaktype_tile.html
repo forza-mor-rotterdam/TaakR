@@ -1,6 +1,6 @@
 {% load webpack_static from webpack_loader %}
 <li class="title-image editable" data-row-search-target="row">
-    <a href="{% url 'taaktype_detail' taaktype.id %}">
+    <a href="{% url 'taaktype_detail' taaktype.id %}" title="{{ taaktype.omschrijving }}">
         <div class="container__title">
             {% if taaktype.icoon %}<img alt="" src="{{ taaktype.icoon.url }}" />{% endif %}
             <h3 class="title word-break-word" data-row-search-target="searchable">{{ taaktype.omschrijving }}</h3>
