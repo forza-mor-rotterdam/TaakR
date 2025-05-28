@@ -25,6 +25,7 @@ from apps.taaktypes.views import (
     TaaktypeMiddelAanmakenView,
     TaaktypeMiddelAanpassenView,
     TaaktypeMiddelLijstView,
+    taaktype_detail_uuid,
 )
 from apps.taaktypes.viewsets import (
     AfdelingViewSet,
@@ -106,6 +107,11 @@ urlpatterns = [
         "beheer/taaktype/aanmaken/",
         TaaktypeAanmakenView.as_view(),
         name="taaktype_aanmaken",
+    ),
+    path(
+        "taaktype/<uuid:uuid>/",
+        taaktype_detail_uuid,
+        name="taaktype_detail_uuid",
     ),
     path(
         "taaktype/<int:pk>/",
