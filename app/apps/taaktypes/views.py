@@ -107,6 +107,11 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         return context
 
 
+def taaktype_detail_uuid(request, uuid):
+    taaktype = get_object_or_404(Taaktype, uuid=uuid)
+    return redirect(reverse("taaktype_detail", args=[taaktype.id]), True)
+
+
 class TaaktypeDetailView(TaaktypeView, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
