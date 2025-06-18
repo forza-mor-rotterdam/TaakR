@@ -9,7 +9,7 @@ from utils.models import BasisModel
 
 
 class Link(BasisModel):
-    toon_in_planr = models.BooleanField(default=True)
+    toon_in_planr = models.BooleanField(default=True, verbose_name="Toon in PlanR")
     toon_in_taakapplicatie = models.BooleanField(default=True)
     open_in_nieuwe_tab = models.BooleanField(default=False)
     url = models.URLField()
