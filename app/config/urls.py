@@ -3,6 +3,8 @@ from apps.authenticatie.views import (
     GebruikerAanmakenView,
     GebruikerAanpassenView,
     GebruikerLijstView,
+    LoginView,
+    LogoutView,
 )
 from apps.authorisatie.views import (
     RechtengroepAanmakenView,
@@ -62,13 +64,22 @@ router.register(r"bijlage", BijlageViewSet, basename="bijlage")
 
 
 urlpatterns = [
-    # path("", root, name="root"),
     path("api/v1/", include((router.urls, "app"), namespace="v1")),
     path("config/", config, name="config"),
     path("health/", include("health_check.urls")),
     path("healthz/", healthz, name="healthz"),
     path("db-schema/", include((schema_urls, "db-schema"))),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "login/",
+        LoginView.as_view(),
+        name="login",
+    ),
+    path(
+        "logout/",
+        LogoutView.as_view(),
+        name="logout",
+    ),
     # START beheer
     path("beheer/", beheer, name="beheer"),
     path("beheer/gebruiker/", GebruikerLijstView.as_view(), name="gebruiker_lijst"),
@@ -165,29 +176,27 @@ urlpatterns = [
     path("select2/", include(select2_urls)),
 ]
 
-if settings.OIDC_ENABLED:
+if not settings.ENABLE_DJANGO_ADMIN_LOGIN:
     urlpatterns += [
         path(
             "admin/login/",
-            RedirectView.as_view(
-                url="/oidc/authenticate/?next=/admin/",
-                permanent=False,
-            ),
+            RedirectView.as_view(url="/login/?next=/admin/"),
             name="admin_login",
         ),
         path(
             "admin/logout/",
-            RedirectView.as_view(
-                url="/oidc/logout/?next=/admin/",
-                permanent=False,
-            ),
+            RedirectView.as_view(url="/logout/?next=/"),
             name="admin_logout",
         ),
     ]
 
+if settings.OIDC_ENABLED:
+    urlpatterns += [
+        path("oidc/", include("mozilla_django_oidc.urls")),
+    ]
+
 urlpatterns += [
     path("admin/", admin.site.urls),
-    path("oidc/", include("mozilla_django_oidc.urls")),
 ]
 
 if settings.APP_ENV != "productie":
