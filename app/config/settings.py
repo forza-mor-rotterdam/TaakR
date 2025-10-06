@@ -53,8 +53,6 @@ TAAKTYPE_VERANDERD_NOTIFICATIE_URL = os.getenv(
 TOKEN_API_RELATIVE_URL = os.getenv("TOKEN_API_RELATIVE_URL", "/api-token-auth/")
 MELDINGEN_TOKEN_TIMEOUT = 60 * 60
 
-ENABLE_DJANGO_ADMIN_LOGIN = os.getenv("ENABLE_DJANGO_ADMIN_LOGIN", False) in TRUE_VALUES
-
 onderwerpen_urls = {
     PRODUCTIE: "https://onderwerpen.forzamor.nl",
     ACCEPTATIE: "https://onderwerpen-acc.forzamor.nl",
@@ -469,7 +467,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
-LOGIN_URL = "/login/"
+ENABLE_DJANGO_ADMIN_LOGIN = os.getenv("ENABLE_DJANGO_ADMIN_LOGIN", False) in TRUE_VALUES
+LOGIN_URL = "/login"
+LOGOUT_URL = "/logout"
 
 OIDC_RP_CLIENT_ID = os.getenv("OIDC_RP_CLIENT_ID")
 OIDC_RP_CLIENT_SECRET = os.getenv("OIDC_RP_CLIENT_SECRET")
