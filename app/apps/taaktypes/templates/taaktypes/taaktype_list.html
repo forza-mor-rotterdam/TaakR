@@ -37,7 +37,8 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <form>
+        <form method="post">
+            {% csrf_token %}
             <div class="form-row">
                 <label for="id_zoeken">Zoeken op titel of afdeling</label>
                 <div>
