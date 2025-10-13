@@ -47,24 +47,6 @@ class TaaktypeLijstView(TaaktypeView, ListView):
         "voorbeeldsituatie_voor_taaktype",
         "voorbeeldsituatie_voor_taaktype__bijlagen",
     ).order_by("omschrijving")
-    model = Taaktype
-    template_name = "taaktypen/taaktype_list.html"
-    context_object_name = "taaktypen"
-
-    def get_queryset(self):
-        # Haal vorige zoekopdracht uit sessie
-        query = self.request.session.get("taaktype_query", "")
-        print("+++++++", query)
-        # Als er een nieuwe POST is geweest, pak die waarde
-        if self.request.method == "POST":
-            query = self.request.POST.get("zoeken", "").strip()
-            self.request.session["taaktype_query"] = query  # in sessie opslaan
-
-        # Filter queryset op basis van zoekterm
-        qs = Taaktype.objects.all()
-        if query:
-            qs = qs.filter(naam__icontains=query)
-        return qs
 
     def get(self, request, *args, **kwargs):
         applicatie = Applicatie.vind_applicatie_obv_uri(request.GET.get("taaktype_url"))
@@ -95,11 +77,6 @@ class TaaktypeLijstView(TaaktypeView, ListView):
             actief=False,
         ).distinct()
 
-        context["zoeken"] = self.request.session.get("taaktype_query", "")
-
-        print("________")
-        print(context["zoeken"])
-        print("________")
         for taaktype in context["afdeling_onderdelen"]:
             taaktype_list = taaktype[1]
             for t in taaktype_list:

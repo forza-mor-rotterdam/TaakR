@@ -1,9 +1,20 @@
 import { Controller } from '@hotwired/stimulus'
 
+let searchKey = null
 export default class extends Controller {
-  static targets = ['row', 'searchable', 'resultCount']
+  static targets = ['row', 'searchable', 'resultCount', 'searchTaaktype']
+  static values = { fieldType: String }
 
   connect() {
+    console.log('ROW_SEARCH connected')
+    searchKey = this.fieldTypeValue
+    const savedQuery = sessionStorage.getItem(searchKey)
+
+    if (savedQuery && this.hasSearchTaaktypeTarget) {
+      console.log('this.searchTaaktypeTarget', this.searchTaaktypeTarget)
+      this.searchTaaktypeTarget.value = savedQuery
+      this.search(null, savedQuery)
+    }
     this.searchableTargets.forEach((searchable) => {
       searchable.dataset.value = searchable.textContent
     })
@@ -23,8 +34,16 @@ export default class extends Controller {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 
-  search(e) {
-    if (e.target.value.trim().length != 0) {
+  search(e = null, str = '') {
+    let searchString = ''
+    if (e) {
+      searchString = e.target.value.trim()
+    } else if (str) {
+      searchString = str
+    }
+    console.log('searchString', searchString.length)
+    if (searchString.length != 0) {
+      sessionStorage.setItem(searchKey, searchString)
       this.rowTargets.forEach((searchableContainer) => {
         searchableContainer.style.display = 'none'
       })
@@ -34,7 +53,8 @@ export default class extends Controller {
       }
 
       this.searchableTargets.forEach((searchable) => {
-        const value = this.escapeRegExp(e.target.value.trim())
+        console.log('searchable.dataset.value', searchable)
+        const value = this.escapeRegExp(searchString)
         const re = new RegExp(value, 'gi')
         searchable.innerHTML = ''
         if (re.test(searchable.dataset.value)) {

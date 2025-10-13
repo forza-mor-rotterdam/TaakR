@@ -15,7 +15,7 @@
             </div>
         {% endif %}
     {% endblock messages %}
-    <div class="page__beheer" data-controller="row-search">
+    <div class="page__beheer" data-controller="row-search" data-row-search-field-type-value="taaktype">
         <div class="container__flex">
             <h1>Taaktypes</h1>
             {% if editable %}
@@ -37,8 +37,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <form method="post">
-            {% csrf_token %}
+        <form>
             <div class="form-row">
                 <label for="id_zoeken">Zoeken op titel of afdeling</label>
                 <div>
@@ -46,7 +45,9 @@
                            id="id_zoeken"
                            name="zoeken"
                            class="form-control"
-                           data-action="row-search#search">
+                           data-action="row-search#search"
+                           data-row-search-target="searchTaaktype"
+                    >
                 </div>
                 <span data-row-search-target="resultCount"></span>
             </div>
