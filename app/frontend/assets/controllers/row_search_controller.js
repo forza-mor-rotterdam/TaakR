@@ -11,9 +11,7 @@ export default class extends Controller {
     const savedQuery = sessionStorage.getItem(searchKey)
 
     if (savedQuery && this.hasSearchTaaktypeTarget) {
-      console.log('this.searchTaaktypeTarget', this.searchTaaktypeTarget)
       this.searchTaaktypeTarget.value = savedQuery
-      this.search(null, savedQuery)
     }
     this.searchableTargets.forEach((searchable) => {
       searchable.dataset.value = searchable.textContent
@@ -29,6 +27,7 @@ export default class extends Controller {
         return false
       })
     }
+    this.search(null, savedQuery)
   }
   escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -41,7 +40,6 @@ export default class extends Controller {
     } else if (str) {
       searchString = str
     }
-    console.log('searchString', searchString.length)
     if (searchString.length != 0) {
       sessionStorage.setItem(searchKey, searchString)
       this.rowTargets.forEach((searchableContainer) => {
@@ -53,7 +51,6 @@ export default class extends Controller {
       }
 
       this.searchableTargets.forEach((searchable) => {
-        console.log('searchable.dataset.value', searchable)
         const value = this.escapeRegExp(searchString)
         const re = new RegExp(value, 'gi')
         searchable.innerHTML = ''
