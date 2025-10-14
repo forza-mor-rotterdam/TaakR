@@ -40,7 +40,7 @@ export default class extends Controller {
     } else if (str) {
       searchString = str
     }
-    if (searchString.length != 0) {
+    if (searchString.length != 0 && this.hasSearchTaaktypeTarget) {
       sessionStorage.setItem(searchKey, searchString)
       this.rowTargets.forEach((searchableContainer) => {
         searchableContainer.style.display = 'none'
