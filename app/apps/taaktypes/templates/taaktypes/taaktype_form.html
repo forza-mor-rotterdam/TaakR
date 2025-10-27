@@ -68,7 +68,7 @@
                             <dt>Omschrijving</dt>
                             <dd>
                                 {% if object.toelichting %}
-                                    {{ object.toelichting }}
+                                    {{ object.toelichting|linebreaksbr }}
                                 {% else %}
                                     Nog niet opgegeven in {{ object.taakapplicatie.naam }}
                                 {% endif %}
