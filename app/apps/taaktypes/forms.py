@@ -127,7 +127,7 @@ class TaaktypeAanpassenForm(forms.ModelForm):
             }
         ),
     )
-    verantwoordelijke_persoon_personeelsnummer = forms.IntegerField(
+    proceseigenaar_persoon_personeelsnummer = forms.IntegerField(
         widget=forms.widgets.NumberInput(
             attrs={
                 "data-controller": "maxnumber",
@@ -135,7 +135,20 @@ class TaaktypeAanpassenForm(forms.ModelForm):
                 "class": "form-control no-arrows",
             }
         ),
-        label="Personeelsnummer verantwoordelijke persoon",
+        label="Personeelsnummer proceseigenaar",
+        min_value=0,
+        max_value=99999999,
+        required=False,
+    )
+    procesregiseur_persoon_personeelsnummer = forms.IntegerField(
+        widget=forms.widgets.NumberInput(
+            attrs={
+                "data-controller": "maxnumber",
+                "data-action": "input->maxnumber#maxNumberChangedHandler",
+                "class": "form-control no-arrows",
+            }
+        ),
+        label="Personeelsnummer procesregiseur",
         min_value=0,
         max_value=99999999,
         required=False,
@@ -262,8 +275,10 @@ class TaaktypeAanpassenForm(forms.ModelForm):
             # "omschrijving",
             # "toelichting",
             "verantwoordelijke_afdeling",
-            "verantwoordelijke_persoon_naam",
-            "verantwoordelijke_persoon_personeelsnummer",
+            "proceseigenaar_persoon_naam",
+            "proceseigenaar_persoon_personeelsnummer",
+            "procesregiseur_persoon_naam",
+            "procesregiseur_persoon_personeelsnummer",
             "doorlooptijd",
             "doorlooptijd_alleen_werkdagen",
             "icoon",
@@ -283,8 +298,8 @@ class TaaktypeAanmakenForm(TaaktypeAanpassenForm):
             # "omschrijving",
             # "toelichting",
             "verantwoordelijke_afdeling",
-            "verantwoordelijke_persoon_naam",
-            "verantwoordelijke_persoon_personeelsnummer",
+            "proceseigenaar_persoon_naam",
+            "proceseigenaar_persoon_personeelsnummer",
             "doorlooptijd",
             "doorlooptijd_alleen_werkdagen",
             "icoon",

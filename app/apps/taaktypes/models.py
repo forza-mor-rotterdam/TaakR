@@ -114,14 +114,26 @@ class Taaktype(BasisModel):
         null=True,
         blank=True,
     )
-    verantwoordelijke_persoon_naam = models.CharField(
-        verbose_name="Naam verantwoordelijke persoon",
+    proceseigenaar_persoon_naam = models.CharField(
+        verbose_name="Naam proceseigenaar",
         max_length=300,
         blank=True,
         null=True,
     )
-    verantwoordelijke_persoon_personeelsnummer = models.CharField(
-        verbose_name="Personeelsnummer verantwoordelijke persoon",
+    proceseigenaar_persoon_personeelsnummer = models.CharField(
+        verbose_name="Personeelsnummer proceseigenaar",
+        max_length=100,
+        blank=True,
+        null=True,
+    )
+    procesregiseur_persoon_naam = models.CharField(
+        verbose_name="Naam procesregiseur",
+        max_length=300,
+        blank=True,
+        null=True,
+    )
+    procesregiseur_persoon_personeelsnummer = models.CharField(
+        verbose_name="Personeelsnummer procesregiseur",
         max_length=100,
         blank=True,
         null=True,

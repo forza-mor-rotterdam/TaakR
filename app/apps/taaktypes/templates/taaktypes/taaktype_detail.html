@@ -67,17 +67,30 @@
                 </div>
                 <div>
                     {% if perms.authorisatie.verantwoordelijke_persoon_bekijken %}
-                        <h2 class="h5">Verantwoordelijke medewerker</h2>
-                        {% if taaktype.verantwoordelijke_persoon_naam %}
-                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_naam }}</p>
+                        <h2 class="h5">Naam proceseigenaar</h2>
+                        {% if taaktype.proceseigenaar_persoon_naam %}
+                            <p class="word-break-word">{{ taaktype.proceseigenaar_persoon_naam }}</p>
                         {% else %}
-                            Nog niet ingevuld
+                            <p class="word-break-word">Nog niet ingevuld</p>
                         {% endif %}
-                        <h2 class="h5">Personeelsnummer verantwoordelijke medewerker</h2>
-                        {% if taaktype.verantwoordelijke_persoon_personeelsnummer %}
-                            <p class="word-break-word">{{ taaktype.verantwoordelijke_persoon_personeelsnummer }}</p>
+                        <h2 class="h5">Personeelsnummer proceseigenaar</h2>
+                        {% if taaktype.proceseigenaar_persoon_personeelsnummer %}
+                            <p class="word-break-word">{{ taaktype.proceseigenaar_persoon_personeelsnummer }}</p>
                         {% else %}
-                            Nog niet ingevuld
+                            <p class="word-break-word">Nog niet ingevuld</p>
+                        {% endif %}
+
+                        <h2 class="h5">Naam procesregiseur</h2>
+                        {% if taaktype.procesregiseur_persoon_naam %}
+                            <p class="word-break-word">{{ taaktype.procesregiseur_persoon_naam }}</p>
+                        {% else %}
+                            <p class="word-break-word">Nog niet ingevuld</p>
+                        {% endif %}
+                        <h2 class="h5">Personeelsnummer procesregiseur</h2>
+                        {% if taaktype.procesregiseur_persoon_personeelsnummer %}
+                            <p class="word-break-word">{{ taaktype.procesregiseur_persoon_personeelsnummer }}</p>
+                        {% else %}
+                            <p class="word-break-word">Nog niet ingevuld</p>
                         {% endif %}
                     {% endif %}
                 </div>
