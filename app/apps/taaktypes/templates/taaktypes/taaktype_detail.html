@@ -31,7 +31,7 @@
             <h1 class="h2">{{ taaktype.omschrijving }}</h1>
             <p>
                 {% if taaktype.toelichting %}
-                    {{ taaktype.toelichting }}
+                    {{ taaktype.toelichting|linebreaksbr }}
                 {% else %}
                     Nog niet ingevuld
                 {% endif %}
