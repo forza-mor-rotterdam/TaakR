@@ -39,6 +39,10 @@ class TaaktypeAdmin(admin.ModelAdmin):
         "taakapplicatie",
         "taakapplicatie_taaktype_url",
         "omschrijving",
+        "proceseigenaar_persoon_naam",
+        "proceseigenaar_persoon_personeelsnummer",
+        "procesregiseur_persoon_naam",
+        "procesregiseur_persoon_personeelsnummer",
     )
     search_fields = ("taakapplicatie__naam", "omschrijving")
     actions = ["refresh_taaktypes"]
